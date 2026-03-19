@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+@layer base {
+  :root {
+    --background: #050505;
+    --foreground: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --muted: rgba(255, 255, 255, 0.4);
+    --accent-blue: #3b82f6;
+    --accent-purple: #a855f7;
+    --dot-opacity: 0.15;
+    --grain-opacity: 0.02;
+    --glass-blur: blur(12px);
+    --blend-mode: screen;
+    --blob-opacity: 0.15;
+    --primary-bg: #ffffff;
+    --primary-text: #050505;
+    
+    /* Terminal Theme - Dark */
+    --terminal-header: rgba(20, 20, 25, 0.8);
+    --terminal-body: #0A0A0B;
+    --terminal-prompt: #C678DD;
+    --terminal-user: #61AFEF;
+    --terminal-command: #ffffff;
+    --terminal-output: rgba(255, 255, 255, 0.5);
+    --terminal-success: #98C379;
+    --terminal-error: #E06C75;
+    --terminal-accent: #E5C07B;
+  }
+
+  .light {
+    --background: #F8FAFC;
+    --foreground: #0F172A;
+    --card-bg: rgba(15, 23, 42, 0.04);
+    --card-border: rgba(15, 23, 42, 0.08);
+    --muted: rgba(15, 23, 42, 0.5);
+    --accent-blue: #2563eb;
+    --accent-purple: #7c3aed;
+    --dot-opacity: 0.12;
+    --grain-opacity: 0.04;
+    --glass-blur: blur(20px);
+    --blend-mode: multiply;
+    --blob-opacity: 0.08;
+    --primary-bg: #0F172A;
+    --primary-text: #ffffff;
+
+    /* Terminal Theme - Light */
+    --terminal-header: rgba(241, 245, 249, 0.9);
+    --terminal-body: #ffffff;
+    --terminal-prompt: #7c3aed;
+    --terminal-user: #2563eb;
+    --terminal-command: #0F172A;
+    --terminal-output: rgba(15, 23, 42, 0.6);
+    --terminal-success: #16a34a;
+    --terminal-error: #dc2626;
+    --terminal-accent: #d97706;
+  }
+
+  * {
+    @apply border-[var(--card-border)];
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-[var(--card-bg)] border border-[var(--card-border)] backdrop-blur-xl rounded-[2rem] transition-all duration-500;
+  }
+
+  .text-hero-title {
+    @apply text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter text-[var(--foreground)] leading-[0.8];
+  }
+
+  .text-section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter text-[var(--foreground)] uppercase leading-[0.9] text-center w-full;
+  }
+
+  .text-card-title {
+    @apply text-xl md:text-2xl font-bold tracking-tight text-[var(--foreground)];
+  }
+
+  .text-body {
+    @apply text-base md:text-lg font-medium leading-relaxed text-[var(--muted)];
+  }
+
+  .btn-tech-primary {
+    @apply relative flex items-center gap-3 px-8 py-4 rounded-xl bg-[var(--primary-bg)] text-[var(--primary-text)] font-black text-[10px] tracking-[0.3em] uppercase transition-all duration-300 overflow-hidden shadow-2xl hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .btn-tech-secondary {
+    @apply relative flex items-center gap-3 px-8 py-4 rounded-xl bg-transparent border border-[var(--card-border)] text-[var(--foreground)] font-black text-[10px] tracking-[0.3em] uppercase backdrop-blur-md transition-all duration-300 hover:bg-[var(--card-border)] hover:scale-[1.02] active:scale-[0.98];
+  }
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-100%) rotate(45deg); }
+  to { transform: translateX(200%) rotate(45deg); }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s infinite;
+}
+
+.bg-dot-grid {
+  background-image: radial-gradient(var(--card-border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}

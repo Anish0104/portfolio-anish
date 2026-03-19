@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛰️ Satellite: High-Fidelity 3D Engineering Portfolio
 
-## Getting Started
+A professional, immersive **Technical Schematic Dashboard** designed for an AI/ML Research Engineer. This portfolio replaces traditional, static layouts with a high-performance, interactive diagnostic interface.
 
-First, run the development server:
+![Satellite Preview](https://anish-shirodkar.vercel.app/og-image.png)
 
+## 📡 Core Mission Systems
+
+- **Technical Schematic UI:** A pivot away from generic aesthetics toward a slate-blue, laser-green, and technical-white design language inspired by diagnostic workstations.
+- **3D Skill Matrix:** A Fibonacci-distributed 3D sphere of 30+ technical skills with weighted parallax tilt and mouse-tracking interaction.
+- **Mission Preloader:** A professional "System Initializing" splash screen that masks heavy 3D asset loading with high-contrast diagnostic status updates.
+- **Tactile Magnetic Interactions:** A high-precision "Magnetic" interaction layer on the Navbar and Call-to-Action buttons that physically attracts the user's cursor.
+- **Waving AI Avatar:** Integration of a high-fidelity 3D robot model with subtle "waving" gestures and seamless background masking.
+- **Responsive Bento Grid:** A structured, technical 'About' section featuring live Satellite maps, radar grid overlays, and real-time EST clock syncing.
+
+## 🛠️ Tech Stack: The Engine Room
+
+- **Framework:** [Next.js 15+](https://nextjs.org/) (App Router & Turbopack)
+- **3D Runtime:** [@splinetool/react-spline](https://spline.design/)
+- **Animation System:** [Framer Motion](https://www.framer.com/motion/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) & Vanilla CSS custom design tokens
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Deployment:** Optimized for Vercel Edge with full SEO & OpenGraph configurations.
+
+## 🚀 Deployment & Setup
+
+### Prerequisites
+- Node.js 18+
+- GitHub Account
+- Vercel Account (recommended for deployment)
+
+### Local Development
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Anish0104/portfolio-anish.git
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Boot the system:
+   ```bash
+   npm run dev
+   ```
+
+### Production Build
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📋 Features Checklist
+- [x] Global Technical Preloader
+- [x] 3D Skill Sphere with Parallax Tilt
+- [x] Magnetic Button Interactions
+- [x] Responsive Bento Grid Layout
+- [x] Automated SEO & Social Signal Metadata
+- [x] Cross-Device Mobile Fidelity Audit
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Developed by [Anish Shirodkar](https://github.com/Anish0104)**  
+*Orchestrating intelligent systems and scalable AI infrastructure.*

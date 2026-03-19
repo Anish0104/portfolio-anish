@@ -18,8 +18,9 @@ export default function Magnetic({ children, strength = 0.5 }: MagneticProps) {
   const springY = useSpring(y, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
     const { clientX, clientY } = e;
-    const { left, top, width, height } = ref.current!.getBoundingClientRect();
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
     
     const centerX = left + width / 2;
     const centerY = top + height / 2;

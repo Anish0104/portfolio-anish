@@ -118,7 +118,7 @@ export default function Navbar() {
                   {isActive && (
                     <motion.div
                       layoutId="navbar-highlight"
-                      className="absolute inset-0 bg-[var(--foreground)]/5 border border-[var(--card-border)] rounded-full z-0 shadow-[0_0_15px_rgba(var(--foreground),0.05)]"
+                      className="absolute inset-0 bg-[var(--foreground)]/5 border border-[var(--card-border)] rounded-full z-0 shadow-xl"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}

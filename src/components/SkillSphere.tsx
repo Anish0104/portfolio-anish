@@ -196,7 +196,7 @@ export default function SkillSphere() {
   const rotatedWire = wireframeLines.map((ln) => {
     const p1 = rotatePoint(ln.x1, ln.y1, ln.z, renderAngleX, renderAngleY);
     const p2 = rotatePoint(ln.x2, ln.y2, ln.z, renderAngleX, renderAngleY);
-    const zMid = (ln.z + p2.z) / 2; // Approximate mid Z for opacity
+    const zMid = (p1.z + p2.z) / 2; 
     const depth = (zMid + RADIUS) / (2 * RADIUS);
     return { p1, p2, opacity: 0.04 + depth * 0.1 };
   });

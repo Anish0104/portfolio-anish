@@ -2,34 +2,35 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useSpring, useTransform, useMotionValue } from "framer-motion";
+import Image from "next/image";
 
 const skills = [
-  { name: "Python", color: "#3776ab" },
-  { name: "PyTorch", color: "#ee4c2c" },
-  { name: "TensorFlow", color: "#ff6f00" },
-  { name: "LLMs / RAG", color: "#a855f7" },
-  { name: "YOLOv8", color: "#2563eb" },
-  { name: "Next.js", color: "#ffffff" },
-  { name: "TypeScript", color: "#3178c6" },
-  { name: "Tailwind", color: "#38bdf8" },
-  { name: "Supabase", color: "#3ecf8e" },
-  { name: "Firebase", color: "#ffca28" },
-  { name: "FastAPI", color: "#05998b" },
-  { name: "OpenCV", color: "#5c3ee8" },
-  { name: "PostgreSQL", color: "#336791" },
-  { name: "Pandas", color: "#150458" },
-  { name: "Scikit-Learn", color: "#f7931e" },
-  { name: "Docker", color: "#2496ed" },
-  { name: "AWS", color: "#ff9900" },
-  { name: "Google Cloud", color: "#4285f4" },
-  { name: "Git", color: "#f05032" },
-  { name: "LangChain", color: "#1c3c3c" },
-  { name: "NLP", color: "#10b981" },
-  { name: "CV", color: "#f43f5e" },
-  { name: "MongoDB", color: "#47a248" },
-  { name: "Framer Motion", color: "#00d8ff" },
-  { name: "Vercel", color: "#ffffff" },
-  { name: "Anaconda", color: "#44a833" },
+  { name: "Python", color: "#3776ab", slug: "python" },
+  { name: "PyTorch", color: "#ee4c2c", slug: "pytorch" },
+  { name: "TensorFlow", color: "#ff6f00", slug: "tensorflow" },
+  { name: "LLMs / RAG", color: "#a855f7", slug: "google-gemini" },
+  { name: "YOLOv8", color: "#2563eb", slug: "opencv" },
+  { name: "Next.js", color: "#ffffff", slug: "nextdotjs" },
+  { name: "TypeScript", color: "#3178c6", slug: "typescript" },
+  { name: "Tailwind", color: "#38bdf8", slug: "tailwindcss" },
+  { name: "Supabase", color: "#3ecf8e", slug: "supabase" },
+  { name: "Firebase", color: "#ffca28", slug: "firebase" },
+  { name: "FastAPI", color: "#05998b", slug: "fastapi" },
+  { name: "OpenCV", color: "#5c3ee8", slug: "opencv" },
+  { name: "PostgreSQL", color: "#336791", slug: "postgresql" },
+  { name: "Pandas", color: "#150458", slug: "pandas" },
+  { name: "Scikit-Learn", color: "#f7931e", slug: "scikitlearn" },
+  { name: "Docker", color: "#2496ed", slug: "docker" },
+  { name: "AWS", color: "#ff9900", slug: "amazonwebservices" },
+  { name: "Google Cloud", color: "#4285f4", slug: "googlecloud" },
+  { name: "Git", color: "#f05032", slug: "git" },
+  { name: "LangChain", color: "#1c3c3c", slug: "langchain" },
+  { name: "NLP", color: "#10b981", slug: "spacy" },
+  { name: "CV", color: "#f43f5e", slug: "python" },
+  { name: "MongoDB", color: "#47a248", slug: "mongodb" },
+  { name: "Framer Motion", color: "#00d8ff", slug: "framer" },
+  { name: "Vercel", color: "#ffffff", slug: "vercel" },
+  { name: "Anaconda", color: "#44a833", slug: "anaconda" },
 ];
 
 const RADIUS = 280;
@@ -185,13 +186,24 @@ export default function SkillSphere() {
               opacity: 0.15 + p.opacity * 0.85,
               zIndex: Math.round(p.z + RADIUS),
             }}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
+            className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
           >
             <div 
-              className="px-5 py-2.5 rounded-[1rem] backdrop-blur-md border border-[var(--card-border)] bg-[var(--card-bg)] shadow-[0_10px_40px_rgba(0,0,0,0.3)] group hover:border-[var(--accent-blue)] transition-all duration-300 transform-gpu"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border border-[var(--card-border)] bg-[var(--card-bg)] shadow-2xl transition-all duration-300"
             >
+              <div className="w-5 h-5 relative shrink-0">
+                <img
+                  src={`https://cdn.simpleicons.org/${p.slug}/${p.color.replace('#', '')}`}
+                  alt={p.name}
+                  className="object-contain w-full h-full"
+                  onError={(e) => {
+                     // Fallback for dark themes or missing slugs
+                     (e.target as HTMLImageElement).src = `https://cdn.simpleicons.org/${p.slug}/white`;
+                  }}
+                />
+              </div>
               <span 
-                className="text-[10px] font-black uppercase tracking-[0.2em] transition-colors duration-300"
+                className="text-[10px] font-bold uppercase tracking-widest"
                 style={{ color: p.color }}
               >
                 {p.name}

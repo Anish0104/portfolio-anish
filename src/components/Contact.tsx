@@ -3,18 +3,53 @@
 import React, { useState, useEffect } from "react";
 import SectionHeading from "./SectionHeading";
 import { motion } from "framer-motion";
-import { Mail, Send } from "lucide-react";
-import { SplineScene } from "@/components/ui/splite";
-import { Spotlight } from "@/components/ui/spotlight";
-import { Card } from "@/components/ui/card";
+import { Send, Mail, Github, Linkedin, Twitter, ArrowUpRight, MapPin, Clock } from "lucide-react";
 import Magnetic from "./ui/magnetic";
+
+const SOCIAL_LINKS = [
+  {
+    label: "GitHub",
+    handle: "@anish0104",
+    href: "https://github.com/anish0104",
+    icon: Github,
+    color: "#ffffff",
+  },
+  {
+    label: "LinkedIn",
+    handle: "anish-shirodkar",
+    href: "https://linkedin.com/in/anish-shirodkar",
+    icon: Linkedin,
+    color: "#0A66C2",
+  },
+  {
+    label: "Email",
+    handle: "avs181@scarletmail.rutgers.edu",
+    href: "mailto:avs181@scarletmail.rutgers.edu",
+    icon: Mail,
+    color: "#a855f7",
+  },
+];
 
 export default function Contact() {
   const [mounted, setMounted] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [estTime, setEstTime] = useState("");
 
   useEffect(() => {
     setMounted(true);
+    const updateTime = () => {
+      setEstTime(
+        new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/New_York",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }).format(new Date())
+      );
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,11 +62,9 @@ export default function Contact() {
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: formData
+        body: formData,
       });
-
       const data = await response.json();
-
       if (data.success) {
         setStatus("success");
         (e.target as HTMLFormElement).reset();
@@ -39,8 +72,7 @@ export default function Contact() {
       } else {
         setStatus("error");
       }
-    } catch (error) {
-      console.error("Submission error:", error);
+    } catch {
       setStatus("error");
     }
   };
@@ -48,106 +80,177 @@ export default function Contact() {
   if (!mounted) return null;
 
   return (
-    <section id="contact" className="py-40 relative">
+    <section id="contact" className="py-32 relative">
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
-        <SectionHeading 
-          title="Connect" 
-          centered
-        />
+        <SectionHeading title="Connect" centered />
 
         <motion.div
-           initial={{ opacity: 0, y: 40 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="grid lg:grid-cols-2 gap-8 items-start"
         >
-          <div className="w-full min-h-[600px] relative rounded-[3rem]">
-            <Spotlight
-              className="-top-40 right-0 md:right-20 md:-top-20 h-full w-full"
-              fill="white"
-            />
-            
-            <div className="relative min-h-[600px] flex flex-col items-stretch">
-              {/* Form Section */}
-              <div className="w-full md:w-1/2 p-6 md:p-16 relative z-10 flex flex-col justify-center">
-                <div className="space-y-4 mb-10 text-left">
-                   <h1 className="text-3xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-500 tracking-tighter uppercase leading-[1]">
-                     Let&apos;s Build <br/> Together
-                   </h1>
-                   <p className="text-neutral-500 text-[13px] md:text-sm font-medium tracking-wide max-w-xs md:max-w-none">
-                     Open to AI/ML Research & Software Engineering Internship opportunities.
-                   </p>
+          {/* LEFT — CTA + Social + Status */}
+          <div className="space-y-8">
+            {/* Hero text */}
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-[var(--foreground)] leading-none uppercase">
+                Let&apos;s Build<br />
+                <span className="text-[var(--muted)]">Something</span><br />
+                Together.
+              </h2>
+              <p className="text-[var(--muted)] text-sm font-medium leading-relaxed max-w-sm">
+                Open to AI/ML Research & Software Engineering opportunities. I reply within 24 hours.
+              </p>
+            </div>
+
+            {/* Status pill */}
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] w-fit">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--foreground)]">
+                Available for work
+              </span>
+            </div>
+
+            {/* Location + Time */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] space-y-2">
+                <div className="flex items-center gap-2 text-[var(--accent-blue)]">
+                  <MapPin size={14} />
+                  <span className="text-[9px] font-black uppercase tracking-[0.3em]">Location</span>
                 </div>
+                <p className="text-sm font-bold text-[var(--foreground)] tracking-tight">New Jersey, USA</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] space-y-2">
+                <div className="flex items-center gap-2 text-[var(--accent-purple)]">
+                  <Clock size={14} />
+                  <span className="text-[9px] font-black uppercase tracking-[0.3em]">Local Time</span>
+                </div>
+                <p className="text-sm font-bold text-[var(--foreground)] tracking-tight">{estTime} ET</p>
+              </div>
+            </div>
 
-                <form className="space-y-4 md:space-y-5" onSubmit={handleSubmit}>
-                   <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
-                      <div className="flex flex-col items-start">
-                         <input 
-                           type="text" 
-                           name="name" 
-                           required 
-                           placeholder="Your Name"
-                           className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-5 py-3.5 md:px-6 md:py-4 text-white outline-none focus:border-white/20 transition-all text-[13px] md:text-sm font-medium placeholder:text-neutral-600 focus:bg-white/[0.08] backdrop-blur-sm" 
-                         />
+            {/* Social Links */}
+            <div className="space-y-3">
+              <p className="text-[9px] font-black uppercase tracking-[0.4em] text-[var(--muted)]">Find me on</p>
+              {SOCIAL_LINKS.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between px-5 py-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[var(--accent-blue)]/40 transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="w-9 h-9 rounded-xl flex items-center justify-center"
+                        style={{ background: `${link.color}15`, border: `1px solid ${link.color}30` }}
+                      >
+                        <Icon size={16} style={{ color: link.color }} />
                       </div>
-                      <div className="flex flex-col items-start">
-                         <input 
-                           type="email" 
-                           name="email" 
-                           required 
-                           placeholder="Your Email"
-                           className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-5 py-3.5 md:px-6 md:py-4 text-white outline-none focus:border-white/20 transition-all text-[13px] md:text-sm font-medium placeholder:text-neutral-600 focus:bg-white/[0.08] backdrop-blur-sm" 
-                         />
+                      <div>
+                        <p className="text-xs font-black uppercase tracking-wider text-[var(--foreground)]">{link.label}</p>
+                        <p className="text-[10px] font-medium text-[var(--muted)]">{link.handle}</p>
                       </div>
-                   </div>
+                    </div>
+                    <ArrowUpRight
+                      size={14}
+                      className="text-[var(--muted)] group-hover:text-[var(--foreground)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                    />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
 
-                   <div className="flex flex-col items-start">
-                      <textarea 
-                        name="message" 
-                        required 
-                        rows={4}
-                        placeholder="Message payload..."
-                        className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-5 py-3.5 md:px-6 md:py-4 text-white outline-none focus:border-white/20 transition-all text-[13px] md:text-sm font-medium resize-none placeholder:text-neutral-600 focus:bg-white/[0.08] backdrop-blur-sm" 
-                      />
-                   </div>
+          {/* RIGHT — Contact Form */}
+          <div className="relative">
+            {/* Subtle accent glow */}
+            <div className="absolute -inset-px rounded-[2rem] bg-gradient-to-br from-[var(--accent-blue)]/10 via-transparent to-[var(--accent-purple)]/10 pointer-events-none" />
 
-                   <Magnetic strength={0.1}>
-                     <button 
-                       type="submit"
-                       disabled={status === "loading"}
-                       className={`w-full py-4 md:py-5 rounded-2xl font-black uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3 transition-all active:scale-[0.99] border shadow-xl z-20 ${
-                         status === "success" 
-                           ? "bg-green-500/20 border-green-500/50 text-green-400" 
-                           : status === "error"
-                           ? "bg-red-500/20 border-red-500/50 text-red-400"
-                           : "bg-white text-black hover:bg-neutral-200 border-white shadow-white/5"
-                       }`}
-                     >
-                       {status === "loading" ? "Initializing..." : 
-                        status === "success" ? "Message Captured" : 
-                        status === "error" ? "System Error" : 
-                        "Launch Message"} 
-                       <Send size={16} className={`${status === "loading" ? "animate-pulse" : ""} ${status === "idle" ? "rotate-12" : ""}`} />
-                     </button>
-                   </Magnetic>
-                </form>
+            <div className="relative p-8 md:p-10 rounded-[2rem] bg-[var(--card-bg)] border border-[var(--card-border)]">
+              {/* Form header */}
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-9 h-9 rounded-xl bg-[var(--accent-blue)]/10 border border-[var(--accent-blue)]/20 flex items-center justify-center">
+                  <Mail size={16} className="text-[var(--accent-blue)]" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent-blue)]">Send a message</p>
+                  <p className="text-[11px] text-[var(--muted)] font-medium">I&apos;ll get back to you soon</p>
+                </div>
               </div>
 
-              {/* Robot Section - Spline Scene */}
-              <div className="w-full md:absolute md:inset-y-0 md:right-[-10%] md:w-[70%] h-[350px] md:h-auto z-0">
-                <div 
-                  className="w-full h-full"
-                  style={{ 
-                    maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)'
-                  }}
-                >
-                  <SplineScene 
-                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                    className="w-full h-full scale-[1.4] md:scale-100"
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-[var(--muted)] mb-2">Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      placeholder="Your Name"
+                      className="w-full bg-[var(--background)]/50 border border-[var(--card-border)] rounded-xl px-4 py-3 text-[var(--foreground)] text-sm font-medium outline-none focus:border-[var(--accent-blue)]/50 transition-all placeholder:text-[var(--muted)]/40"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-[var(--muted)] mb-2">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="your@email.com"
+                      className="w-full bg-[var(--background)]/50 border border-[var(--card-border)] rounded-xl px-4 py-3 text-[var(--foreground)] text-sm font-medium outline-none focus:border-[var(--accent-blue)]/50 transition-all placeholder:text-[var(--muted)]/40"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-[var(--muted)] mb-2">Subject</label>
+                  <input
+                    type="text"
+                    name="subject"
+                    placeholder="Internship Opportunity / Collaboration / Other"
+                    className="w-full bg-[var(--background)]/50 border border-[var(--card-border)] rounded-xl px-4 py-3 text-[var(--foreground)] text-sm font-medium outline-none focus:border-[var(--accent-blue)]/50 transition-all placeholder:text-[var(--muted)]/40"
                   />
                 </div>
-              </div>
+
+                <div>
+                  <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-[var(--muted)] mb-2">Message</label>
+                  <textarea
+                    name="message"
+                    required
+                    rows={5}
+                    placeholder="Tell me about your project or opportunity..."
+                    className="w-full bg-[var(--background)]/50 border border-[var(--card-border)] rounded-xl px-4 py-3 text-[var(--foreground)] text-sm font-medium outline-none focus:border-[var(--accent-blue)]/50 transition-all resize-none placeholder:text-[var(--muted)]/40"
+                  />
+                </div>
+
+                <Magnetic strength={0.08}>
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className={`w-full py-4 rounded-xl font-black uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3 transition-all duration-300 active:scale-[0.99] border ${
+                      status === "success"
+                        ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                        : status === "error"
+                        ? "bg-red-500/10 border-red-500/30 text-red-400"
+                        : "bg-[var(--foreground)] text-[var(--background)] border-transparent hover:opacity-90"
+                    }`}
+                  >
+                    {status === "loading"
+                      ? "Sending..."
+                      : status === "success"
+                      ? "✓ Message Sent!"
+                      : status === "error"
+                      ? "Failed — Try Again"
+                      : "Send Message"}
+                    {status === "idle" && <Send size={13} />}
+                  </button>
+                </Magnetic>
+              </form>
             </div>
           </div>
         </motion.div>

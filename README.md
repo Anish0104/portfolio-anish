@@ -1,63 +1,45 @@
-# 💻 Anish's Terminal Portfolio
-### High-Fidelity Technical Console Dashboard
+# Anish Shirodkar — Portfolio
 
-A professional, immersive **Technical Terminal Portfolio** designed for an AI/ML Research Engineer. This project replaces traditional, static layouts with a high-performance, interactive diagnostic interface.
+Personal portfolio website built with **Next.js 15**, showcasing my work as an AI/ML Research Engineer and MSCS candidate at Rutgers University.
 
-![Satellite Preview](https://anish-shirodkar.vercel.app/og-image.png)
-
-## 📟 Core System Modules
-
-- **Technical Schematic UI:** A pivot away from generic aesthetics toward a slate-blue, laser-green, and technical-white design language inspired by diagnostic workstations.
-- **3D Skill Matrix:** A Fibonacci-distributed 3D sphere of 30+ technical skills with weighted parallax tilt and mouse-tracking interaction.
-- **Mission Preloader:** A professional "System Initializing" splash screen that masks heavy 3D asset loading with high-contrast diagnostic status updates.
-- **Tactile Magnetic Interactions:** A high-precision "Magnetic" interaction layer on the Navbar and Call-to-Action buttons that physically attracts the user's cursor.
-- **Waving AI Avatar:** Integration of a high-fidelity 3D robot model with subtle "waving" gestures and seamless background masking.
-- **Responsive Bento Grid:** A structured, technical 'About' section featuring live geolocation maps, radar grid overlays, and real-time EST clock syncing.
-
-## 🛠️ Tech Stack: The Engine Room
-
-- **Framework:** [Next.js 15+](https://nextjs.org/) (App Router & Turbopack)
-- **3D Runtime:** [@splinetool/react-spline](https://spline.design/)
-- **Animation System:** [Framer Motion](https://www.framer.com/motion/)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/) & Vanilla CSS custom design tokens
-- **Icons:** [Lucide React](https://lucide.dev/)
-- **Deployment:** Optimized for Vercel Edge with full SEO & OpenGraph configurations.
-
-## 🚀 Deployment & Setup
-
-### Prerequisites
-- Node.js 18+
-- GitHub Account
-- Vercel Account (recommended for deployment)
-
-### Local Development
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Anish0104/portfolio-anish.git
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Boot the system:
-   ```bash
-   npm run dev
-   ```
-
-### Production Build
-```bash
-npm run build
-```
-
-## 📋 Features Checklist
-- [x] Global Technical Preloader
-- [x] 3D Skill Sphere with Parallax Tilt
-- [x] Magnetic Button Interactions
-- [x] Responsive Bento Grid Layout
-- [x] Automated SEO & Social Signal Metadata
-- [x] Cross-Device Mobile Fidelity Audit
+🔗 **Live:** [anish-shirodkar.vercel.app](https://anish-shirodkar.vercel.app)
 
 ---
 
-**Developed by [Anish Shirodkar](https://github.com/Anish0104)**  
-*Orchestrating intelligent systems and scalable AI infrastructure.*
+## Features
+
+- **Interactive 3D Skill Sphere** — Fibonacci-distributed sphere of 26 technologies with drag interaction
+- **AI Chat Assistant** — Terminal-style chat that answers questions about my work
+- **Bento About Grid** — Live EST clock, location card with embedded map
+- **Project Showcase** — Featured AI/ML projects with links
+- **Publications & Certifications** — Dedicated sub-pages with downloadable PDFs
+- **Floating Navbar** — Scroll-spy with smooth section tracking
+- **Dark / Light Theme** — System-aware with toggle
+- **Preloader** — Animated system-init splash screen
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 + Vanilla CSS |
+| Animation | Framer Motion |
+| Icons | Lucide React |
+| Forms | Web3Forms |
+| Deployment | Vercel |
+
+## Local Dev
+
+```bash
+git clone https://github.com/Anish0104/portfolio-anish.git
+cd portfolio-anish
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+---
+
+**Anish Shirodkar** — [avs181@scarletmail.rutgers.edu](mailto:avs181@scarletmail.rutgers.edu)

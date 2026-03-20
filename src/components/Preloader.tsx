@@ -54,8 +54,6 @@ export default function Preloader() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="fixed inset-0 z-[999] bg-[#020617] flex flex-col items-center justify-center overflow-hidden"
         >
-          {/* Subtle Scanning Lines */}
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none mix-blend-overlay" />
           <div className="absolute inset-0 bg-dot-grid opacity-20 pointer-events-none" />
 
           {/* Central Module */}

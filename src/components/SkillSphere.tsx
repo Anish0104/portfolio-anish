@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import { motion, useSpring, useTransform, useMotionValue } from "framer-motion";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 
 const skills = [
   { name: "Python", color: "#3776ab", slug: "python" },
@@ -34,8 +33,8 @@ const skills = [
 
 const RADIUS = 300;
 
-// Fibonacci Sphere math
-const points = skills.map((skill, i) => {
+// Pre-compute sphere positions on module load (runs once)
+const basePoints = skills.map((skill, i) => {
   const phi = Math.acos(-1 + (2 * i) / skills.length);
   const theta = Math.sqrt(skills.length * Math.PI) * phi;
   return {
@@ -46,176 +45,217 @@ const points = skills.map((skill, i) => {
   };
 });
 
-// Grid/Wireframe Lines
-const wireframeLines: { x1: number; y1: number; x2: number; y2: number; z: number }[] = [];
-for (let i = 0; i < points.length; i++) {
-  const sorted = [...points]
-    .map((p, idx) => ({ idx, dist: Math.hypot(p.x - points[i].x, p.y - points[i].y, p.z - points[i].z) }))
+// Pre-compute wireframe connections (runs once)
+const wireframeConnections: { i1: number; i2: number }[] = [];
+for (let i = 0; i < basePoints.length; i++) {
+  const sorted = basePoints
+    .map((p, idx) => ({
+      idx,
+      dist: Math.hypot(
+        p.x - basePoints[i].x,
+        p.y - basePoints[i].y,
+        p.z - basePoints[i].z
+      ),
+    }))
     .sort((a, b) => a.dist - b.dist);
-  
-  [sorted[1], sorted[2]].forEach(s => {
-    wireframeLines.push({
-      x1: points[i].x, y1: points[i].y,
-      x2: points[s.idx].x, y2: points[s.idx].y,
-      z: (points[i].z + points[s.idx].z) / 2
-    });
+  [sorted[1], sorted[2]].forEach((s) => {
+    wireframeConnections.push({ i1: i, i2: s.idx });
   });
 }
 
-function rotatePoint(x: number, y: number, z: number, angleX: number, angleY: number) {
-  let cos = Math.cos(angleY);
-  let sin = Math.sin(angleY);
-  let x1 = x * cos - z * sin;
-  let z1 = x * sin + z * cos;
-  cos = Math.cos(angleX);
-  sin = Math.sin(angleX);
-  let y1 = y * cos - z1 * sin;
-  let z2 = y * sin + z1 * cos;
+function rotatePoint(
+  x: number,
+  y: number,
+  z: number,
+  angleX: number,
+  angleY: number
+) {
+  const cosY = Math.cos(angleY);
+  const sinY = Math.sin(angleY);
+  const x1 = x * cosY - z * sinY;
+  const z1 = x * sinY + z * cosY;
+  const cosX = Math.cos(angleX);
+  const sinX = Math.sin(angleX);
+  const y1 = y * cosX - z1 * sinX;
+  const z2 = y * sinX + z1 * cosX;
   return { x: x1, y: y1, z: z2 };
 }
 
 export default function SkillSphere() {
   const [mounted, setMounted] = useState(false);
-  const [angleX, setAngleX] = useState(0);
-  const [angleY, setAngleY] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 });
-  const [velocity, setVelocity] = useState({ x: 0.005, y: 0.005 });
-  
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springConfig = { damping: 40, stiffness: 150 };
-  const tiltX = useSpring(useTransform(mouseY, [-400, 400], [0.12, -0.12]), springConfig);
-  const tiltY = useSpring(useTransform(mouseX, [-400, 400], [-0.12, 0.12]), springConfig);
+
+  // All animation state stored in refs — no re-renders during animation
+  const angleXRef = useRef(0);
+  const angleYRef = useRef(0);
+  const velocityRef = useRef({ x: 0.005, y: 0.005 });
+  const draggingRef = useRef(false);
+  const lastMouseRef = useRef({ x: 0, y: 0 });
+  const rafRef = useRef<number | null>(null);
+
+  // DOM refs for direct manipulation
+  const containerRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lineRefs = useRef<(SVGLineElement | null)[]>([]);
+
+  const animate = useCallback(() => {
+    if (!draggingRef.current) {
+      const vel = velocityRef.current;
+      angleXRef.current += vel.x;
+      angleYRef.current += vel.y;
+      // Decay velocity, maintain minimum
+      const newVx = Math.abs(vel.x) < 0.0025 ? 0.0025 : vel.x * 0.992;
+      const newVy = Math.abs(vel.y) < 0.0025 ? 0.0025 : vel.y * 0.992;
+      velocityRef.current = { x: newVx, y: newVy };
+    }
+
+    const aX = angleXRef.current;
+    const aY = angleYRef.current;
+
+    // Update each skill node DOM element directly
+    basePoints.forEach((p, i) => {
+      const r = rotatePoint(p.x, p.y, p.z, aX, aY);
+      const perspective = (r.z + RADIUS * 2) / (RADIUS * 3);
+      const opacity = 0.15 + ((r.z + RADIUS) / (RADIUS * 2)) * 0.85;
+      const zIndex = Math.round(r.z + RADIUS);
+
+      const el = nodeRefs.current[i];
+      if (el) {
+        el.style.transform = `translate(${r.x}px, ${r.y}px) scale(${perspective})`;
+        el.style.opacity = `${opacity}`;
+        el.style.zIndex = `${zIndex}`;
+      }
+    });
+
+    // Update wireframe lines directly on SVG elements
+    wireframeConnections.forEach((conn, i) => {
+      const p1 = rotatePoint(
+        basePoints[conn.i1].x,
+        basePoints[conn.i1].y,
+        basePoints[conn.i1].z,
+        aX,
+        aY
+      );
+      const p2 = rotatePoint(
+        basePoints[conn.i2].x,
+        basePoints[conn.i2].y,
+        basePoints[conn.i2].z,
+        aX,
+        aY
+      );
+      const zMid = (p1.z + p2.z) / 2;
+      const depth = (zMid + RADIUS) / (2 * RADIUS);
+      const lineOpacity = 0.02 + depth * 0.12;
+
+      const lineEl = lineRefs.current[i];
+      if (lineEl) {
+        lineEl.setAttribute("x1", String(p1.x));
+        lineEl.setAttribute("y1", String(p1.y));
+        lineEl.setAttribute("x2", String(p2.x));
+        lineEl.setAttribute("y2", String(p2.y));
+        lineEl.setAttribute("stroke-opacity", String(lineOpacity));
+      }
+    });
+
+    rafRef.current = requestAnimationFrame(animate);
+  }, []);
 
   useEffect(() => {
     setMounted(true);
-    const updateMouse = (e: MouseEvent) => {
-      mouseX.set(e.clientX - window.innerWidth / 2);
-      mouseY.set(e.clientY - window.innerHeight / 2);
-    };
-    window.addEventListener("mousemove", updateMouse);
-    return () => window.removeEventListener("mousemove", updateMouse);
-  }, [mouseX, mouseY]);
+  }, []);
 
   useEffect(() => {
-    if (dragging) return;
-    const interval = requestAnimationFrame(() => {
-      setAngleX((prev) => prev + velocity.x);
-      setAngleY((prev) => prev + velocity.y);
-      setVelocity(v => ({ x: v.x * 0.992, y: v.y * 0.992 }));
-      if (Math.abs(velocity.x) < 0.0025) setVelocity(v => ({ ...v, x: 0.0025 }));
-      if (Math.abs(velocity.y) < 0.0025) setVelocity(v => ({ ...v, y: 0.0025 }));
-    });
-    return () => cancelAnimationFrame(interval);
-  }, [angleX, angleY, dragging, velocity]);
+    if (!mounted) return;
+    rafRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [mounted, animate]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    setDragging(true);
-    setLastMouse({ x: e.clientX, y: e.clientY });
+    draggingRef.current = true;
+    lastMouseRef.current = { x: e.clientX, y: e.clientY };
   };
 
-  const handleGlobalMouseMove = (e: React.MouseEvent) => {
-    if (!dragging) return;
-    const dx = (e.clientX - lastMouse.x) * 0.01;
-    const dy = (e.clientY - lastMouse.y) * 0.01;
-    setAngleY((prev) => prev + dx);
-    setAngleX((prev) => prev - dy);
-    setLastMouse({ x: e.clientX, y: e.clientY });
-    setVelocity({ x: -dy * 0.5, y: dx * 0.5 });
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!draggingRef.current) return;
+    const dx = (e.clientX - lastMouseRef.current.x) * 0.01;
+    const dy = (e.clientY - lastMouseRef.current.y) * 0.01;
+    angleYRef.current += dx;
+    angleXRef.current -= dy;
+    lastMouseRef.current = { x: e.clientX, y: e.clientY };
+    velocityRef.current = { x: -dy * 0.5, y: dx * 0.5 };
   };
 
-  const stopDragging = () => setDragging(false);
+  const stopDragging = () => {
+    draggingRef.current = false;
+  };
 
   if (!mounted) return <div className="h-[650px] w-full" />;
 
-  const currentAngleX = angleX + tiltX.get();
-  const currentAngleY = angleY + tiltY.get();
-
-  const renderedPoints = points.map((p) => {
-    const r = rotatePoint(p.x, p.y, p.z, currentAngleX, currentAngleY);
-    const perspective = (r.z + RADIUS * 2) / (RADIUS * 3);
-    const opacity = (r.z + RADIUS) / (RADIUS * 2);
-    return { ...p, ...r, scale: perspective, opacity };
-  });
-
-  const renderedWire = wireframeLines.map((ln) => {
-    const p1 = rotatePoint(ln.x1, ln.y1, ln.z, currentAngleX, currentAngleY);
-    const p2 = rotatePoint(ln.x2, ln.y2, ln.z, currentAngleX, currentAngleY);
-    const zMid = (p1.z + p2.z) / 2;
-    const depth = (zMid + RADIUS) / (2 * RADIUS);
-    return { p1, p2, opacity: 0.02 + depth * 0.12 };
-  });
-
   return (
-    <div 
+    <div
+      ref={containerRef}
       className="relative w-full h-[650px] flex items-center justify-center cursor-grab active:cursor-grabbing preserve-3d"
       onMouseDown={handleMouseDown}
-      onMouseMove={handleGlobalMouseMove}
+      onMouseMove={handleMouseMove}
       onMouseUp={stopDragging}
       onMouseLeave={stopDragging}
     >
-      <svg 
-        className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" 
+      <svg
+        ref={svgRef}
+        className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
         viewBox="-400 -300 800 600"
       >
-        {renderedWire.map((line, i) => (
+        {wireframeConnections.map((_, i) => (
           <line
             key={i}
-            x1={line.p1.x}
-            y1={line.p1.y}
-            x2={line.p2.x}
-            y2={line.p2.y}
+            ref={(el) => { lineRefs.current[i] = el; }}
             stroke="currentColor"
             strokeWidth="0.5"
-            strokeOpacity={line.opacity}
+            strokeOpacity="0.02"
             className="text-[var(--accent-blue)]"
           />
         ))}
       </svg>
 
       <div className="relative">
-        {renderedPoints.map((p, i) => (
-          <motion.div
+        {basePoints.map((p, i) => (
+          <div
             key={i}
+            ref={(el) => { nodeRefs.current[i] = el; }}
             style={{
-              x: p.x,
-              y: p.y,
-              scale: p.scale,
-              opacity: 0.15 + p.opacity * 0.85,
-              zIndex: Math.round(p.z + RADIUS),
+              position: "absolute",
+              transform: `translate(${p.x}px, ${p.y}px)`,
+              opacity: 0.5,
             }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            className="-translate-x-1/2 -translate-y-1/2 pointer-events-none"
           >
-            <div 
-              className="flex flex-col items-center gap-1 group transition-all duration-300 transform"
-            >
-              <div 
+            <div className="flex flex-col items-center gap-1 group transition-all duration-300 transform">
+              <div
                 className="w-10 h-10 p-2 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-white/10"
-                style={{
-                  boxShadow: `0 0 20px ${p.color}22`
-                }}
+                style={{ boxShadow: `0 0 20px ${p.color}22` }}
               >
                 <img
-                  src={`https://cdn.simpleicons.org/${p.slug}/${p.color.replace('#', '')}`}
+                  src={`https://cdn.simpleicons.org/${p.slug}/${p.color.replace("#", "")}`}
                   alt={p.name}
                   className="object-contain w-full h-full"
                   onError={(e) => {
-                     (e.target as HTMLImageElement).src = `https://cdn.simpleicons.org/${p.slug}/white`;
+                    (e.target as HTMLImageElement).src = `https://cdn.simpleicons.org/${p.slug}/white`;
                   }}
                 />
               </div>
-              <span 
+              <span
                 className="text-[8px] font-black uppercase tracking-[0.2em] whitespace-nowrap opacity-60 transition-opacity group-hover:opacity-100"
                 style={{ color: p.color }}
               >
                 {p.name}
               </span>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
-      
+
       <div className="absolute w-40 h-40 bg-[var(--accent-blue)]/5 rounded-full blur-[80px] pointer-events-none animate-pulse" />
     </div>
   );

@@ -54,7 +54,6 @@ export default function RootLayout({
           {/* Global UI Layers */}
           <div className="fixed inset-0 bg-dot-grid opacity-[var(--dot-opacity)] pointer-events-none -z-30" />
           <div className="fixed inset-0 bg-[var(--background)] -z-40 transition-colors duration-500" />
-          <div className="fixed inset-0 opacity-[var(--grain-opacity)] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')] -z-20" />
           
           <BackgroundEffects />
           

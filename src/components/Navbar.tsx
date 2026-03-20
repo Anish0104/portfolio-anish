@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Sun, Moon, Home, User, Briefcase, Cpu, Code, 
-  Joystick, Brain, Award, Mail 
+  Joystick, Award, Mail 
 } from "lucide-react";
 import { useTheme } from "@/app/ThemeProvider";
 import Magnetic from "./ui/magnetic";
@@ -16,7 +16,6 @@ const NAV_ITEMS = [
   { label: "Tech", href: "#skills", icon: Cpu },
   { label: "Works", href: "#projects", icon: Code },
   { label: "Lab", href: "#game", icon: Joystick },
-  { label: "Logic", href: "#how-i-think", icon: Brain },
   { label: "Meta", href: "#achievements", icon: Award },
   { label: "Comm", href: "#contact", icon: Mail },
 ];
@@ -76,9 +75,7 @@ export default function Navbar() {
         scrolled ? "scale-90 opacity-90 -translate-y-2" : "scale-100 opacity-100"
       }`}
     >
-      {/* Noise Texture Overlay */}
-      <div className="absolute inset-0 rounded-full opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
-      
+
       <div className="flex items-center gap-0.5 relative">
         {NAV_ITEMS.map((item, idx) => {
           const isActive = activeSegment === item.href.substring(1);
@@ -87,7 +84,7 @@ export default function Navbar() {
           return (
             <React.Fragment key={item.href}>
               {/* Group Dividers (Visual grouping) */}
-              {(idx === 1 || idx === 3 || idx === 5 || idx === 8) && (
+              {(idx === 1 || idx === 3 || idx === 5 || idx === 7) && (
                 <div className="w-[1px] h-3 bg-[var(--card-border)] mx-1" />
               )}
               

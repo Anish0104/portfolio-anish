@@ -82,9 +82,6 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative min-h-screen flex flex-col items-center justify-center pt-24 md:pt-32 pb-10 overflow-hidden transition-colors duration-500">
-      {/* Background Blobs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[var(--accent-blue)]/5 rounded-full blur-[150px] -z-10" />
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[var(--accent-purple)]/5 rounded-full blur-[150px] -z-10" />
 
       {/* Avatar */}
       <motion.div

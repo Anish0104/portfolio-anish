@@ -2,7 +2,6 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useSpring, useTransform, useMotionValue } from "framer-motion";
-import Image from "next/image";
 
 const skills = [
   { name: "Python", color: "#3776ab", slug: "python" },
@@ -33,7 +32,7 @@ const skills = [
   { name: "Anaconda", color: "#44a833", slug: "anaconda" },
 ];
 
-const RADIUS = 280;
+const RADIUS = 300;
 
 // Fibonacci Sphere math
 const points = skills.map((skill, i) => {
@@ -47,7 +46,7 @@ const points = skills.map((skill, i) => {
   };
 });
 
-// Triangulation lines for technical grid
+// Grid/Wireframe Lines
 const wireframeLines: { x1: number; y1: number; x2: number; y2: number; z: number }[] = [];
 for (let i = 0; i < points.length; i++) {
   const sorted = [...points]
@@ -104,9 +103,9 @@ export default function SkillSphere() {
     const interval = requestAnimationFrame(() => {
       setAngleX((prev) => prev + velocity.x);
       setAngleY((prev) => prev + velocity.y);
-      setVelocity(v => ({ x: v.x * 0.99, y: v.y * 0.99 }));
-      if (Math.abs(velocity.x) < 0.002) setVelocity(v => ({ ...v, x: 0.002 }));
-      if (Math.abs(velocity.y) < 0.002) setVelocity(v => ({ ...v, y: 0.002 }));
+      setVelocity(v => ({ x: v.x * 0.992, y: v.y * 0.992 }));
+      if (Math.abs(velocity.x) < 0.0025) setVelocity(v => ({ ...v, x: 0.0025 }));
+      if (Math.abs(velocity.y) < 0.0025) setVelocity(v => ({ ...v, y: 0.0025 }));
     });
     return () => cancelAnimationFrame(interval);
   }, [angleX, angleY, dragging, velocity]);
@@ -128,7 +127,7 @@ export default function SkillSphere() {
 
   const stopDragging = () => setDragging(false);
 
-  if (!mounted) return <div className="h-[600px] w-full" />;
+  if (!mounted) return <div className="h-[650px] w-full" />;
 
   const currentAngleX = angleX + tiltX.get();
   const currentAngleY = angleY + tiltY.get();
@@ -145,12 +144,12 @@ export default function SkillSphere() {
     const p2 = rotatePoint(ln.x2, ln.y2, ln.z, currentAngleX, currentAngleY);
     const zMid = (p1.z + p2.z) / 2;
     const depth = (zMid + RADIUS) / (2 * RADIUS);
-    return { p1, p2, opacity: 0.05 + depth * 0.15 };
+    return { p1, p2, opacity: 0.02 + depth * 0.12 };
   });
 
   return (
     <div 
-      className="relative w-full h-[600px] flex items-center justify-center cursor-grab active:cursor-grabbing preserve-3d"
+      className="relative w-full h-[650px] flex items-center justify-center cursor-grab active:cursor-grabbing preserve-3d"
       onMouseDown={handleMouseDown}
       onMouseMove={handleGlobalMouseMove}
       onMouseUp={stopDragging}
@@ -189,21 +188,25 @@ export default function SkillSphere() {
             className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
           >
             <div 
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border border-[var(--card-border)] bg-[var(--card-bg)] shadow-2xl transition-all duration-300"
+              className="flex flex-col items-center gap-1 group transition-all duration-300 transform"
             >
-              <div className="w-5 h-5 relative shrink-0">
+              <div 
+                className="w-10 h-10 p-2 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-white/10"
+                style={{
+                  boxShadow: `0 0 20px ${p.color}22`
+                }}
+              >
                 <img
                   src={`https://cdn.simpleicons.org/${p.slug}/${p.color.replace('#', '')}`}
                   alt={p.name}
                   className="object-contain w-full h-full"
                   onError={(e) => {
-                     // Fallback for dark themes or missing slugs
                      (e.target as HTMLImageElement).src = `https://cdn.simpleicons.org/${p.slug}/white`;
                   }}
                 />
               </div>
               <span 
-                className="text-[10px] font-bold uppercase tracking-widest"
+                className="text-[8px] font-black uppercase tracking-[0.2em] whitespace-nowrap opacity-60 transition-opacity group-hover:opacity-100"
                 style={{ color: p.color }}
               >
                 {p.name}

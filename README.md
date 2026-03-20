@@ -1,18 +1,18 @@
-# 🛰️ Satellite 3D Portfolio
-### High-Fidelity Orbital Engineering Dashboard
+# 💻 Anish's Terminal Portfolio
+### High-Fidelity Technical Console Dashboard
 
-A professional, immersive **Satellite 3D Portfolio** designed for an AI/ML Research Engineer. This project replaces traditional, static layouts with a high-performance, interactive diagnostic interface.
+A professional, immersive **Technical Terminal Portfolio** designed for an AI/ML Research Engineer. This project replaces traditional, static layouts with a high-performance, interactive diagnostic interface.
 
 ![Satellite Preview](https://anish-shirodkar.vercel.app/og-image.png)
 
-## 📡 Core Mission Systems
+## 📟 Core System Modules
 
 - **Technical Schematic UI:** A pivot away from generic aesthetics toward a slate-blue, laser-green, and technical-white design language inspired by diagnostic workstations.
 - **3D Skill Matrix:** A Fibonacci-distributed 3D sphere of 30+ technical skills with weighted parallax tilt and mouse-tracking interaction.
 - **Mission Preloader:** A professional "System Initializing" splash screen that masks heavy 3D asset loading with high-contrast diagnostic status updates.
 - **Tactile Magnetic Interactions:** A high-precision "Magnetic" interaction layer on the Navbar and Call-to-Action buttons that physically attracts the user's cursor.
 - **Waving AI Avatar:** Integration of a high-fidelity 3D robot model with subtle "waving" gestures and seamless background masking.
-- **Responsive Bento Grid:** A structured, technical 'About' section featuring live Satellite maps, radar grid overlays, and real-time EST clock syncing.
+- **Responsive Bento Grid:** A structured, technical 'About' section featuring live geolocation maps, radar grid overlays, and real-time EST clock syncing.
 
 ## 🛠️ Tech Stack: The Engine Room
 

@@ -10,7 +10,7 @@ const publications = [
     title: "Smart Weather Forecasting: IoT-Integrated Decision Support System for Real-Time Analysis",
     type: "IP India Patent (Publication)",
     year: "2025",
-    description: "Developed a mission-critical weather forecasting system utilizing Attention-based LSTM networks for high-precision rainfall prediction. Integrated IoT-sensor data with satellite imagery to provide real-time decision support for meteorological departments.",
+    description: "Developed a mission-critical weather forecasting system utilizing Attention-based LSTM networks for high-precision rainfall prediction. Integrated IoT-sensor data with historical imagery to provide real-time decision support for meteorological departments.",
     authors: ["Shirodkar, A. V.", "IMD Research Team"],
     tags: ["Deep Learning", "IoT", "Meteorology", "LSTM"],
     doi: "Pending - IP India 2025 Release",

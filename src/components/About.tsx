@@ -98,7 +98,7 @@ export default function About() {
                      <div className="space-y-4 relative z-10">
                         <div className="flex items-center gap-3 text-[var(--accent-blue)]">
                            <Globe2 size={20} />
-                           <span className="text-[10px] font-black uppercase tracking-[0.4em]">Satellite Data</span>
+                           <span className="text-[10px] font-black uppercase tracking-[0.4em]">GEOLOCATION SYSTEM</span>
                         </div>
                         
                         <div className="space-y-1 text-left">

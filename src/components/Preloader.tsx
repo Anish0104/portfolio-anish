@@ -22,10 +22,10 @@ export default function Preloader() {
     }, 150);
 
     const statusUpdates = [
-      'Scanning Orbital Sector...',
-      'Syncing Deep Space Network...',
-      'Calibrating Satellite Perspective...',
-      'Uplink Established. Tracking Active.',
+      'Scanning System Modules...',
+      'Optimizing Memory Buffers...',
+      'Calibrating Interface...',
+      'System Ready. Interface Active.',
     ];
 
     let statusIndex = 0;
@@ -109,20 +109,20 @@ export default function Preloader() {
                
                <div className="grid grid-cols-2 gap-x-8 gap-y-1 opacity-40">
                   <div className="flex justify-between w-24">
-                    <span className="text-[8px] font-mono text-[var(--muted)]">LAT</span>
-                    <span className="text-[8px] font-mono text-white">40.7128° N</span>
+                    <span className="text-[8px] font-mono text-[var(--muted)]">MEM</span>
+                    <span className="text-[8px] font-mono text-white">1.0 TB</span>
                   </div>
                   <div className="flex justify-between w-24">
-                    <span className="text-[8px] font-mono text-[var(--muted)]">ALT</span>
-                    <span className="text-[8px] font-mono text-white">408.0 KM</span>
+                    <span className="text-[8px] font-mono text-[var(--muted)]">CPU</span>
+                    <span className="text-[8px] font-mono text-white">4.8 GHZ</span>
                   </div>
                   <div className="flex justify-between w-24">
-                    <span className="text-[8px] font-mono text-[var(--muted)]">LONG</span>
-                    <span className="text-[8px] font-mono text-white">74.0060° W</span>
+                    <span className="text-[8px] font-mono text-[var(--muted)]">NET</span>
+                    <span className="text-[8px] font-mono text-white">10 GBPS</span>
                   </div>
                   <div className="flex justify-between w-24">
-                    <span className="text-[8px] font-mono text-white">7.66 KM/S</span>
-                    <span className="text-[8px] font-mono text-[var(--muted)]">VEL</span>
+                    <span className="text-[8px] font-mono text-white">READY</span>
+                    <span className="text-[8px] font-mono text-[var(--muted)]">SYS</span>
                   </div>
                </div>
             </div>

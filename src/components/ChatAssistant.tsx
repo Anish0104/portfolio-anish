@@ -185,7 +185,7 @@ export default function ChatAssistant() {
             <div className="w-3 h-3 rounded-full bg-[#27C93F]/20 border border-[#27C93F]/40 group-hover/terminal:bg-[#27C93F] transition-colors duration-500"></div>
           </div>
           <div className="absolute inset-0 flex items-center justify-center text-[var(--muted)] text-[9px] font-black pointer-events-none tracking-[0.3em] uppercase opacity-40">
-            SATELLITE_UPLINK [CONSOLE_0.1]
+            anishs terminal
           </div>
         </div>
 

@@ -113,7 +113,7 @@ export default function Experience() {
                     className="w-80 h-80 flex items-center justify-center"
                  >
                     <Image
-                      src="/avatar-v9.png"
+                      src="/avatar-v7.png"
                       alt="Anish Shirodkar"
                       width={320}
                       height={320}

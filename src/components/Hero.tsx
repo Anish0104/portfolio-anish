@@ -125,7 +125,7 @@ export default function Hero() {
 
       {/* Hero Buttons */}
       <div className="flex flex-wrap justify-center gap-4 mb-8 relative z-10">
-        <a href="/Anish_Shirodkar_Resume.pdf" target="_blank" className="btn-tech-primary">
+        <a href="/AnishShirodkarResume_Updated.pdf" target="_blank" className="btn-tech-primary">
           <FileText size={14} className="text-[var(--accent-blue)]" />
           <span>Resume</span>
         </a>

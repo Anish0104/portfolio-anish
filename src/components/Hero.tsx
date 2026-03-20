@@ -74,8 +74,8 @@ export default function Hero() {
 
   if (!mounted) {
     return (
-      <section className="relative min-h-screen flex flex-col items-center justify-center bg-[var(--background)]">
-        <div className="w-32 h-32 rounded-full border border-white/5 animate-pulse" />
+      <section className="relative min-h-screen flex flex-col items-center justify-center bg-dot-grid">
+        <div className="w-32 h-32 rounded-full bg-[var(--card-bg)] animate-pulse" />
       </section>
     );
   }
@@ -94,7 +94,7 @@ export default function Hero() {
         className="relative mb-4 md:mb-6 flex justify-center z-10"
       >
         <Image
-          src="/avatar-nobg.png"
+          src="/avatar-v9.png"
           alt="Anish Shirodkar"
           width={320}
           height={320}

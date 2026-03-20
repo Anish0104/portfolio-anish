@@ -329,6 +329,7 @@ export default function AgentGame() {
                     </p>
                     <button 
                        onClick={resetGame} 
+                       onTouchStart={resetGame}
                        className="group relative flex items-center justify-center gap-3 w-full py-6 rounded-2xl bg-white text-black font-black text-xs uppercase tracking-[0.3em] hover:bg-white/90 transition-all active:scale-95 shadow-2xl shadow-blue-500/20"
                     >
                       Initiate Test Sequence
@@ -345,7 +346,11 @@ export default function AgentGame() {
                       <p className="text-[10px] font-black text-[var(--muted)] uppercase tracking-widest mb-2">Final Duration</p>
                       <p className="text-5xl font-black text-[var(--foreground)] tabular-nums tracking-tighter">{(score / 60).toFixed(2)}s</p>
                     </div>
-                    <button onClick={resetGame} className="flex items-center justify-center gap-3 w-full py-6 rounded-2xl bg-white/5 text-white font-black text-xs uppercase tracking-[0.3em] hover:bg-white/10 border border-white/5 transition-all active:scale-95 mb-6">
+                    <button 
+                       onClick={resetGame} 
+                       onTouchStart={resetGame}
+                       className="flex items-center justify-center gap-3 w-full py-6 rounded-2xl bg-white/5 text-white font-black text-xs uppercase tracking-[0.3em] hover:bg-white/10 border border-white/5 transition-all active:scale-95 mb-6"
+                    >
                       <RotateCcw size={18} /> Re-Initialize
                     </button>
                     {Math.floor(score) >= highScore && score > 0 && <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.4em] animate-pulse">New Tactical Achievement Unlocked</p>}

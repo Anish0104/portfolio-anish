@@ -47,6 +47,7 @@ export default function AgentGame() {
   const arenaShrinkRef = useRef(0);
   const keysRef = useRef<{ [key: string]: boolean }>({});
   const requestRef = useRef<number | undefined>(undefined);
+  const lastTimeRef = useRef<number>(0);
   const agentSpeedRef = useRef(INITIAL_AGENT_SPEED);
   const playerPathRef = useRef<{ x: number, y: number }[]>([]);
 
@@ -79,24 +80,29 @@ export default function AgentGame() {
     playerPathRef.current = [];
     setScore(0);
     setThreatLevel("Low");
+    lastTimeRef.current = performance.now();
     setGameState("PLAYING");
   }, []);
 
-  const update = () => {
+  const update = (time: number) => {
     if (gameState !== "PLAYING") return;
+
+    // Delta time calculation for frame-rate independence (base 60fps)
+    const dt = Math.min((time - lastTimeRef.current) / 16.67, 2.0); 
+    lastTimeRef.current = time;
 
     const player = playerRef.current;
     const agent = agentRef.current;
-    const scoreVal = score;
 
     // 0. Update Metrics
-    setScore(prev => prev + 1);
-    const elapsedSeconds = scoreVal / 60;
+    setScore(prev => prev + dt);
+    const scoreVal = Math.floor(score);
+    const elapsedSeconds = score / 60;
 
     // 1. Shrinking Arena
-    if (elapsedSeconds > 2) {             // shrinking starts at 2s
+    if (elapsedSeconds > 2) {             
       if (ARENA_WIDTH - arenaShrinkRef.current * 2 > MIN_ARENA_SIZE) {
-        arenaShrinkRef.current += ARENA_SHRINK_RATE;
+        arenaShrinkRef.current += ARENA_SHRINK_RATE * dt;
       }
       if (elapsedSeconds > 7 && threatLevel === "Low") setThreatLevel("Medium");
       if (elapsedSeconds > 14 && threatLevel === "Medium") setThreatLevel("High");
@@ -110,37 +116,34 @@ export default function AgentGame() {
     };
 
     // 2. Player Physics
-    if (keysRef.current["KeyW"] || keysRef.current["ArrowUp"]) player.vy -= PLAYER_ACCEL;
-    if (keysRef.current["KeyS"] || keysRef.current["ArrowDown"]) player.vy += PLAYER_ACCEL;
-    if (keysRef.current["KeyA"] || keysRef.current["ArrowLeft"]) player.vx -= PLAYER_ACCEL;
-    if (keysRef.current["KeyD"] || keysRef.current["ArrowRight"]) player.vx += PLAYER_ACCEL;
+    if (keysRef.current["KeyW"] || keysRef.current["ArrowUp"]) player.vy -= PLAYER_ACCEL * dt;
+    if (keysRef.current["KeyS"] || keysRef.current["ArrowDown"]) player.vy += PLAYER_ACCEL * dt;
+    if (keysRef.current["KeyA"] || keysRef.current["ArrowLeft"]) player.vx -= PLAYER_ACCEL * dt;
+    if (keysRef.current["KeyD"] || keysRef.current["ArrowRight"]) player.vx += PLAYER_ACCEL * dt;
 
-    player.vx *= FRICTION;
-    player.vy *= FRICTION;
-    player.x += player.vx;
-    player.y += player.vy;
+    player.vx *= Math.pow(FRICTION, dt);
+    player.vy *= Math.pow(FRICTION, dt);
+    player.x += player.vx * dt;
+    player.y += player.vy * dt;
 
-    // Boundary check with shrinking bounds
+    // Boundary check
     if (player.x < currentArena.minX + PLAYER_SIZE) { player.x = currentArena.minX + PLAYER_SIZE; player.vx *= -0.5; }
     if (player.x > currentArena.maxX - PLAYER_SIZE) { player.x = currentArena.maxX - PLAYER_SIZE; player.vx *= -0.5; }
     if (player.y < currentArena.minY + PLAYER_SIZE) { player.y = currentArena.minY + PLAYER_SIZE; player.vy *= -0.5; }
     if (player.y > currentArena.maxY - PLAYER_SIZE) { player.y = currentArena.maxY - PLAYER_SIZE; player.vy *= -0.5; }
 
-    // 3. AI Agent - Lead Pursuit V2
-    // Track history for pattern detection
+    // 3. AI Agent
     playerPathRef.current.push({ x: player.x, y: player.y });
     if (playerPathRef.current.length > 60) playerPathRef.current.shift();
 
-    // Check if player is looping (displacement vs path length)
     let isLooping = false;
     if (playerPathRef.current.length === 60) {
       const p1 = playerPathRef.current[0];
       const p2 = playerPathRef.current[59];
       const disp = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-      if (disp < 40) isLooping = true; // was 60
+      if (disp < 40) isLooping = true;
     }
 
-    // Dynamic prediction depth
     const currentPrediction = isLooping ? 0 : 25 + (elapsedSeconds * 1.5);
     const targetX = player.x + player.vx * currentPrediction;
     const targetY = player.y + player.vy * currentPrediction;
@@ -155,11 +158,11 @@ export default function AgentGame() {
       agent.vy = (dy / dist) * adaptiveSpeed;
     }
 
-    agent.x += agent.vx;
-    agent.y += agent.vy;
+    agent.x += agent.vx * dt;
+    agent.y += agent.vy * dt;
 
-    // 4. Hazards (Mines)
-    if (elapsedSeconds > 5 && scoreVal % HAZARD_SPAWN_INTERVAL === 0) {   // mines start at 5s
+    // 4. Hazards
+    if (elapsedSeconds > 5 && Math.random() < (1 / HAZARD_SPAWN_INTERVAL) * dt) {   
       const side = Math.floor(Math.random() * 4);
       let hx = 0, hy = 0, hvx = 0, hvy = 0;
       if (side === 0) { hx = currentArena.minX; hy = Math.random() * ARENA_HEIGHT; hvx = 2; }
@@ -171,16 +174,15 @@ export default function AgentGame() {
     }
 
     hazardsRef.current.forEach(h => {
-      h.x += h.vx;
-      h.y += h.vy;
+      h.x += h.vx * dt;
+      h.y += h.vy * dt;
     });
 
-    // Clean up out-of-bounds hazards
     hazardsRef.current = hazardsRef.current.filter(h => 
       h.x > -50 && h.x < ARENA_WIDTH + 50 && h.y > -50 && h.y < ARENA_HEIGHT + 50
     );
 
-    // 5. Collision & Scoring
+    // 5. Collision
     const agentCol = Math.sqrt(Math.pow(player.x - agent.x, 2) + Math.pow(player.y - agent.y, 2));
     const hazardCol = hazardsRef.current.some(h => 
       Math.sqrt(Math.pow(player.x - h.x, 2) + Math.pow(player.y - h.y, 2)) < PLAYER_SIZE + HAZARD_SIZE
@@ -189,14 +191,14 @@ export default function AgentGame() {
     if (agentCol < PLAYER_SIZE + AGENT_SIZE || hazardCol) {
       setGameState("GAMEOVER");
       if (score > highScore) {
-        setHighScore(score);
+        setHighScore(Math.floor(score));
         if (typeof window !== "undefined") {
-          localStorage.setItem("agent_game_highscore", score.toString());
+          localStorage.setItem("agent_game_highscore", Math.floor(score).toString());
         }
       }
     }
 
-    agentSpeedRef.current += DIFFICULTY_RAMP;
+    agentSpeedRef.current += DIFFICULTY_RAMP * dt;
 
     draw(currentArena);
     requestRef.current = requestAnimationFrame(update);
@@ -209,15 +211,15 @@ export default function AgentGame() {
 
     ctx.clearRect(0, 0, ARENA_WIDTH, ARENA_HEIGHT);
 
-    // Draw Background Grid (Fixed)
-    const gridColor = getComputedStyle(canvas).getPropertyValue("--card-border") || "rgba(255,255,255,0.02)";
+    // Draw Background Grid
+    const gridColor = "rgba(255,255,255,0.02)";
     ctx.strokeStyle = gridColor;
     ctx.lineWidth = 1;
     for (let x = 0; x < ARENA_WIDTH; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, ARENA_HEIGHT); ctx.stroke(); }
     for (let y = 0; y < ARENA_HEIGHT; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(ARENA_WIDTH, y); ctx.stroke(); }
 
     // Draw Shrunk Arena Border
-    const borderColor = score / 60 > 30 ? "rgba(244, 63, 94, 0.4)" : gridColor;
+    const borderColor = score / 60 > 30 ? "rgba(244, 63, 94, 0.4)" : "rgba(255,255,255,0.1)";
     ctx.strokeStyle = borderColor;
     ctx.lineWidth = 2;
     ctx.setLineDash([5, 5]);
@@ -242,15 +244,15 @@ export default function AgentGame() {
       ctx.beginPath();
       ctx.arc(h.x, h.y, HAZARD_SIZE, 0, Math.PI * 2);
       ctx.fill();
-      // Pulsing effect
       ctx.strokeStyle = h.color;
       ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(h.x, h.y, HAZARD_SIZE + Math.sin(Date.now() / 100) * 4, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(h.x, h.y, HAZARD_SIZE + Math.sin(timeRef.current / 100) * 4, 0, Math.PI * 2); ctx.stroke();
     });
 
     ctx.shadowBlur = 0;
   };
 
+  const timeRef = useRef(0);
   useEffect(() => {
     if (gameState === "PLAYING") {
       requestRef.current = requestAnimationFrame(update);
@@ -260,11 +262,13 @@ export default function AgentGame() {
     return () => { if (requestRef.current) cancelAnimationFrame(requestRef.current); };
   }, [gameState]);
 
-  const pressKey = useCallback((key: string) => {
+  const pressKey = useCallback((key: string, e?: React.PointerEvent) => {
+    if (e) e.preventDefault();
     keysRef.current[key] = true;
   }, []);
 
-  const releaseKey = useCallback((key: string) => {
+  const releaseKey = useCallback((key: string, e?: React.PointerEvent) => {
+    if (e) e.preventDefault();
     keysRef.current[key] = false;
   }, []);
 
@@ -323,7 +327,10 @@ export default function AgentGame() {
                       Testing predictive pursuit algorithms in a contracting spatial arena. 
                       Agent difficulty escalates exponentially after 10s.
                     </p>
-                    <button onClick={resetGame} className="group relative flex items-center justify-center gap-3 w-full py-6 rounded-2xl bg-white text-black font-black text-xs uppercase tracking-[0.3em] hover:bg-white/90 transition-all active:scale-95 shadow-2xl shadow-blue-500/20">
+                    <button 
+                       onClick={resetGame} 
+                       className="group relative flex items-center justify-center gap-3 w-full py-6 rounded-2xl bg-white text-black font-black text-xs uppercase tracking-[0.3em] hover:bg-white/90 transition-all active:scale-95 shadow-2xl shadow-blue-500/20"
+                    >
                       Initiate Test Sequence
                     </button>
                   </>
@@ -341,7 +348,7 @@ export default function AgentGame() {
                     <button onClick={resetGame} className="flex items-center justify-center gap-3 w-full py-6 rounded-2xl bg-white/5 text-white font-black text-xs uppercase tracking-[0.3em] hover:bg-white/10 border border-white/5 transition-all active:scale-95 mb-6">
                       <RotateCcw size={18} /> Re-Initialize
                     </button>
-                    {score >= highScore && score > 0 && <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.4em] animate-pulse">New Tactical Achievement Unlocked</p>}
+                    {Math.floor(score) >= highScore && score > 0 && <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.4em] animate-pulse">New Tactical Achievement Unlocked</p>}
                   </>
                 )}
               </motion.div>
@@ -351,7 +358,7 @@ export default function AgentGame() {
 
         {/* Adaptive Helper */}
         {gameState === "PLAYING" && (
-           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute bottom-8 right-8 px-5 py-2.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-3xl hidden md:flex items-center gap-4">
+           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute bottom-10 right-10 px-5 py-2.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-3xl hidden md:flex items-center gap-4">
              <div className="relative">
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-ping absolute inset-0" />
                 <div className="w-2 h-2 rounded-full bg-red-500 relative" />
@@ -360,32 +367,36 @@ export default function AgentGame() {
            </motion.div>
         )}
 
-        {/* Mobile D-Pad Controls */}
+        {/* Mobile Controls Overlay */}
         {gameState === "PLAYING" && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 md:hidden z-50 select-none">
-            <div className="relative w-36 h-36">
-              {/* Up */}
-              <button
-                className="absolute top-0 left-1/2 -translate-x-1/2 w-11 h-11 rounded-xl bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center text-white/70 active:bg-white/25 active:scale-95 transition-all"
-                onPointerDown={() => pressKey("KeyW")} onPointerUp={() => releaseKey("KeyW")} onPointerLeave={() => releaseKey("KeyW")}
-              >▲</button>
-              {/* Down */}
-              <button
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-11 h-11 rounded-xl bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center text-white/70 active:bg-white/25 active:scale-95 transition-all"
-                onPointerDown={() => pressKey("KeyS")} onPointerUp={() => releaseKey("KeyS")} onPointerLeave={() => releaseKey("KeyS")}
-              >▼</button>
-              {/* Left */}
-              <button
-                className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-xl bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center text-white/70 active:bg-white/25 active:scale-95 transition-all"
-                onPointerDown={() => pressKey("KeyA")} onPointerUp={() => releaseKey("KeyA")} onPointerLeave={() => releaseKey("KeyA")}
-              >◀</button>
-              {/* Right */}
-              <button
-                className="absolute right-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-xl bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center text-white/70 active:bg-white/25 active:scale-95 transition-all"
-                onPointerDown={() => pressKey("KeyD")} onPointerUp={() => releaseKey("KeyD")} onPointerLeave={() => releaseKey("KeyD")}
-              >▶</button>
-              {/* Center dot */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white/5 border border-white/10" />
+          <div className="absolute inset-0 md:hidden z-50 pointer-events-none select-none">
+            {/* D-Pad - Bottom Center, larger and more hit area */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-auto">
+              <div className="relative w-48 h-48">
+                {/* UP */}
+                <div 
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl active:bg-white/20 transition-colors"
+                  onPointerDown={(e) => pressKey("KeyW", e)} onPointerUp={(e) => releaseKey("KeyW", e)} onPointerLeave={(e) => releaseKey("KeyW", e)}
+                ><span className="text-white/40">▲</span></div>
+                {/* DOWN */}
+                <div 
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl active:bg-white/20 transition-colors"
+                  onPointerDown={(e) => pressKey("KeyS", e)} onPointerUp={(e) => releaseKey("KeyS", e)} onPointerLeave={(e) => releaseKey("KeyS", e)}
+                ><span className="text-white/40">▼</span></div>
+                {/* LEFT */}
+                <div 
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl active:bg-white/20 transition-colors"
+                  onPointerDown={(e) => pressKey("KeyA", e)} onPointerUp={(e) => releaseKey("KeyA", e)} onPointerLeave={(e) => releaseKey("KeyA", e)}
+                ><span className="text-white/40">◀</span></div>
+                {/* RIGHT */}
+                <div 
+                  className="absolute right-0 top-1/2 -translate-y-1/2 w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl active:bg-white/20 transition-colors"
+                  onPointerDown={(e) => pressKey("KeyD", e)} onPointerUp={(e) => releaseKey("KeyD", e)} onPointerLeave={(e) => releaseKey("KeyD", e)}
+                ><span className="text-white/40">▶</span></div>
+                
+                {/* Center visual only */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/10 border border-white/5" />
+              </div>
             </div>
           </div>
         )}
@@ -395,7 +406,7 @@ export default function AgentGame() {
       <div className="max-w-4xl mx-auto px-4">
         <button onClick={() => setShowHowItWorks(!showHowItWorks)} className="flex items-center gap-4 px-8 py-5 rounded-[24px] bg-white/[0.03] border border-white/5 text-white/30 hover:text-white hover:border-white/10 transition-all w-full group">
           <Info size={18} className="group-hover:rotate-12 transition-transform" />
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] flex-1 text-left">How It Works: The RL Architecture V2</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.4em] flex-1 text-left">How It Works: The RL Architecture V3</span>
           <div className={`w-2 h-2 rounded-full transition-colors ${showHowItWorks ? 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-white/10'}`} />
         </button>
 
@@ -406,10 +417,10 @@ export default function AgentGame() {
                 <div className="space-y-6">
                   <div className="flex items-center gap-4 text-blue-400">
                     <Cpu size={24} />
-                    <h4 className="text-[11px] font-black uppercase tracking-[0.3em]">Adaptive Intercept (V2)</h4>
+                    <h4 className="text-[11px] font-black uppercase tracking-[0.3em]">Adaptive Intercept (V3)</h4>
                   </div>
                   <p className="text-sm text-white/50 leading-relaxed font-medium">
-                    The V2 agent uses <span className="text-white font-black">Dynamic Prediction Scaling</span>. It doesn't just predict where you'll be - it analyzes your trajectory over 60 frames to detect repetitive patterns. If you move predictably, it shortcuts your path and increases its intercept velocity by 50%.
+                    The V3 agent features <span className="text-white font-black">Refresh-Synced Physics</span>. It ensures the simulation remains consistent whether running on a 60Hz laptop or 120Hz mobile display. The D-Pad interface has been re-engineered for capacitive touch precision.
                   </p>
                 </div>
                 <div className="space-y-6">
@@ -418,7 +429,7 @@ export default function AgentGame() {
                     <h4 className="text-[11px] font-black uppercase tracking-[0.3em]">Spatial Constraint RL</h4>
                   </div>
                   <p className="text-sm text-white/50 leading-relaxed font-medium">
-                    The environment features a <span className="text-white font-black">Shrinking Reward Arena</span>. Every frame you survive increases the agent's reward, but spatial constraints tighten at a rate of 0.14px/frame. Drifting mines introduce random state-space noise, forcing constant re-planning.
+                    The environment features a <span className="text-white font-black">Shrinking Reward Arena</span>. Every frame you survive increases the agent's reward, but spatial constraints tighten at a rate of 0.20px/frame. Drifting mines introduce random state-space noise, forcing constant re-planning.
                   </p>
                 </div>
               </div>

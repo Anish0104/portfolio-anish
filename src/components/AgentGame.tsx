@@ -376,22 +376,22 @@ export default function AgentGame() {
                 {/* UP */}
                 <div 
                   className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl active:bg-white/20 transition-colors"
-                  onPointerDown={(e) => pressKey("KeyW", e)} onPointerUp={(e) => releaseKey("KeyW", e)} onPointerLeave={(e) => releaseKey("KeyW", e)}
+                  onPointerDown={(e) => pressKey("KeyW", e)} onPointerUp={(e) => releaseKey("KeyW", e)}
                 ><span className="text-white/40">▲</span></div>
                 {/* DOWN */}
                 <div 
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl active:bg-white/20 transition-colors"
-                  onPointerDown={(e) => pressKey("KeyS", e)} onPointerUp={(e) => releaseKey("KeyS", e)} onPointerLeave={(e) => releaseKey("KeyS", e)}
+                  onPointerDown={(e) => pressKey("KeyS", e)} onPointerUp={(e) => releaseKey("KeyS", e)}
                 ><span className="text-white/40">▼</span></div>
                 {/* LEFT */}
                 <div 
                   className="absolute left-0 top-1/2 -translate-y-1/2 w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl active:bg-white/20 transition-colors"
-                  onPointerDown={(e) => pressKey("KeyA", e)} onPointerUp={(e) => releaseKey("KeyA", e)} onPointerLeave={(e) => releaseKey("KeyA", e)}
+                  onPointerDown={(e) => pressKey("KeyA", e)} onPointerUp={(e) => releaseKey("KeyA", e)}
                 ><span className="text-white/40">◀</span></div>
                 {/* RIGHT */}
                 <div 
                   className="absolute right-0 top-1/2 -translate-y-1/2 w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl active:bg-white/20 transition-colors"
-                  onPointerDown={(e) => pressKey("KeyD", e)} onPointerUp={(e) => releaseKey("KeyD", e)} onPointerLeave={(e) => releaseKey("KeyD", e)}
+                  onPointerDown={(e) => pressKey("KeyD", e)} onPointerUp={(e) => releaseKey("KeyD", e)}
                 ><span className="text-white/40">▶</span></div>
                 
                 {/* Center visual only */}

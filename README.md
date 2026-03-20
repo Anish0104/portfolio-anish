@@ -2,7 +2,7 @@
 
 Personal portfolio website built with **Next.js 15**, showcasing my work as an AI/ML Research Engineer and MSCS candidate at Rutgers University.
 
-🔗 **Live:** [anish-shirodkar.vercel.app](https://anish-shirodkar.vercel.app)
+🔗 **Live:** [anish-shirodkar.vercel.app](https://anishshirodkar.vercel.app)
 
 ---
 

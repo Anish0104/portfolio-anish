@@ -1,6 +1,7 @@
-# 🛰️ Satellite: High-Fidelity 3D Engineering Portfolio
+# 🛰️ Satellite 3D Portfolio
+### High-Fidelity Orbital Engineering Dashboard
 
-A professional, immersive **Technical Schematic Dashboard** designed for an AI/ML Research Engineer. This portfolio replaces traditional, static layouts with a high-performance, interactive diagnostic interface.
+A professional, immersive **Satellite 3D Portfolio** designed for an AI/ML Research Engineer. This project replaces traditional, static layouts with a high-performance, interactive diagnostic interface.
 
 ![Satellite Preview](https://anish-shirodkar.vercel.app/og-image.png)
 

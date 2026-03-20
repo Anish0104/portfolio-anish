@@ -94,7 +94,7 @@ export default function Hero() {
         className="relative mb-4 md:mb-6 flex justify-center z-10"
       >
         <Image
-          src="/avatar-nobg.png"
+          src="/avatar-v9.png"
           alt="Anish Shirodkar"
           width={320}
           height={320}

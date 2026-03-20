@@ -22,10 +22,10 @@ export default function Preloader() {
     }, 150);
 
     const statusUpdates = [
-      'Scanning Neural Pathways...',
-      'Allocating Compute Buffers...',
-      'Stabilizing 3D Quantization...',
-      'Uplink Established. Welcome.',
+      'Scanning Orbital Sector...',
+      'Syncing Deep Space Network...',
+      'Calibrating Satellite Perspective...',
+      'Uplink Established. Tracking Active.',
     ];
 
     let statusIndex = 0;
@@ -86,31 +86,44 @@ export default function Preloader() {
             </div>
 
             <div className="flex flex-col items-center gap-4">
-               <motion.p 
-                 key={status}
-                 initial={{ opacity: 0, y: 5 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 className="text-[10px] font-medium text-neutral-500 uppercase tracking-widest text-center"
-               >
-                 {status}
-               </motion.p>
+               <div className="flex items-center gap-4 py-2 px-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                  <div className="flex gap-1 items-end h-3">
+                    {[0.4, 0.7, 1, 0.6].map((h, i) => (
+                      <motion.div
+                        key={i}
+                        animate={{ height: [`${h*100}%`, `${(h*0.5)*100}%`, `${h*100}%`] }}
+                        transition={{ repeat: Infinity, duration: 1, delay: i * 0.1 }}
+                        className="w-1 bg-[var(--accent-blue)] rounded-t-sm"
+                      />
+                    ))}
+                  </div>
+                  <motion.p 
+                    key={status}
+                    initial={{ opacity: 0, x: -5 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="text-[10px] font-bold text-[var(--accent-blue)] uppercase tracking-widest text-center"
+                  >
+                    {status}
+                  </motion.p>
+               </div>
                
-               <div className="flex gap-1">
-                 {[0, 1, 2].map((i) => (
-                    <motion.div
-                      key={i}
-                      animate={{ 
-                        scale: [1, 1.5, 1],
-                        opacity: [0.3, 1, 0.3]
-                      }}
-                      transition={{ 
-                        repeat: Infinity, 
-                        duration: 1, 
-                        delay: i * 0.2 
-                      }}
-                      className="w-1 h-1 rounded-full bg-[var(--accent-blue)]"
-                    />
-                 ))}
+               <div className="grid grid-cols-2 gap-x-8 gap-y-1 opacity-40">
+                  <div className="flex justify-between w-24">
+                    <span className="text-[8px] font-mono text-[var(--muted)]">LAT</span>
+                    <span className="text-[8px] font-mono text-white">40.7128° N</span>
+                  </div>
+                  <div className="flex justify-between w-24">
+                    <span className="text-[8px] font-mono text-[var(--muted)]">ALT</span>
+                    <span className="text-[8px] font-mono text-white">408.0 KM</span>
+                  </div>
+                  <div className="flex justify-between w-24">
+                    <span className="text-[8px] font-mono text-[var(--muted)]">LONG</span>
+                    <span className="text-[8px] font-mono text-white">74.0060° W</span>
+                  </div>
+                  <div className="flex justify-between w-24">
+                    <span className="text-[8px] font-mono text-white">7.66 KM/S</span>
+                    <span className="text-[8px] font-mono text-[var(--muted)]">VEL</span>
+                  </div>
                </div>
             </div>
           </div>

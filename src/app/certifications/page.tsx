@@ -80,7 +80,7 @@ export default function CertificationsPage() {
   return (
     <SubPageLayout
       title="Certifications"
-      subtitle="Professional validation of technical expertise in AI Agents, LLM infrastructure, and cloud computing."
+      subtitle="A showcase of the professional milestones and certifications I've earned to stay at the forefront of AI and cloud technologies."
     >
       <div className="grid md:grid-cols-2 gap-6">
         {certs.map((cert, idx) => {

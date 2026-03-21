@@ -25,7 +25,7 @@ export default function PublicationsPage() {
   return (
     <SubPageLayout
       title="Publications"
-      subtitle="Documenting research breakthroughs and intellectual property in AI-driven meteorological systems."
+      subtitle="A collection of my published research and patents, focusing on pushing the boundaries of AI in meteorology and intelligent systems."
     >
       <div className="space-y-12">
         {publications.map((item, idx) => (

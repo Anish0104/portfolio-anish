@@ -46,14 +46,14 @@ const projects = [
   {
     number: "04",
     tag: "QUANT FINANCE",
-    title: "Trading Strategy Optimizer",
+    title: "QuantVision",
     description: "Backtesting pipeline that generates trading signals, evaluates cumulative returns vs buy-and-hold, and tunes parameters for strategy optimization across historical price data.",
     image: "/project-trading.png",
     gradient: "from-violet-500/20 to-violet-600/40",
     accent: "bg-violet-500",
     tech: ["PYTHON", "PANDAS", "NUMPY", "MATPLOTLIB", "JUPYTER"],
-    github: "https://github.com/Sujataalegavi7/TradingStrategyOptimization",
-    link: "",
+    github: "https://github.com/Anish0104/QuantVision",
+    link: "https://quant-vision.vercel.app",
   },
 ];
 

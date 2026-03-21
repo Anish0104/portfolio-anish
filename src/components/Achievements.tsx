@@ -17,7 +17,7 @@ const cards = [
     delay: 0.1,
   },
   {
-    title: "Leadership",
+    title: "Leadership Roles",
     highlight: "Impact",
     titleColor: "text-emerald-500",
     description: "Leading student chapters, mentoring leadership teams, and orchestrating large-scale technical student fests.",

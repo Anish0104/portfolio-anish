@@ -78,8 +78,8 @@ const colorMap: Record<string, { border: string; bg: string; icon: string; glow:
 export default function LeadershipPage() {
   return (
     <SubPageLayout
-      title="Leadership & Impact"
-      subtitle="Fostering community growth, mentoring leadership, and orchestrating large-scale initiatives."
+      title="Leadership Roles"
+      subtitle="A showcase of the strategic roles I've led and the impact I've created through community and technical initiatives."
     >
       <div className="grid md:grid-cols-2 gap-6">
         {roles.map((role, idx) => {

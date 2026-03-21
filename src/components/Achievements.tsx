@@ -17,6 +17,16 @@ const cards = [
     delay: 0.1,
   },
   {
+    title: "Leadership",
+    highlight: "Impact",
+    titleColor: "text-emerald-500",
+    description: "Leading student chapters, mentoring leadership teams, and orchestrating large-scale technical student fests.",
+    icon: <Users className="text-emerald-400" size={32} />,
+    iconBg: "border-emerald-500/50 text-emerald-400",
+    link: "/leadership",
+    delay: 0.2,
+  },
+  {
     title: "Certifications",
     highlight: "Validated",
     titleColor: "text-blue-500",
@@ -24,7 +34,7 @@ const cards = [
     icon: <Award className="text-blue-400" size={32} />,
     iconBg: "border-blue-500/50 text-blue-400",
     link: "/certifications",
-    delay: 0.2,
+    delay: 0.3,
   },
 ];
 
@@ -38,7 +48,7 @@ export default function Achievements() {
           centered
         />
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {cards.map((card) => (
             <motion.a
               key={card.title}
@@ -60,7 +70,7 @@ export default function Achievements() {
               </h3>
 
               {/* Description */}
-              <p className="text-white/50 text-lg leading-relaxed mb-10 font-medium">
+              <p className="text-white/50 text-lg leading-relaxed mb-10 font-medium whitespace-pre-line">
                 {card.description}
               </p>
 

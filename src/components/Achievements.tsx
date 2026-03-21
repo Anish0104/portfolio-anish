@@ -3,7 +3,7 @@
 import React from "react";
 import SectionHeading from "./SectionHeading";
 import { motion } from "framer-motion";
-import { Award, FileText, ArrowRight, Microscope } from "lucide-react";
+import { Award, FileText, ArrowRight, Microscope, Users } from "lucide-react";
 
 const cards = [
   {

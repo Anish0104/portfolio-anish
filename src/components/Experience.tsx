@@ -37,7 +37,7 @@ const milestones = [
     title: "Indian Meteorological Dept.",
     period: "2023 - 2025",
     institution: "AI Research Intern",
-    description: "Conducting AI/ML research at the Indian Meteorological Department - led development of an Attention-LSTM weather forecasting system, recognized as a government patent (IP India, 2025).",
+    description: "Conducting AI/ML research at the Indian Meteorological Department - led development of an Attention-LSTM weather forecasting system, registered as a government copyright (IP India, Certificate No. LD-20250175526, 2025).",
     angle: 270, // Top
     icon: <Microscope size={22} />,
     color: "from-purple-500 to-fuchsia-400",

@@ -8,7 +8,7 @@ import { Microscope, ExternalLink, Calendar, Users, Target, FileText, Award } fr
 const publications = [
   {
     title: "Smart Weather Forecasting: IoT-Integrated Decision Support System for Real-Time Analysis",
-    type: "IP India Patent (Publication)",
+    type: "IP India Copyright (Registration No. LD-20250175526)",
     year: "2025",
     description: "Developed a mission-critical weather forecasting system utilizing Attention-based LSTM networks for high-precision rainfall prediction. Integrated IoT-sensor data with historical imagery to provide real-time decision support for meteorological departments.",
     authors: ["Shirodkar, A. V.", "IMD Research Team"],
@@ -25,7 +25,7 @@ export default function PublicationsPage() {
   return (
     <SubPageLayout
       title="Publications"
-      subtitle="A collection of my published research and patents, focusing on pushing the boundaries of AI in meteorology and intelligent systems."
+      subtitle="A collection of my published research and registered copyrights, focusing on pushing the boundaries of AI in meteorology and intelligent systems."
     >
       <div className="space-y-12">
         {publications.map((item, idx) => (
@@ -54,7 +54,7 @@ export default function PublicationsPage() {
                   </div>
                 </div>
 
-                <h3 className="text-3xl font-black tracking-tight mb-6 text-white group-hover:text-orange-400 transition-colors leading-tight">
+                <h3 className="text-3xl font-black tracking-tight mb-6 text-[var(--foreground)] group-hover:text-orange-400 transition-colors leading-tight">
                   {item.title}
                 </h3>
 
@@ -64,7 +64,7 @@ export default function PublicationsPage() {
 
                 <div className="grid md:grid-cols-2 gap-8 mb-10">
                   <div>
-                    <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white mb-4">
+                    <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--foreground)] mb-4">
                       <Users size={14} className="text-orange-400" /> Authors
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -74,12 +74,12 @@ export default function PublicationsPage() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white mb-4">
+                    <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--foreground)] mb-4">
                       <Target size={14} className="text-orange-400" /> Research Focus
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {item.tags.map((tag) => (
-                        <span key={tag} className="px-2 py-0.5 rounded-md bg-white/5 text-[10px] font-black text-[var(--muted)] border border-white/10">{tag}</span>
+                        <span key={tag} className="px-2 py-0.5 rounded-md bg-[var(--card-bg)] text-[10px] font-black text-[var(--muted)] border border-[var(--card-border)]">{tag}</span>
                       ))}
                     </div>
                   </div>
@@ -87,7 +87,7 @@ export default function PublicationsPage() {
 
                 {/* Documents Row */}
                 <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-white/5">
-                  <div className="text-[10px] font-black uppercase tracking-widest text-white/30 mr-auto">
+                  <div className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)] mr-auto">
                     ID: {item.doi}
                   </div>
                   {item.documents.map((doc) => (

@@ -10,7 +10,7 @@ const cards = [
     title: "Publications",
     highlight: "Research",
     titleColor: "text-orange-500",
-    description: "A collection of my research breakthroughs and patents in AI-driven meteorological systems and deep learning.",
+    description: "A collection of my research breakthroughs and registered copyrights in AI-driven meteorological systems and deep learning.",
     icon: <Microscope className="text-orange-400" size={32} />,
     iconBg: "border-orange-500/50 text-orange-400",
     link: "/publications",
@@ -70,7 +70,7 @@ export default function Achievements() {
               </h3>
 
               {/* Description */}
-              <p className="text-white/50 text-lg leading-relaxed mb-10 font-medium whitespace-pre-line">
+              <p className="text-[var(--muted)] text-lg leading-relaxed mb-10 font-medium whitespace-pre-line">
                 {card.description}
               </p>
 

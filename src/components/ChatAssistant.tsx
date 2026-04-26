@@ -50,7 +50,7 @@ const initialMessages: Message[] = [
 const responses: Record<string, string | React.ReactNode> = {
   work: "I've worked on high-impact projects like VTrack (real-time CV traffic analysis), SkillGap (AI career assistant), and DocPilot (RAG-based docs). Check out the Projects section below!",
   skills: "I'm proficient in Python, PyTorch, TensorFlow, and specialize in LLM applications, Computer Vision (YOLOv8), and Full-stack AI using Next.js and FastAPI.",
-  about: "I'm an MS CS student at Rutgers with a passion for building production-ready AI products. I even have a published patent for weather forecasting!",
+  about: "I'm an MS CS student at Rutgers with a passion for building production-ready AI products. I even have a registered copyright for a weather forecasting system (IP India, 2025)!",
   contact: (
      <div className="flex flex-col gap-3">
        <p className="text-[var(--terminal-output)] text-[13px]">Establishing secure connections...</p>

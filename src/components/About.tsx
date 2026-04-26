@@ -153,7 +153,7 @@ export default function About() {
                         </div>
                         <div className="flex justify-between items-end">
                            <div className="space-y-0.5">
-                              <h4 className="text-xl font-black text-[var(--foreground)] tracking-tighter uppercase mb-0.5">01 Patent Recognized</h4>
+                              <h4 className="text-xl font-black text-[var(--foreground)] tracking-tighter uppercase mb-0.5">01 Copyright Registered</h4>
                               <p className="text-[10px] font-bold text-[var(--muted)] opacity-60 uppercase tracking-[0.2em] italic">IP INDIA • 2025</p>
                            </div>
                         </div>

@@ -24,15 +24,15 @@ export default function SubPageLayout({ title, subtitle, children }: SubPageLayo
         <nav className="flex items-center justify-between mb-16">
           <Link 
             href="/#achievements" 
-            className="group flex items-center gap-2 text-[var(--muted)] hover:text-white transition-colors"
+            className="group flex items-center gap-2 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
           >
-            <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+            <div className="w-8 h-8 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] flex items-center justify-center group-hover:bg-[var(--card-border)] transition-colors">
               <ArrowLeft size={16} />
             </div>
             <span className="text-xs font-black uppercase tracking-widest">Back to Portfolio</span>
           </Link>
           
-          <Link href="/" className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+          <Link href="/" className="w-10 h-10 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] flex items-center justify-center hover:bg-[var(--card-border)] transition-colors">
             <Home size={20} className="text-blue-500" />
           </Link>
         </nav>
@@ -44,7 +44,7 @@ export default function SubPageLayout({ title, subtitle, children }: SubPageLayo
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 text-white">
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 text-[var(--foreground)]">
               {title}
             </h1>
             {subtitle && (

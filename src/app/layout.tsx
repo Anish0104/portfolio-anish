@@ -13,13 +13,16 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://quant-vision.vercel.app"),
+  metadataBase: new URL("https://anishshirodkar.me"),
   title: "Anish Shirodkar | AI/ML Research Engineer (MSCS @ Rutgers)",
   description: "Master's candidate at Rutgers University specializing in intelligent systems, deep learning, and scalable AI infrastructure. Portfolio and Research Showcase.",
   keywords: ["Anish Shirodkar", "AI Engineer", "ML Researcher", "Rutgers University", "Deep Learning", "NLP Portfolio", "Systems Engineering"],
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
     apple: "/icon.png",
   },
   openGraph: {

@@ -17,14 +17,7 @@ export const metadata: Metadata = {
   title: "Anish Shirodkar | AI/ML Research Engineer (MSCS @ Rutgers)",
   description: "Master's candidate at Rutgers University specializing in intelligent systems, deep learning, and scalable AI infrastructure. Portfolio and Research Showcase.",
   keywords: ["Anish Shirodkar", "AI Engineer", "ML Researcher", "Rutgers University", "Deep Learning", "NLP Portfolio", "Systems Engineering"],
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.png", type: "image/png" },
-    ],
-    shortcut: "/favicon.ico",
-    apple: "/icon.png",
-  },
+
   openGraph: {
     title: "Anish Shirodkar | AI/ML Research Engineer",
     description: "Orchestrating intelligent systems and scalable AI infrastructure. MSCS @ Rutgers University.",

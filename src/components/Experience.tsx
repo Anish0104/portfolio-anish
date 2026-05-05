@@ -1,246 +1,305 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { GraduationCap, Briefcase, Microscope, BookOpen, ArrowUpRight } from "lucide-react";
-import Image from "next/image";
+import { useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { GraduationCap, Briefcase, Microscope, BookOpen, Rocket } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 
 const milestones = [
   {
-    id: "foundation",
-    label: "FOUNDATION",
-    title: "TCET (University of Mumbai)",
-    period: "Dec 2021 - May 2025",
-    institution: "B.Tech in Internet of Things",
-    description: "Built strong foundations in algorithms and IoT systems. Achieved a GPA of 3.67 while pioneering student technical initiatives.",
-    angle: 90, // Bottom
-    icon: <GraduationCap size={22} />,
-    color: "from-blue-500 to-cyan-400",
-    accent: "text-blue-400",
+    id: "gsoc",
+    year: "2026",
+    org: "Google Summer of Code",
+    role: "Applicant · Proposal Submitted",
+    period: "Jan 2026 – Present",
+    location: "Remote",
+    description:
+      "Submitted proposals for OLMo-7B LLM integration into DeepChem's molecular property prediction pipeline and probabilistic weather forecasting with neural-lam for MLLAM. Opened PR #4876 on DeepChem.",
+    accent: "#f59e0b",
+    icon: Rocket,
+    badge: "Active",
+    tags: ["DeepChem", "OLMo-7B", "neural-lam", "MLLAM"],
   },
   {
-    id: "industry",
-    label: "INDUSTRY EXPERIENCE",
-    title: "CognoRise InfoTech",
-    period: "Apr - June 2024",
-    institution: "Artificial Intelligence Intern",
-    description: "Developed and optimized ML models for production; built modular Python preprocessing and feature engineering pipelines.",
-    angle: 180, // Left
-    icon: <Briefcase size={22} />,
-    color: "from-orange-500 to-amber-400",
-    accent: "text-orange-400",
+    id: "rutgers",
+    year: "2025",
+    org: "Rutgers University",
+    role: "M.S. Computer Science",
+    period: "Sep 2025 – Present",
+    location: "New Brunswick, NJ",
+    description:
+      "Specializing in ML, NLP, and AI Engineering. Building RAG pipelines, agentic systems, and production-ready LLM applications from model to deployment.",
+    accent: "#cc0033",
+    icon: BookOpen,
+    badge: "Current",
+    tags: ["GPA 3.50", "ML / NLP", "Agentic Systems", "AI Engineering"],
   },
   {
-    id: "research",
-    label: "RESEARCH & SYSTEMS",
-    title: "Indian Meteorological Dept.",
-    period: "2023 - 2025",
-    institution: "AI Research Intern",
-    description: "Conducting AI/ML research at the Indian Meteorological Department - led development of an Attention-LSTM weather forecasting system, registered as a government copyright (IP India, Certificate No. LD-20250175526, 2025).",
-    angle: 270, // Top
-    icon: <Microscope size={22} />,
-    color: "from-purple-500 to-fuchsia-400",
-    accent: "text-purple-400",
+    id: "imd",
+    year: "2023",
+    org: "Indian Meteorological Dept.",
+    role: "ML Project Member · Govt. of India",
+    period: "Apr 2023 – Jun 2025",
+    location: "Gujarat, India",
+    description:
+      "Led end-to-end ML model development for a live government weather forecasting system using attention-LSTM architectures. Work registered as copyright (IP India, No. LD-20250175526, 2025).",
+    accent: "#7c3aed",
+    icon: Microscope,
+    badge: "© Registered",
+    tags: ["Attention-LSTM", "IoT Pipeline", "IP India 2025", "Production"],
   },
   {
-    id: "advanced",
-    label: "ADVANCED STUDY",
-    title: "Rutgers University",
-    period: "Sept 2025 - Present",
-    institution: "M.S. in Computer Science",
-    description: "Specializing in ML, NLP, and AI Engineering. Current GPA: 3.50. Building RAG pipelines and end-to-end AI systems.",
-    angle: 0, // Right
-    icon: <BookOpen size={22} />,
-    color: "from-emerald-500 to-teal-400",
-    accent: "text-emerald-400",
+    id: "cognori",
+    year: "2024",
+    org: "CognoRise InfoTech",
+    role: "Artificial Intelligence Intern",
+    period: "Apr – May 2024",
+    location: "Mumbai, India",
+    description:
+      "Developed and optimized ML models for production. Conducted experiments on preprocessing strategies and feature engineering pipelines using NumPy and Pandas.",
+    accent: "#ea580c",
+    icon: Briefcase,
+    badge: "Industry",
+    tags: ["Production ML", "Feature Engineering", "Python"],
   },
-
+  {
+    id: "tcet",
+    year: "2021",
+    org: "TCET Mumbai",
+    role: "B.Tech — Internet of Things",
+    period: "Dec 2021 – May 2025",
+    location: "University of Mumbai",
+    description:
+      "Built foundations in algorithms, IoT systems, and full-stack development. Achieved CGPA of 9.50/10, ranked 2nd in the batch while leading technical initiatives.",
+    accent: "#2563eb",
+    icon: GraduationCap,
+    badge: "Foundation",
+    tags: ["CGPA 9.50/10", "Rank 2", "IoT Systems", "B.Tech"],
+  },
 ];
 
-export default function Experience() {
-  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+/* ── Single card ── */
+function Card({ m, side }: { m: typeof milestones[0]; index: number; side: "left" | "right" }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const Icon = m.icon;
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    const dx = (e.clientX - rect.left) / rect.width  - 0.5;   // -0.5 → 0.5
+    const dy = (e.clientY - rect.top)  / rect.height - 0.5;
+    setTilt({ x: dy * -12, y: dx * 12 });
+  };
+
+  const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
 
   return (
-    <section id="experience" className="py-20 relative overflow-hidden bg-transparent min-h-[850px] flex flex-col items-center justify-center transition-colors duration-500">
-      <div className="container mx-auto px-6 relative z-10 flex flex-col items-center">
-        
-        <SectionHeading 
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: side === "left" ? -48 : 48, y: 16 }}
+      animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      className={`w-full md:w-[calc(50%-2rem)] ${side === "right" ? "md:ml-auto" : ""}`}
+      style={{ perspective: 900 }}
+    >
+      <motion.div
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        animate={{ rotateX: tilt.x, rotateY: tilt.y, y: tilt.x !== 0 || tilt.y !== 0 ? -5 : 0 }}
+        transition={{ type: "spring", stiffness: 280, damping: 28 }}
+        style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+        className="relative bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-7 shadow-sm hover:shadow-lg transition-shadow duration-500 overflow-hidden group cursor-default">
+
+        {/* Accent top bar — draws left→right on enter */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={inView ? { scaleX: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute top-0 left-6 right-6 h-[2px] rounded-full origin-left"
+          style={{ background: `linear-gradient(90deg, ${m.accent}, transparent)` }}
+        />
+
+        {/* Hover glow blob */}
+        <div
+          className="absolute -top-16 -right-16 w-48 h-48 rounded-full blur-3xl opacity-0 group-hover:opacity-[0.07] transition-opacity duration-700 pointer-events-none"
+          style={{ background: m.accent }}
+        />
+
+        {/* Header row */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="flex items-start justify-between mb-5 relative z-10"
+        >
+          <div className="flex items-center gap-3">
+            <motion.div
+              initial={{ scale: 0, rotate: -15 }}
+              animate={inView ? { scale: 1, rotate: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
+              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ background: `${m.accent}18`, border: `1.5px solid ${m.accent}35`, color: m.accent }}
+            >
+              <Icon size={16} />
+            </motion.div>
+            <span
+              className="text-[9px] font-black uppercase tracking-[0.3em] px-2.5 py-0.5 rounded-full"
+              style={{ background: `${m.accent}14`, color: m.accent, border: `1px solid ${m.accent}28` }}
+            >
+              {m.badge}
+            </span>
+          </div>
+          <div className="text-right">
+            <p className="text-[11px] font-semibold text-[var(--muted)] opacity-60">{m.period}</p>
+            <p className="text-[10px] text-[var(--muted)] opacity-40">{m.location}</p>
+          </div>
+        </motion.div>
+
+        {/* Org + role */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.18 }}
+          className="relative z-10 mb-4"
+        >
+          <h3 className="text-xl md:text-2xl font-black tracking-tight text-[var(--foreground)] leading-tight uppercase mb-1">
+            {m.org}
+          </h3>
+          <p className="text-sm font-semibold" style={{ color: m.accent }}>
+            {m.role}
+          </p>
+        </motion.div>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.26 }}
+          className="text-[13px] text-[var(--muted)] leading-relaxed mb-5 relative z-10"
+        >
+          {m.description}
+        </motion.p>
+
+        {/* Tags — staggered */}
+        <div className="flex flex-wrap gap-2 relative z-10">
+          {m.tags.map((tag, ti) => (
+            <motion.span
+              key={tag}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.3, delay: 0.32 + ti * 0.06, type: "spring", stiffness: 300, damping: 22 }}
+              className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
+              style={{
+                background: `${m.accent}0A`,
+                border: `1px solid ${m.accent}22`,
+                color: `${m.accent}CC`,
+              }}
+            >
+              {tag}
+            </motion.span>
+          ))}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ── Centre spine dot ── */
+function YearDot({ m }: { m: typeof milestones[0]; side: "left" | "right" }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <div ref={ref} className="hidden md:flex absolute left-1/2 -translate-x-1/2 flex-col items-center gap-0 z-10">
+      {/* Line above */}
+      <motion.div
+        initial={{ scaleY: 0 }}
+        animate={inView ? { scaleY: 1 } : {}}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        className="w-px h-8 origin-top"
+        style={{ background: `${m.accent}50` }}
+      />
+
+      {/* Dot + ripple */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={inView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 300, damping: 20 }}
+        className="relative flex items-center justify-center my-2"
+      >
+        {/* Ripple ring */}
+        <motion.div
+          animate={inView ? { scale: [1, 2.2, 1], opacity: [0.5, 0, 0.5] } : {}}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+          className="absolute w-4 h-4 rounded-full"
+          style={{ background: m.accent }}
+        />
+        {/* Solid dot */}
+        <div
+          className="relative w-4 h-4 rounded-full ring-4 ring-[var(--background)] z-10"
+          style={{ background: m.accent, boxShadow: `0 0 14px ${m.accent}70` }}
+        />
+      </motion.div>
+
+      {/* Year badge */}
+      <motion.span
+        initial={{ opacity: 0, y: -6 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.35, delay: 0.2 }}
+        className="text-[10px] font-black tabular-nums px-2.5 py-0.5 rounded-full mb-1"
+        style={{ background: `${m.accent}14`, color: m.accent, border: `1px solid ${m.accent}28` }}
+      >
+        {m.year}
+      </motion.span>
+
+      {/* Line below */}
+      <motion.div
+        initial={{ scaleY: 0 }}
+        animate={inView ? { scaleY: 1 } : {}}
+        transition={{ duration: 0.45, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        className="w-px h-8 origin-top"
+        style={{ background: `${m.accent}50` }}
+      />
+    </div>
+  );
+}
+
+export default function Experience() {
+  return (
+    <section id="experience" className="py-24 relative overflow-hidden">
+      <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">02</div>
+      <div className="container mx-auto px-6 max-w-5xl">
+        <SectionHeading
           title="My Journey"
+          subtitle="From engineering foundations to AI research — the milestones that shaped how I build."
           centered
         />
 
-        {/* Mobile Fallback: Stacked Cards */}
-        <div className="md:hidden w-full space-y-4 mb-8">
-          {milestones.map((node, idx) => (
-            <motion.div
-              key={node.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="flex items-start gap-5 p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)]"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[var(--background)] border border-[var(--card-border)] flex items-center justify-center shrink-0 text-[var(--muted)]">
-                {node.icon}
-              </div>
-                <div>
-                  <h4 className="text-base font-black text-[var(--foreground)] tracking-tight mt-0.5">{node.institution}</h4>
-                <p className="text-[11px] text-[var(--muted)] mt-1 font-medium">{node.period}</p>
-                <p className="text-[12px] text-[var(--muted)] mt-2 leading-relaxed">{node.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <div className="relative mt-16">
+          {/* Static spine line */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-[var(--card-border)]" />
 
-        {/* Orbit System (Desktop Only) */}
-        <div className="hidden md:block relative w-full aspect-square max-w-[850px]">
-        <div className="relative w-full aspect-square max-w-[850px] flex items-center justify-center">
-          
-          {/* Central Unit - Revised: Identity through Intelligence */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="absolute z-20 flex flex-col items-center justify-center text-center pointer-events-none"
-          >
-              <div className="relative z-10 flex flex-col items-center">
-                 <motion.div 
-                    animate={{ 
-                      y: [0, -15, 0],
-                      rotate: [0, 1, -1, 0]
-                    }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-80 h-80 flex items-center justify-center"
-                 >
-                    <Image
-                      src="/avatar-nobg.png"
-                      alt="Anish Shirodkar"
-                      width={320}
-                      height={320}
-                      className="object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_40px_80px_rgba(0,0,0,0.5)] brightness-[1.05]"
-                    />
-                 </motion.div>
-              </div>
-          </motion.div>
+          <div className="flex flex-col gap-10">
+            {milestones.map((m, i) => {
+              const side = i % 2 === 0 ? "right" : "left";
+              return (
+                <div key={m.id} className="relative flex items-center md:block">
+                  {/* Mobile year badge */}
+                  <div
+                    className="md:hidden w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 mr-4 text-[10px] font-black"
+                    style={{ background: `${m.accent}14`, color: m.accent, border: `1.5px solid ${m.accent}30` }}
+                  >
+                    {m.year}
+                  </div>
 
-          {/* SVG Layer: Orbit & Ticks */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" viewBox="0 0 1000 1000">
-            {/* Ticks/Dial markings */}
-            {[...Array(60)].map((_, i) => (
-               <line
-                 key={i}
-                 x1="500"
-                 y1="100"
-                 x2="500"
-                 y2={i % 5 === 0 ? "120" : "110"}
-                 stroke="currentColor"
-                 strokeWidth={i % 5 === 0 ? "1.5" : "0.5"}
-                 className="text-[var(--foreground)] opacity-[var(--dot-opacity)]"
-                 transform={`rotate(${i * 6} 500 500)`}
-               />
-            ))}
-
-            {/* Main Orbit Circle */}
-            <circle cx="500" cy="500" r="340" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 6" className="text-[var(--foreground)] opacity-[var(--dot-opacity)]" />
-            
-            {/* Animated Glow Path */}
-            <motion.circle
-              cx="500"
-              cy="500"
-              r="340"
-              fill="none"
-              stroke="url(#orbitGlow)"
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeDasharray="100, 2000"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            />
-
-            <defs>
-              <linearGradient id="orbitGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity="1" />
-                <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
-
-          {/* Milestone Nodes */}
-          {milestones.map((node, idx) => {
-            const radius = 340;
-            const x = 500 + radius * Math.cos((node.angle * Math.PI) / 180);
-            const y = 500 + radius * Math.sin((node.angle * Math.PI) / 180);
-
-            // Determine label position based on angle
-            const isLeft = node.angle === 180;
-            const isTop = node.angle === 270;
-            const isBottom = node.angle === 90;
-
-            return (
-              <motion.div
-                key={node.id}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.5 + idx * 0.1 }}
-                onMouseEnter={() => setHoveredNode(node.id)}
-                onMouseLeave={() => setHoveredNode(null)}
-                style={{
-                  left: `${(x / 1000) * 100}%`,
-                  top: `${(y / 1000) * 100}%`,
-                }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 z-30 group"
-              >
-                {/* Connection Node */}
-                <div className="relative w-16 h-16 rounded-2xl flex items-center justify-center bg-[var(--background)] border border-[var(--card-border)] group-hover:border-[var(--accent-blue)] transition-all duration-500 shadow-2xl cursor-pointer">
-                   <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${node.color} opacity-0 group-hover:opacity-20 transition-opacity blur-xl`} />
-                   <div className="text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors relative z-10">
-                     {node.icon}
-                   </div>
-
-                   {/* Phase Label & Institution Name */}
-                   <div className={`absolute whitespace-nowrap pointer-events-none transition-all duration-500
-                    ${isLeft ? "right-20 text-right" : ""}
-                    ${isTop ? "bottom-20 -translate-x-1/2 left-1/2 text-center" : ""}
-                    ${isBottom ? "top-20 -translate-x-1/2 left-1/2 text-center" : ""}
-                    ${!isLeft && !isTop && !isBottom ? "left-20 text-left" : ""}
-                   `}>
-                      <h4 className="text-2xl font-black text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors tracking-tighter">
-                        {node.title}
-                      </h4>
-                   </div>
-                   
-                   {/* Disclosure Card (Hover) */}
-                   <AnimatePresence>
-                    {hoveredNode === node.id && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 15 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 15 }}
-                        className={`absolute w-80 pointer-events-none p-8 rounded-[2.5rem] bg-[var(--background)] border border-[var(--card-border)] backdrop-blur-3xl shadow-2xl z-50
-                          ${isLeft ? "right-24 top-1/2 -translate-y-1/2" : ""}
-                          ${isTop ? "top-24 left-1/2 -translate-x-1/2" : ""}
-                          ${isBottom ? "bottom-24 left-1/2 -translate-x-1/2" : ""}
-                          ${!isLeft && !isTop && !isBottom ? "left-24 top-1/2 -translate-y-1/2" : ""}
-                        `}
-                      >
-                         <div className="flex items-center gap-3 mb-4">
-                            <span className={`text-[10px] font-black uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-[var(--card-border)] border border-[var(--card-border)] ${node.accent}`}>{node.period}</span>
-                         </div>
-                         <h4 className="text-2xl font-black text-[var(--foreground)] mb-2 tracking-tighter">
-                            {node.institution}
-                         </h4>
-                         <p className="text-[11px] text-[var(--muted)] leading-relaxed font-medium mt-4">
-                            {node.description}
-                         </p>
-                      </motion.div>
-                    )}
-                   </AnimatePresence>
+                  <YearDot m={m} side={side} />
+                  <Card m={m} side={side} index={i} />
                 </div>
-              </motion.div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

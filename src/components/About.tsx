@@ -1,168 +1,198 @@
 "use client";
 
-import React from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Code2, Globe2, Cpu, Fingerprint, GraduationCap, Microscope } from "lucide-react";
+import Image from "next/image";
+import { MapPin, GraduationCap, Microscope, Clock, Cpu } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import { CountUp } from "@/components/ui/count-up";
 
-const TechnicalBorder = () => (
-   <>
-      <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-[var(--accent-blue)] opacity-40 group-hover:opacity-100 transition-opacity" />
-      <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-[var(--accent-blue)] opacity-40 group-hover:opacity-100 transition-opacity" />
-      <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-[var(--accent-blue)] opacity-40 group-hover:opacity-100 transition-opacity" />
-      <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-[var(--accent-blue)] opacity-40 group-hover:opacity-100 transition-opacity" />
-   </>
-);
-
-const RealMap = () => (
-  <div className="absolute inset-0 opacity-20 pointer-events-none -z-10 group-hover:opacity-40 transition-opacity duration-700 overflow-hidden">
-     <iframe 
-       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.3059445135!2d-74.259867633214!3d40.69714941381358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1710972745032!5m2!1sen!2sus" 
-       width="100%" 
-       height="100%" 
-       style={{ 
-         border: 0, 
-         filter: 'grayscale(1) invert(0.9) hue-rotate(190deg) brightness(0.7) contrast(1.2)',
-         transform: 'scale(1.2)', // Adjusted zoom for better fit
-       }} 
-       allowFullScreen 
-       loading="lazy" 
-       referrerPolicy="no-referrer-when-downgrade"
-     />
-     {/* Radar Overlay Grid */}
-     <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_40%,transparent_0%,var(--background)_80%)] opacity-60" />
-     <div className="absolute inset-0 border-[0.5px] border-[var(--accent-blue)] opacity-5 pointer-events-none" style={{ backgroundSize: '40px 40px', backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)' }} />
-  </div>
-);
+const stats = [
+  { to: 4,   fmt: (n: number) => String(Math.round(n)),                  label: "Production AI Systems",  color: "#2563eb" },
+  { to: 3.5, fmt: (n: number) => n.toFixed(2),                           label: "GPA — MSCS Rutgers",     color: "#7c3aed" },
+  { to: 9.5, fmt: (n: number) => n.toFixed(2),                           label: "CGPA — B.Tech (Rank 2)", color: "#059669" },
+  { to: 1,   fmt: (n: number) => String(Math.round(n)).padStart(2, "0"), label: "Govt. Copyright · 2025", color: "#f59e0b" },
+];
 
 export default function About() {
-  const [estTime, setEstTime] = React.useState("");
+  const [estTime, setEstTime] = useState("");
 
-  React.useEffect(() => {
-    const updateTime = () => {
-      setEstTime(new Intl.DateTimeFormat('en-US', {
-        timeZone: 'America/New_York',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      }).format(new Date()));
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 10000); // Update every 10s
-    return () => clearInterval(interval);
+  useEffect(() => {
+    const update = () =>
+      setEstTime(
+        new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/New_York",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }).format(new Date())
+      );
+    update();
+    const id = setInterval(update, 10_000);
+    return () => clearInterval(id);
   }, []);
 
   return (
-    <section id="about" className="py-32 bg-transparent relative overflow-hidden transition-colors duration-500">
+    <section id="about" className="py-28 relative overflow-hidden">
+      <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">01</div>
       <div className="container mx-auto px-6 max-w-6xl">
-        <SectionHeading 
-          title="About me"
-          centered
-        />
+        <SectionHeading title="About Me" centered />
 
-        <div className="flex flex-col items-center gap-20">
-           {/* Mission & Bio */}
-           <motion.div
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-             className="max-w-3xl text-center space-y-12"
-           >
-              <div className="space-y-8">
-                 <h3 className="text-4xl md:text-5xl font-black text-[var(--foreground)] tracking-tighter leading-none uppercase">
-                   Building Machines that <br/> <span className="text-[var(--muted)]">Understand the World.</span>
-                 </h3>
-                  <p className="text-xl text-[var(--muted)] leading-relaxed font-semibold italic border-l-2 md:border-l-0 md:border-t-2 border-[var(--accent-blue)]/20 pl-6 md:pl-0 md:pt-6">
-                    "I build and ship end-to-end AI-powered systems - from computer vision pipelines to RAG-based NLP architectures."
+        {/* ── Row 1: Identity card + Right stack ────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-5 gap-5 mt-12"
+        >
+          {/* IDENTITY — spans 3 cols */}
+          <div className="lg:col-span-3 relative bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] p-8 md:p-10 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500 group">
+            {/* Background gradient blob */}
+            <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full pointer-events-none"
+                 style={{ background: "radial-gradient(circle, rgba(37,99,235,0.06), transparent 70%)" }} />
+
+            {/* Avatar row */}
+            <div className="flex items-start gap-5 mb-7">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 border border-[var(--card-border)] shadow-sm">
+                <Image src="/avatar-nobg.png" alt="Anish" fill className="object-cover object-top scale-110" />
+              </div>
+              <div>
+                <h3 className="text-xl font-black tracking-tight text-[var(--foreground)]">Anish Shirodkar</h3>
+                <p className="text-sm text-[var(--muted)] font-medium">AI / ML Engineer · MS CS @ Rutgers</p>
+                {/* Open badge */}
+                <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[9px] font-black uppercase tracking-[0.2em]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Open to Internships · Summer 2026
+                </div>
+              </div>
+            </div>
+
+            {/* Mission */}
+            <h4 className="text-2xl md:text-3xl font-black tracking-tighter text-[var(--foreground)] leading-tight mb-4 uppercase">
+              Building Machines<br />
+              <span className="text-[var(--muted)]">that Understand the World.</span>
+            </h4>
+
+            {/* Bio */}
+            <p className="text-[14px] text-[var(--muted)] leading-relaxed mb-6">
+              MS CS candidate at Rutgers specialising in ML, NLP, and AI engineering.
+              I bridge research and production — shipping everything from computer vision
+              pipelines (YOLOv8, ByteTrack) to RAG-based NLP systems (LLaMA 3.1, ChromaDB)
+              and full-stack LLM applications. Government-registered copyright holder for
+              an attention-LSTM weather forecasting system.
+            </p>
+
+            {/* Tech tags */}
+            <div className="flex flex-wrap gap-2">
+              {["PyTorch", "LangChain", "Next.js", "FastAPI", "Supabase", "Docker"].map((t) => (
+                <span
+                  key={t}
+                  className="px-3 py-1 rounded-full text-[10px] font-semibold text-[var(--muted)] border border-[var(--card-border)] bg-[var(--background)]"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT STACK — 2 cols */}
+          <div className="lg:col-span-2 flex flex-col gap-5">
+
+            {/* LOCATION */}
+            <div className="flex-1 bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] p-6 shadow-sm hover:shadow-md hover:border-[var(--accent-blue)]/30 transition-all duration-500 group overflow-hidden relative">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                   style={{ background: "radial-gradient(circle at 70% 30%, rgba(37,99,235,0.04), transparent 70%)" }} />
+
+              <div className="flex items-center gap-2 mb-4 text-[var(--accent-blue)]">
+                <MapPin size={16} />
+                <span className="text-[10px] font-black uppercase tracking-[0.35em]">Location</span>
+              </div>
+              <p className="text-2xl font-black tracking-tighter text-[var(--foreground)] uppercase mb-2 leading-tight">
+                New Jersey, USA
+              </p>
+              <div className="flex items-center gap-2">
+                <Clock size={12} className="text-[var(--muted)]" />
+                <span className="text-[11px] font-semibold text-[var(--muted)]">{estTime || "—"} ET</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)] animate-pulse ml-1" />
+              </div>
+              <div className="mt-4 flex gap-6 opacity-30 group-hover:opacity-60 transition-opacity">
+                <div>
+                  <p className="text-[8px] font-black uppercase tracking-wider text-[var(--muted)]">Lat</p>
+                  <p className="text-[10px] font-mono text-[var(--foreground)]">40.7128° N</p>
+                </div>
+                <div>
+                  <p className="text-[8px] font-black uppercase tracking-wider text-[var(--muted)]">Long</p>
+                  <p className="text-[10px] font-mono text-[var(--foreground)]">74.0060° W</p>
+                </div>
+              </div>
+            </div>
+
+            {/* EDUCATION */}
+            <div className="bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] p-6 shadow-sm hover:shadow-md hover:border-[var(--accent-purple)]/30 transition-all duration-500 group relative overflow-hidden">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                   style={{ background: "radial-gradient(circle at 30% 70%, rgba(124,58,237,0.04), transparent 70%)" }} />
+
+              <div className="flex items-center gap-2 mb-4 text-[var(--accent-purple)]">
+                <GraduationCap size={16} />
+                <span className="text-[10px] font-black uppercase tracking-[0.35em]">Education</span>
+              </div>
+              <p className="text-lg font-black tracking-tighter text-[var(--foreground)] uppercase mb-0.5">
+                MSCS @ Rutgers
+              </p>
+              <p className="text-[11px] font-semibold text-[var(--muted)] mb-3">Major in AI · GPA 3.50</p>
+              <div className="h-px bg-[var(--card-border)] mb-3" />
+              <p className="text-[13px] font-semibold text-[var(--foreground)]">TCET · Mumbai</p>
+              <p className="text-[11px] text-[var(--muted)]">B.Tech IoT · CGPA 9.50 · Rank 2</p>
+            </div>
+
+            {/* COPYRIGHT */}
+            <div className="bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] p-6 shadow-sm hover:shadow-md hover:border-amber-300/40 transition-all duration-500 group relative overflow-hidden">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center flex-shrink-0 text-amber-600">
+                  <Microscope size={16} />
+                </div>
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-[0.25em] text-amber-600 mb-0.5">
+                    Scientific Recognition
                   </p>
-                  <p className="text-lg text-[var(--muted)] leading-relaxed font-medium opacity-80">
-                    Currently an M.S. CS candidate at Rutgers University, I specialize in ML, NLP, and AI engineering. My work bridges the gap between complex research and production-ready applications, leveraging everything from YOLOv8 and ByteTrack to Gemini API and Supabase.
+                  <p className="text-base font-black tracking-tighter text-[var(--foreground)] uppercase leading-tight">
+                    01 Copyright Registered
                   </p>
-               </div>
+                  <p className="text-[10px] font-semibold text-[var(--muted)]">IP India · Cert. LD-20250175526 · 2025</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Stats strip ───────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15, duration: 0.7 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-5"
+        >
+          {stats.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
+              className="bg-[var(--card-bg)] rounded-[1.5rem] border border-[var(--card-border)] p-5 shadow-sm text-center hover:shadow-md transition-shadow duration-300 group"
+            >
+              <Cpu size={14} className="mx-auto mb-2 opacity-20 group-hover:opacity-40 transition-opacity" style={{ color: s.color }} />
+              <p className="text-2xl md:text-3xl font-black tracking-tighter" style={{ color: s.color }}>
+                <CountUp to={s.to} format={s.fmt} />
+              </p>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--muted)] mt-1 leading-tight">
+                {s.label}
+              </p>
             </motion.div>
-
-           {/* Dashboard Grid (Bento Style) */}
-           <motion.div
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-             className="w-full"
-           >
-               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto">
-                  
-                  {/* LOCATION CARD */}
-                  <div className="lg:col-span-6 lg:row-span-2 relative group p-6 md:p-8 rounded-[2rem] bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[var(--accent-blue)]/40 transition-all duration-700 flex flex-col justify-between overflow-hidden min-h-[300px]">
-                     <TechnicalBorder />
-                     <RealMap />
-                     
-                     <div className="space-y-4 relative z-10">
-                        <div className="flex items-center gap-3 text-[var(--accent-blue)]">
-                           <Globe2 size={20} />
-                           <span className="text-[10px] font-black uppercase tracking-[0.4em]">GEOLOCATION SYSTEM</span>
-                        </div>
-                        
-                        <div className="space-y-1 text-left">
-                           <h4 className="text-2xl md:text-3xl font-black text-[var(--foreground)] tracking-tighter uppercase leading-none">New Jersey, USA</h4>
-                           <div className="flex items-center gap-3 text-[var(--muted)] pt-2">
-                              <div className="flex items-center gap-2 px-2.5 py-0.5 bg-[var(--accent-blue)]/10 border border-[var(--accent-blue)]/20 rounded-full">
-                                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)] animate-pulse" />
-                                 <span className="text-[11px] font-black uppercase tracking-tighter italic">{estTime || "Loading..."} ET</span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div className="pt-6 flex gap-8 opacity-30 group-hover:opacity-60 transition-opacity relative z-10">
-                        <div className="space-y-1">
-                           <p className="text-[9px] font-black uppercase tracking-wider">LAT</p>
-                           <p className="text-[10px] font-mono">40.7128° N</p>
-                        </div>
-                        <div className="space-y-1">
-                           <p className="text-[9px] font-black uppercase tracking-wider">LONG</p>
-                           <p className="text-[10px] font-mono">74.0060° W</p>
-                        </div>
-                     </div>
-                  </div>
-
-                  {/* EDUCATION CARD */}
-                  <div className="lg:col-span-6 lg:row-span-1 relative group p-6 rounded-[2rem] bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[var(--accent-blue)]/40 transition-all duration-700 flex flex-col justify-between min-h-[160px]">
-                     <TechnicalBorder />
-                     <div className="flex items-center justify-between mb-2 text-[var(--accent-blue)]">
-                        <div className="flex items-center gap-3">
-                           <GraduationCap size={18} />
-                           <span className="text-[9px] font-black uppercase tracking-[0.3em] opacity-40">Education</span>
-                        </div>
-                     </div>
-                     <div>
-                        <h4 className="text-xl font-black text-[var(--foreground)] tracking-tighter uppercase mb-0.5">MSCS @ Rutgers</h4>
-                        <p className="text-xs font-bold text-[var(--muted)] opacity-60 uppercase italic tracking-wide">Major in AI • GPA: 3.50</p>
-                     </div>
-                  </div>
-
-                  {/* IMPACT CARD */}
-                  <div className="lg:col-span-6 lg:row-span-1 relative group p-6 rounded-[2rem] bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[var(--accent-blue)]/40 transition-all duration-700 flex items-center gap-6 overflow-hidden min-h-[160px]">
-                     <TechnicalBorder />
-                     
-                     <div className="p-3 rounded-2xl bg-[var(--accent-blue)]/5 border border-[var(--accent-blue)]/10 text-[var(--accent-blue)] group-hover:bg-[var(--accent-blue)]/10 transition-colors">
-                        <Microscope size={24} />
-                     </div>
-
-                     <div className="space-y-1 flex-1">
-                        <div className="flex items-center gap-2 text-[var(--accent-blue)] opacity-60 mb-1">
-                           <span className="text-[9px] font-black uppercase tracking-[0.2em]">Scientific Recognition</span>
-                        </div>
-                        <div className="flex justify-between items-end">
-                           <div className="space-y-0.5">
-                              <h4 className="text-xl font-black text-[var(--foreground)] tracking-tighter uppercase mb-0.5">01 Copyright Registered</h4>
-                              <p className="text-[10px] font-bold text-[var(--muted)] opacity-60 uppercase tracking-[0.2em] italic">IP INDIA • 2025</p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-               </div>
-           </motion.div>
-        </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

@@ -211,15 +211,19 @@ export default function AgentGame() {
 
     ctx.clearRect(0, 0, ARENA_WIDTH, ARENA_HEIGHT);
 
+    // Always draw a dark background so the game is visible on any page bg
+    ctx.fillStyle = "#080c14";
+    ctx.fillRect(0, 0, ARENA_WIDTH, ARENA_HEIGHT);
+
     // Draw Background Grid
-    const gridColor = "rgba(255,255,255,0.02)";
+    const gridColor = "rgba(255,255,255,0.035)";
     ctx.strokeStyle = gridColor;
     ctx.lineWidth = 1;
     for (let x = 0; x < ARENA_WIDTH; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, ARENA_HEIGHT); ctx.stroke(); }
     for (let y = 0; y < ARENA_HEIGHT; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(ARENA_WIDTH, y); ctx.stroke(); }
 
     // Draw Shrunk Arena Border
-    const borderColor = score / 60 > 30 ? "rgba(244, 63, 94, 0.4)" : "rgba(255,255,255,0.1)";
+    const borderColor = score / 60 > 30 ? "rgba(244, 63, 94, 0.5)" : "rgba(255,255,255,0.12)";
     ctx.strokeStyle = borderColor;
     ctx.lineWidth = 2;
     ctx.setLineDash([5, 5]);
@@ -275,39 +279,39 @@ export default function AgentGame() {
   return (
     <div className="w-full max-w-5xl mx-auto space-y-12">
       <div 
-        className="relative bg-[var(--background)] rounded-[40px] border border-[var(--card-border)] overflow-hidden shadow-2xl group touch-none transition-colors duration-500"
+        className="relative bg-[#080c14] rounded-[40px] border border-white/10 overflow-hidden shadow-2xl group touch-none"
       >
         {/* Game Canvas */}
         <canvas ref={canvasRef} width={ARENA_WIDTH} height={ARENA_HEIGHT} className="w-full h-auto block" />
 
-        {/* HUD Overlay */}
+        {/* HUD Overlay — always on dark bg so use white text */}
         <div className="absolute top-8 left-8 right-8 flex justify-between items-start pointer-events-none">
           <div className="space-y-4">
             <div className="space-y-1">
-              <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-[0.3em]">Simulation Time</p>
-              <p className="text-2xl font-black text-[var(--foreground)] tabular-nums">{(score / 60).toFixed(2)}s</p>
+              <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Simulation Time</p>
+              <p className="text-2xl font-black text-white tabular-nums">{(score / 60).toFixed(2)}s</p>
             </div>
             {gameState === "PLAYING" && score / 60 > 8 && (
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-[10px] font-black text-red-500 uppercase tracking-widest">Arena Contraction Active</span>
+                <span className="text-[10px] font-black text-red-400 uppercase tracking-widest">Arena Contraction Active</span>
               </motion.div>
             )}
           </div>
-          
+
           <div className="text-right space-y-4">
             <div className="space-y-1">
-              <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-[0.3em] flex items-center justify-end gap-2 text-right">
+              <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em] flex items-center justify-end gap-2">
                 <Trophy size={10} /> Sector Record
               </p>
-              <p className="text-lg font-bold text-[var(--muted)] tabular-nums">{(highScore / 60).toFixed(2)}s</p>
+              <p className="text-lg font-bold text-white/50 tabular-nums">{(highScore / 60).toFixed(2)}s</p>
             </div>
             <div className="space-y-1">
-               <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-[0.3em]">Threat Level</p>
-               <p className={cn(
-                 "text-xs font-black uppercase tracking-widest transition-colors duration-500",
-                 threatLevel === "Low" ? "text-emerald-500" : threatLevel === "Medium" ? "text-amber-500" : "text-red-500 animate-pulse"
-               )}>{threatLevel}</p>
+              <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Threat Level</p>
+              <p className={cn(
+                "text-xs font-black uppercase tracking-widest transition-colors duration-500",
+                threatLevel === "Low" ? "text-emerald-400" : threatLevel === "Medium" ? "text-amber-400" : "text-red-400 animate-pulse"
+              )}>{threatLevel}</p>
             </div>
           </div>
         </div>
@@ -409,32 +413,32 @@ export default function AgentGame() {
 
       {/* How it works panel */}
       <div className="max-w-4xl mx-auto px-4">
-        <button onClick={() => setShowHowItWorks(!showHowItWorks)} className="flex items-center gap-4 px-8 py-5 rounded-[24px] bg-white/[0.03] border border-white/5 text-white/30 hover:text-white hover:border-white/10 transition-all w-full group">
+        <button onClick={() => setShowHowItWorks(!showHowItWorks)} className="flex items-center gap-4 px-8 py-5 rounded-[24px] bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--accent-blue)]/30 transition-all w-full group">
           <Info size={18} className="group-hover:rotate-12 transition-transform" />
           <span className="text-[10px] font-black uppercase tracking-[0.4em] flex-1 text-left">How It Works: The RL Architecture V3</span>
-          <div className={`w-2 h-2 rounded-full transition-colors ${showHowItWorks ? 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-white/10'}`} />
+          <div className={`w-2 h-2 rounded-full transition-colors ${showHowItWorks ? 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-[var(--card-border)]'}`} />
         </button>
 
         <AnimatePresence>
           {showHowItWorks && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-              <div className="mt-4 pt-10 pb-12 grid md:grid-cols-2 gap-12 border border-white/5 px-10 rounded-[32px] bg-white/[0.02] backdrop-blur-xl shadow-2xl">
+              <div className="mt-4 pt-10 pb-12 grid md:grid-cols-2 gap-12 border border-[var(--card-border)] px-10 rounded-[32px] bg-[var(--card-bg)] shadow-sm">
                 <div className="space-y-6">
-                  <div className="flex items-center gap-4 text-blue-400">
+                  <div className="flex items-center gap-4 text-blue-500">
                     <Cpu size={24} />
                     <h4 className="text-[11px] font-black uppercase tracking-[0.3em]">Adaptive Intercept (V3)</h4>
                   </div>
-                  <p className="text-sm text-white/50 leading-relaxed font-medium">
-                    The V3 agent features <span className="text-white font-black">Refresh-Synced Physics</span>. It ensures the simulation remains consistent whether running on a 60Hz laptop or 120Hz mobile display. The D-Pad interface has been re-engineered for capacitive touch precision.
+                  <p className="text-sm text-[var(--muted)] leading-relaxed font-medium">
+                    The V3 agent features <span className="text-[var(--foreground)] font-black">Refresh-Synced Physics</span>. It ensures the simulation remains consistent whether running on a 60Hz laptop or 120Hz mobile display. The D-Pad interface has been re-engineered for capacitive touch precision.
                   </p>
                 </div>
                 <div className="space-y-6">
-                  <div className="flex items-center gap-4 text-purple-400">
+                  <div className="flex items-center gap-4 text-purple-500">
                     <Brain size={24} />
                     <h4 className="text-[11px] font-black uppercase tracking-[0.3em]">Spatial Constraint RL</h4>
                   </div>
-                  <p className="text-sm text-white/50 leading-relaxed font-medium">
-                    The environment features a <span className="text-white font-black">Shrinking Reward Arena</span>. Every frame you survive increases the agent's reward, but spatial constraints tighten at a rate of 0.20px/frame. Drifting mines introduce random state-space noise, forcing constant re-planning.
+                  <p className="text-sm text-[var(--muted)] leading-relaxed font-medium">
+                    The environment features a <span className="text-[var(--foreground)] font-black">Shrinking Reward Arena</span>. Every frame you survive increases the agent's reward, but spatial constraints tighten at a rate of 0.20px/frame. Drifting mines introduce random state-space noise, forcing constant re-planning.
                   </p>
                 </div>
               </div>

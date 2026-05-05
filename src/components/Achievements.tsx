@@ -40,7 +40,8 @@ const cards = [
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="py-32 relative overflow-hidden bg-transparent">
+    <section id="achievements" className="py-16 relative overflow-hidden bg-transparent">
+      <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">06</div>
       <div className="container mx-auto px-6 relative z-10">
         <SectionHeading 
           title="More to Explore"

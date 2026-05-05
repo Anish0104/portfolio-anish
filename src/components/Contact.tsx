@@ -12,7 +12,7 @@ const SOCIAL_LINKS = [
     handle: "@anish0104",
     href: "https://github.com/anish0104",
     icon: Github,
-    color: "#ffffff",
+    color: "var(--foreground)",
   },
   {
     label: "LinkedIn",
@@ -80,7 +80,8 @@ export default function Contact() {
   if (!mounted) return null;
 
   return (
-    <section id="contact" className="py-32 relative">
+    <section id="contact" className="py-32 relative overflow-hidden">
+      <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">07</div>
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
         <SectionHeading title="Connect" centered />
 

@@ -3,28 +3,20 @@
 import React from "react";
 import SectionHeading from "./SectionHeading";
 import { motion } from "framer-motion";
-import SkillSphere from "./SkillSphere";
+import SkillTabs from "./SkillTabs";
 
 export default function Skills() {
   return (
     <section id="skills" className="py-24 relative overflow-hidden">
+      <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">03</div>
       <div className="container mx-auto px-6 flex flex-col items-center">
-        <SectionHeading 
+        <SectionHeading
           title="My Skills"
-          subtitle="A comprehensive overview of the technologies and tools I use to build intelligent systems."
+          subtitle="From model training to production deployment — the full stack of technologies I use to build intelligent systems."
           centered
         />
 
-        {/* 3D Sphere Interactive Area */}
-        <motion.div
-           initial={{ opacity: 0, scale: 0.9 }}
-           whileInView={{ opacity: 1, scale: 1 }}
-           viewport={{ once: true }}
-           transition={{ delay: 0.3, duration: 0.8 }}
-           className="w-full relative"
-        >
-          <SkillSphere />
-        </motion.div>
+        <SkillTabs />
       </div>
     </section>
   );

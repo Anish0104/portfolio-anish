@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Sun, Moon, Home, User, Briefcase, Cpu, Code, 
-  Joystick, Award, Mail 
+import {
+  Home, User, Briefcase, Cpu, Code,
+  Joystick, Award, Mail, Sun, Moon
 } from "lucide-react";
-import { useTheme } from "@/app/ThemeProvider";
 import Magnetic from "./ui/magnetic";
+import { useTheme } from "@/app/ThemeProvider";
 
 const NAV_ITEMS = [
   { label: "Home", href: "#home", icon: Home },
@@ -80,14 +80,14 @@ export default function Navbar() {
         {NAV_ITEMS.map((item, idx) => {
           const isActive = activeSegment === item.href.substring(1);
           const Icon = item.icon;
-          
+
           return (
             <React.Fragment key={item.href}>
               {/* Group Dividers (Visual grouping) */}
               {(idx === 1 || idx === 3 || idx === 5 || idx === 7) && (
                 <div className="w-[1px] h-3 bg-[var(--card-border)] mx-1" />
               )}
-              
+
               <Magnetic strength={0.3}>
                 <button
                   onClick={() => scrollTo(item.href)}
@@ -96,7 +96,7 @@ export default function Navbar() {
                   }`}
                 >
                   <Icon size={14} strokeWidth={isActive ? 2.5 : 2} className="relative z-10" />
-                  
+
                   {/* Expand label (Logic: Active or Desktop Entry) */}
                   <AnimatePresence>
                     {((isActive || scrolled === false) && (
@@ -110,7 +110,7 @@ export default function Navbar() {
                       </motion.span>
                     ))}
                   </AnimatePresence>
-                  
+
                   {/* Sliding Highlight */}
                   {isActive && (
                     <motion.div
@@ -127,28 +127,31 @@ export default function Navbar() {
             </React.Fragment>
           );
         })}
+
+        {/* Dark mode toggle */}
+        <div className="w-[1px] h-3 bg-[var(--card-border)] mx-1" />
+        <Magnetic strength={0.3}>
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle dark mode"
+            className="relative group flex items-center px-2.5 md:px-3 py-2 rounded-full transition-all duration-500 active:scale-95 text-[var(--muted)] hover:text-[var(--foreground)]/60"
+          >
+            <AnimatePresence mode="wait">
+              {theme === "dark" ? (
+                <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <Sun size={14} strokeWidth={2} />
+                </motion.div>
+              ) : (
+                <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <Moon size={14} strokeWidth={2} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[var(--foreground)]/5 -z-10" />
+          </button>
+        </Magnetic>
       </div>
 
-      {/* Theme Toggle */}
-      <div className="w-[1px] h-5 bg-[var(--card-border)] mx-2" />
-      
-      <button
-        onClick={toggleTheme}
-        className="relative w-8 h-8 flex items-center justify-center rounded-full text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/5 transition-all duration-300 active:scale-90 group overflow-hidden"
-        aria-label="Toggle Theme"
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={theme}
-            initial={{ y: 20, opacity: 0, rotate: 45 }}
-            animate={{ y: 0, opacity: 1, rotate: 0 }}
-            exit={{ y: -20, opacity: 0, rotate: -45 }}
-            transition={{ duration: 0.3, ease: "circOut" }}
-          >
-            {theme === "dark" ? <Sun size={14} strokeWidth={2} /> : <Moon size={14} strokeWidth={2} />}
-          </motion.div>
-        </AnimatePresence>
-      </button>
     </motion.nav>
   );
 }

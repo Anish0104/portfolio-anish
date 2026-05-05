@@ -7,51 +7,24 @@
 
 @layer base {
   :root {
-    --background: #050505;
-    --foreground: #ffffff;
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --muted: rgba(255, 255, 255, 0.4);
-    --accent-blue: #3b82f6;
-    --accent-purple: #a855f7;
-    --dot-opacity: 0.15;
-    --grain-opacity: 0.02;
-    --glass-blur: blur(12px);
-    --blend-mode: screen;
-    --blob-opacity: 0.15;
-    --primary-bg: #ffffff;
-    --primary-text: #050505;
-    
-    /* Terminal Theme - Dark */
-    --terminal-header: rgba(20, 20, 25, 0.8);
-    --terminal-body: #0A0A0B;
-    --terminal-prompt: #C678DD;
-    --terminal-user: #61AFEF;
-    --terminal-command: #ffffff;
-    --terminal-output: rgba(255, 255, 255, 0.5);
-    --terminal-success: #98C379;
-    --terminal-error: #E06C75;
-    --terminal-accent: #E5C07B;
-  }
-
-  .light {
-    --background: #F8FAFC;
+    /* ── Light mode (default) ── */
+    --background: #FAF8F4;
     --foreground: #0F172A;
-    --card-bg: rgba(15, 23, 42, 0.04);
+    --card-bg: rgba(255, 255, 255, 0.95);
     --card-border: rgba(15, 23, 42, 0.08);
-    --muted: rgba(15, 23, 42, 0.5);
+    --muted: rgba(15, 23, 42, 0.45);
     --accent-blue: #2563eb;
     --accent-purple: #7c3aed;
-    --dot-opacity: 0.12;
-    --grain-opacity: 0.04;
+    --dot-opacity: 0.08;
+    --grain-opacity: 0.03;
     --glass-blur: blur(20px);
     --blend-mode: multiply;
-    --blob-opacity: 0.08;
+    --blob-opacity: 0.07;
     --primary-bg: #0F172A;
     --primary-text: #ffffff;
 
-    /* Terminal Theme - Light */
-    --terminal-header: rgba(241, 245, 249, 0.9);
+    /* Terminal Theme – Light */
+    --terminal-header: rgba(241, 245, 249, 0.95);
     --terminal-body: #ffffff;
     --terminal-prompt: #7c3aed;
     --terminal-user: #2563eb;
@@ -60,6 +33,35 @@
     --terminal-success: #16a34a;
     --terminal-error: #dc2626;
     --terminal-accent: #d97706;
+  }
+
+  /* ── Dark mode ── */
+  .dark {
+    --background: #080d1a;
+    --foreground: #e2e8f0;
+    --card-bg: rgba(15, 23, 42, 0.90);
+    --card-border: rgba(226, 232, 240, 0.08);
+    --muted: rgba(226, 232, 240, 0.50);
+    --accent-blue: #3b82f6;
+    --accent-purple: #a78bfa;
+    --dot-opacity: 0.05;
+    --grain-opacity: 0.04;
+    --glass-blur: blur(20px);
+    --blend-mode: screen;
+    --blob-opacity: 0.14;
+    --primary-bg: #e2e8f0;
+    --primary-text: #0f172a;
+
+    /* Terminal Theme – Dark */
+    --terminal-header: rgba(10, 15, 30, 0.97);
+    --terminal-body: #0a0f1c;
+    --terminal-prompt: #a78bfa;
+    --terminal-user: #60a5fa;
+    --terminal-command: #e2e8f0;
+    --terminal-output: rgba(226, 232, 240, 0.60);
+    --terminal-success: #34d399;
+    --terminal-error: #f87171;
+    --terminal-accent: #fbbf24;
   }
 
   * {
@@ -89,24 +91,42 @@
   }
 
   .btn-tech-primary {
-    @apply relative flex items-center gap-3 px-8 py-4 rounded-xl bg-[var(--primary-bg)] text-[var(--primary-text)] font-black text-[10px] tracking-[0.3em] uppercase transition-all duration-300 overflow-hidden shadow-2xl hover:scale-[1.02] active:scale-[0.98];
+    @apply relative flex items-center gap-3 px-8 py-4 rounded-xl bg-[var(--primary-bg)] text-[var(--primary-text)] font-black text-[10px] tracking-[0.3em] uppercase transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98];
   }
 
   .btn-tech-secondary {
-    @apply relative flex items-center gap-3 px-8 py-4 rounded-xl bg-transparent border border-[var(--card-border)] text-[var(--foreground)] font-black text-[10px] tracking-[0.3em] uppercase backdrop-blur-md transition-all duration-300 hover:bg-[var(--card-border)] hover:scale-[1.02] active:scale-[0.98];
+    @apply relative flex items-center gap-3 px-8 py-4 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--foreground)] font-black text-[10px] tracking-[0.3em] uppercase backdrop-blur-md transition-all duration-300 hover:border-[var(--accent-blue)]/40 hover:bg-[var(--accent-blue)]/5 hover:scale-[1.02] active:scale-[0.98] shadow-sm;
   }
 }
 
 @keyframes shimmer {
   from { transform: translateX(-100%) rotate(45deg); }
-  to { transform: translateX(200%) rotate(45deg); }
+  to   { transform: translateX(200%) rotate(45deg); }
 }
 
 .animate-shimmer {
   animation: shimmer 3s infinite;
 }
 
-/* Background blob CSS animations — GPU composited, zero JS overhead */
+/* ── Danger shake (sudo effect) ── */
+@keyframes danger-shake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  10%       { transform: translate(-4px, -2px) rotate(-0.4deg); }
+  20%       { transform: translate(4px, 2px) rotate(0.4deg); }
+  30%       { transform: translate(-4px, 0) rotate(0deg); }
+  40%       { transform: translate(4px, -2px) rotate(-0.3deg); }
+  50%       { transform: translate(-2px, 2px) rotate(0.3deg); }
+  60%       { transform: translate(2px, -2px) rotate(-0.2deg); }
+  70%       { transform: translate(-4px, 1px) rotate(0.2deg); }
+  80%       { transform: translate(4px, -1px) rotate(0deg); }
+  90%       { transform: translate(-1px, 2px) rotate(0.1deg); }
+}
+
+html.danger-shake body {
+  animation: danger-shake 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Background blob CSS animations */
 @keyframes blob-drift-1 {
   0%   { transform: translate(0px, 0px) scale(1); }
   33%  { transform: translate(80px, -60px) scale(1.1); }
@@ -164,7 +184,7 @@
   width: 500px;
   height: 500px;
   background: var(--accent-blue);
-  opacity: calc(var(--blob-opacity) * 0.6);
+  opacity: calc(var(--blob-opacity) * 0.5);
   mix-blend-mode: var(--blend-mode);
   filter: blur(90px);
   animation: blob-drift-3 32s ease-in-out infinite;
@@ -174,3 +194,15 @@
   background-image: radial-gradient(var(--card-border) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+/* ── Marquee strip ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-rev {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.animate-marquee     { animation: marquee     32s linear infinite; }
+.animate-marquee-rev { animation: marquee-rev 32s linear infinite; }

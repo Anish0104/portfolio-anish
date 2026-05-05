@@ -5,6 +5,7 @@ import BackgroundEffects from "@/components/BackgroundEffects";
 import { ThemeProvider } from "./ThemeProvider";
 import Navbar from "@/components/Navbar";
 import Preloader from "@/components/Preloader";
+import CustomCursor from "@/components/CustomCursor";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -14,12 +15,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://anishshirodkar.me"),
-  title: "Anish Shirodkar | AI/ML Research Engineer (MSCS @ Rutgers)",
-  description: "Master's candidate at Rutgers University specializing in intelligent systems, deep learning, and scalable AI infrastructure. Portfolio and Research Showcase.",
+  title: "Anish Shirodkar | AI/ML Engineer (MSCS @ Rutgers)",
+  description: "Master's candidate at Rutgers University specializing in intelligent systems, deep learning, and scalable AI infrastructure. Portfolio and Showcase.",
   keywords: ["Anish Shirodkar", "AI Engineer", "ML Researcher", "Rutgers University", "Deep Learning", "NLP Portfolio", "Systems Engineering"],
 
   openGraph: {
-    title: "Anish Shirodkar | AI/ML Research Engineer",
+    title: "Anish Shirodkar | AI/ML Engineer",
     description: "Orchestrating intelligent systems and scalable AI infrastructure. MSCS @ Rutgers University.",
     url: "https://anish-shirodkar.vercel.app",
     siteName: "Anish Shirodkar Portfolio",
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Anish Shirodkar | AI/ML Research Engineer",
+    title: "Anish Shirodkar | AI/ML Engineer",
     description: "Orchestrating intelligent systems and scalable AI infrastructure.",
   },
 };
@@ -50,6 +51,7 @@ export default function RootLayout({
     <html lang="en" className={`${plusJakartaSans.variable} scroll-smooth`} suppressHydrationWarning>
       <body className="antialiased font-sans transition-colors duration-500 bg-[var(--background)] text-[var(--foreground)] selection:bg-blue-500/30 overflow-x-hidden" suppressHydrationWarning>
         <ThemeProvider>
+          <CustomCursor />
           <Preloader />
           <Navbar />
           {/* Global UI Layers */}

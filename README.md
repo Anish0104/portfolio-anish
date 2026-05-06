@@ -14,7 +14,7 @@
 
 ## Projects
 
-### [QuantVision](https://quant-vision.vercel.app)
+### [QuantVision](https://quant-vision.vercel.app).
 Financial analysis platform powered by **Llama 3.1** and **ChromaDB** for real-time market insights. Features a backtesting pipeline evaluating cumulative returns vs buy-and-hold strategies.
 
 ### [Vtrack: Traffic Analysis System](https://github.com/Anish0104/Vtrack-Traffic_Analysis_System)

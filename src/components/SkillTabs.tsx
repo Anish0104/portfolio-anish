@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 type Skill = {
@@ -157,6 +158,8 @@ function SkillIcon({ skill }: { skill: Skill }) {
 }
 
 function SkillCircle({ skill, index }: { skill: Skill; index: number }) {
+  const [tapped, setTapped] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.7 }}
@@ -166,14 +169,15 @@ function SkillCircle({ skill, index }: { skill: Skill; index: number }) {
       className="flex flex-col items-center gap-2.5"
     >
       <div
-        className="group relative w-[80px] h-[80px] md:w-[88px] md:h-[88px] rounded-full cursor-pointer transition-all duration-300"
+        className="group relative w-[72px] h-[72px] md:w-[80px] md:h-[80px] lg:w-[88px] lg:h-[88px] rounded-full cursor-pointer transition-all duration-300"
+        onClick={() => setTapped((p) => !p)}
         style={{
           border: `1.5px solid ${skill.color}45`,
           background: "rgba(255,255,255,0.7)",
           boxShadow: "0 1px 6px rgba(15,23,42,0.06)",
         }}
       >
-        {/* Hover ring glow */}
+        {/* Hover / tap ring glow */}
         <div
           className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300"
           style={{
@@ -183,20 +187,20 @@ function SkillCircle({ skill, index }: { skill: Skill; index: number }) {
           }}
         />
 
-        {/* Icon — fades on hover */}
-        <div className="absolute inset-0 flex items-center justify-center p-[22px] transition-opacity duration-300 group-hover:opacity-0">
+        {/* Icon — fades on hover or tap */}
+        <div className={`absolute inset-0 flex items-center justify-center p-[18px] md:p-[22px] transition-opacity duration-300 ${tapped ? "opacity-0" : "group-hover:opacity-0"}`}>
           <SkillIcon skill={skill} />
         </div>
 
-        {/* Proficiency — reveals on hover */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+        {/* Proficiency — reveals on hover or tap */}
+        <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 z-10 ${tapped ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
           <span className="text-sm font-black tracking-tight" style={{ color: skill.color }}>
             {skill.proficiency}%
           </span>
         </div>
       </div>
 
-      <span className="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--muted)] text-center leading-tight max-w-[76px]">
+      <span className="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--muted)] text-center leading-tight max-w-[72px] md:max-w-[76px]">
         {skill.name}
       </span>
     </motion.div>
@@ -207,7 +211,7 @@ export default function SkillTabs() {
   return (
     <div className="w-full max-w-4xl mx-auto space-y-14">
       <p className="text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--muted)] opacity-50">
-        Hover to reveal proficiency
+        Hover · tap to reveal proficiency
       </p>
 
       {categories.map((cat, catIdx) => (

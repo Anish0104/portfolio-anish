@@ -83,7 +83,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-20 bg-transparent relative overflow-hidden transition-colors duration-500">
+    <section id="projects" className="py-14 md:py-20 bg-transparent relative overflow-hidden transition-colors duration-500">
       <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">04</div>
       <div className="container mx-auto px-6">
         
@@ -92,7 +92,7 @@ export default function Projects() {
           centered
         />
 
-        <div className="grid md:grid-cols-2 gap-x-12 gap-y-24 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-14 md:gap-y-20 lg:gap-y-24 max-w-7xl mx-auto">
           {projects.map((project, idx) => (
             <motion.div
               key={project.title}
@@ -110,14 +110,14 @@ export default function Projects() {
                  <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-10 group-hover:opacity-30 transition-opacity duration-700`} />
                  
                  {/* Content Wrapper */}
-                 <div className="relative h-full flex flex-col px-8 pt-8 pb-4 z-10">
+                 <div className="relative h-full flex flex-col px-5 pt-5 pb-4 md:px-8 md:pt-8 z-10">
                     <div className="flex justify-between items-start mb-6">
                         <div className="flex items-center gap-4">
                             <span className="text-[12px] font-black text-[var(--foreground)]/10">{project.number}</span>
                             <div className={`w-2 h-2 rounded-full ${project.accent} shadow-[0_0_15px_rgba(0,0,0,0.1)]`} />
                             <span className="text-[10px] font-black text-[var(--muted)]/60 uppercase tracking-widest">{project.tag}</span>
                         </div>
-                        <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0">
+                        <div className="flex gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 translate-y-0 md:translate-y-2 md:group-hover:translate-y-0">
                             {project.github && (
                                 <a href={project.github} target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--muted)] hover:text-[var(--foreground)] transition-all" title="View Github">
                                     <Github size={18} />
@@ -137,7 +137,7 @@ export default function Projects() {
                     </p>
 
                     {/* Tech Stack Chips */}
-                    <div className="flex flex-wrap gap-2 mt-4 relative z-20 max-w-[58%] md:max-w-[55%]">
+                    <div className="flex flex-wrap gap-2 mt-4 relative z-20 max-w-full md:max-w-[55%]">
                         {project.tech.map(t => (
                         <span key={t} className="px-3 py-1 rounded-full bg-[var(--foreground)]/[0.03] border border-[var(--card-border)] text-[9px] font-black text-[var(--muted)] tracking-widest uppercase">
                             {t}
@@ -146,7 +146,7 @@ export default function Projects() {
                     </div>
                     
                     {/* Perspective Image / Decoration */}
-                    <div className="absolute -bottom-8 -right-8 md:-bottom-10 md:-right-10 w-1/2 md:w-2/3 aspect-video bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--card-border)] rounded-tl-2xl md:rounded-tl-3xl shadow-2xl skew-x-[-10deg] skew-y-[5deg] group-hover:skew-x-0 group-hover:skew-y-0 transition-all duration-700 pointer-events-none overflow-hidden">
+                    <div className="hidden md:block absolute -bottom-10 -right-10 w-2/3 aspect-video bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--card-border)] rounded-tl-3xl shadow-2xl skew-x-[-10deg] skew-y-[5deg] group-hover:skew-x-0 group-hover:skew-y-0 transition-all duration-700 pointer-events-none overflow-hidden">
                          {project.image ? (
                            // eslint-disable-next-line @next/next/no-img-element
                            <img

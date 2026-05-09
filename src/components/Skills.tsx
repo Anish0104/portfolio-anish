@@ -7,7 +7,7 @@ import SkillTabs from "./SkillTabs";
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 relative overflow-hidden">
+    <section id="skills" className="py-14 md:py-20 lg:py-24 relative overflow-hidden">
       <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">03</div>
       <div className="container mx-auto px-6 flex flex-col items-center">
         <SectionHeading

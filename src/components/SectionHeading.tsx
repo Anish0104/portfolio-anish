@@ -12,7 +12,7 @@ interface SectionHeadingProps {
 
 export default function SectionHeading({ label, title, subtitle, centered = false }: SectionHeadingProps) {
   return (
-    <div className={`mb-20 text-center mx-auto max-w-4xl`}>
+    <div className={`mb-10 md:mb-16 lg:mb-20 text-center mx-auto max-w-4xl`}>
       {label && (
         <motion.div
            initial={{ opacity: 0, y: 10 }}
@@ -30,7 +30,7 @@ export default function SectionHeading({ label, title, subtitle, centered = fals
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-section-title uppercase mb-10"
+        className="text-section-title uppercase mb-5 md:mb-10"
       >
         {title}
       </motion.h2>

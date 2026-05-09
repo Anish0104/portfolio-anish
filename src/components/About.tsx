@@ -33,7 +33,7 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="py-28 relative overflow-hidden">
+    <section id="about" className="py-16 md:py-24 lg:py-28 relative overflow-hidden">
       <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">01</div>
       <div className="container mx-auto px-6 max-w-6xl">
         <SectionHeading title="About Me" centered />
@@ -69,7 +69,7 @@ export default function About() {
             </div>
 
             {/* Mission */}
-            <h4 className="text-2xl md:text-3xl font-black tracking-tighter text-[var(--foreground)] leading-tight mb-4 uppercase">
+            <h4 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tighter text-[var(--foreground)] leading-tight mb-4 uppercase">
               Building Machines<br />
               <span className="text-[var(--muted)]">that Understand the World.</span>
             </h4>

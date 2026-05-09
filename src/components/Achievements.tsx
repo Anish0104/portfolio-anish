@@ -58,20 +58,22 @@ export default function Achievements() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: card.delay }}
-              className="group relative p-12 glass-card flex flex-col items-center text-center"
+              className="group relative p-6 sm:p-8 md:p-10 lg:p-12 glass-card flex flex-col items-center text-center"
             >
               {/* Icon Container (Rounded Square) */}
-              <div className={`w-20 h-20 rounded-2xl border-2 ${card.iconBg} flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500 shadow-2xl`}>
-                {card.icon}
+              <div className={`w-14 h-14 md:w-20 md:h-20 rounded-2xl border-2 ${card.iconBg} flex items-center justify-center mb-4 md:mb-8 lg:mb-10 group-hover:scale-110 transition-transform duration-500 shadow-2xl`}>
+                <div className="scale-75 md:scale-100">
+                  {card.icon}
+                </div>
               </div>
 
               {/* Title */}
-              <h3 className={`text-4xl font-black mb-6 tracking-tighter ${card.titleColor}`}>
+              <h3 className={`text-2xl sm:text-3xl md:text-4xl font-black mb-2 sm:mb-4 md:mb-6 tracking-tighter ${card.titleColor}`}>
                 {card.title}
               </h3>
 
               {/* Description */}
-              <p className="text-[var(--muted)] text-lg leading-relaxed mb-10 font-medium whitespace-pre-line">
+              <p className="text-[var(--muted)] text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6 md:mb-10 font-medium whitespace-pre-line">
                 {card.description}
               </p>
 

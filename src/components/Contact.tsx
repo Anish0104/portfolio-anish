@@ -80,7 +80,7 @@ export default function Contact() {
   if (!mounted) return null;
 
   return (
-    <section id="contact" className="py-32 relative overflow-hidden">
+    <section id="contact" className="py-16 md:py-24 lg:py-32 relative overflow-hidden">
       <div aria-hidden="true" className="absolute top-0 right-4 md:right-10 text-[140px] md:text-[200px] font-black leading-none select-none pointer-events-none opacity-[0.025] text-[var(--foreground)]">07</div>
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
         <SectionHeading title="Connect" centered />
@@ -154,7 +154,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <p className="text-xs font-black uppercase tracking-wider text-[var(--foreground)]">{link.label}</p>
-                        <p className="text-[10px] font-medium text-[var(--muted)]">{link.handle}</p>
+                        <p className="text-[10px] font-medium text-[var(--muted)] truncate max-w-[160px] sm:max-w-none">{link.handle}</p>
                       </div>
                     </div>
                     <ArrowUpRight

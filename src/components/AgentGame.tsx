@@ -285,7 +285,7 @@ export default function AgentGame() {
         <canvas ref={canvasRef} width={ARENA_WIDTH} height={ARENA_HEIGHT} className="w-full h-auto block" />
 
         {/* HUD Overlay — always on dark bg so use white text */}
-        <div className="absolute top-8 left-8 right-8 flex justify-between items-start pointer-events-none">
+        <div className="absolute top-4 left-4 right-4 md:top-8 md:left-8 md:right-8 flex justify-between items-start pointer-events-none">
           <div className="space-y-4">
             <div className="space-y-1">
               <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Simulation Time</p>
@@ -320,7 +320,7 @@ export default function AgentGame() {
         <AnimatePresence>
           {gameState !== "PLAYING" && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-2xl">
-              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="text-center p-12 max-w-md w-full">
+              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="text-center p-6 sm:p-12 max-w-md w-full">
                 {gameState === "START" ? (
                   <>
                     <div className="w-16 h-16 bg-[var(--accent-blue)]/10 rounded-3xl flex items-center justify-center mx-auto mb-8 text-[var(--accent-blue)] border border-[var(--accent-blue)]/20">
@@ -422,7 +422,7 @@ export default function AgentGame() {
         <AnimatePresence>
           {showHowItWorks && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-              <div className="mt-4 pt-10 pb-12 grid md:grid-cols-2 gap-12 border border-[var(--card-border)] px-10 rounded-[32px] bg-[var(--card-bg)] shadow-sm">
+              <div className="mt-4 pt-6 pb-8 md:pt-10 md:pb-12 grid md:grid-cols-2 gap-6 md:gap-12 border border-[var(--card-border)] px-5 md:px-10 rounded-3xl md:rounded-[32px] bg-[var(--card-bg)] shadow-sm">
                 <div className="space-y-6">
                   <div className="flex items-center gap-4 text-blue-500">
                     <Cpu size={24} />

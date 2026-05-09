@@ -102,7 +102,7 @@ export default function Hero() {
           alt="Anish Shirodkar"
           width={380}
           height={380}
-          className="object-contain drop-shadow-2xl"
+          className="w-[200px] sm:w-[260px] md:w-[320px] lg:w-[380px] object-contain drop-shadow-2xl"
           priority
         />
       </motion.div>

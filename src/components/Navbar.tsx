@@ -91,7 +91,7 @@ export default function Navbar() {
               <Magnetic strength={0.3}>
                 <button
                   onClick={() => scrollTo(item.href)}
-                  className={`relative group flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-2 rounded-full transition-all duration-500 active:scale-95 ${
+                  className={`relative group flex items-center gap-1 md:gap-1.5 lg:gap-2 px-2 md:px-2.5 lg:px-3 py-2 rounded-full transition-all duration-500 active:scale-95 ${
                     isActive ? "text-[var(--foreground)]" : "text-[var(--muted)] hover:text-[var(--foreground)]/60"
                   }`}
                 >
@@ -134,7 +134,7 @@ export default function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label="Toggle dark mode"
-            className="relative group flex items-center px-2.5 md:px-3 py-2 rounded-full transition-all duration-500 active:scale-95 text-[var(--muted)] hover:text-[var(--foreground)]/60"
+            className="relative group flex items-center px-2 md:px-2.5 lg:px-3 py-2 rounded-full transition-all duration-500 active:scale-95 text-[var(--muted)] hover:text-[var(--foreground)]/60"
           >
             <AnimatePresence mode="wait">
               {theme === "dark" ? (

@@ -50,6 +50,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${plusJakartaSans.variable} scroll-smooth`} suppressHydrationWarning>
       <body className="antialiased font-sans transition-colors duration-500 bg-[var(--background)] text-[var(--foreground)] selection:bg-blue-500/30 overflow-x-hidden" suppressHydrationWarning>
+        {/* Synchronous theme script — prevents flash of light mode on dark preference */}
+        <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.add('dark');}catch(e){}` }} />
         <ThemeProvider>
           <CustomCursor />
           <Preloader />

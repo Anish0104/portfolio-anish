@@ -96,7 +96,7 @@ export default function Contact() {
           <div className="space-y-8">
             {/* Hero text */}
             <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-[var(--foreground)] leading-none uppercase">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter text-[var(--foreground)] leading-none uppercase">
                 Let&apos;s Build<br />
                 <span className="text-[var(--muted)]">Something</span><br />
                 Together.

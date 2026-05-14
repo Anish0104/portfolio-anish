@@ -110,7 +110,7 @@ function Card({ m, side }: { m: typeof milestones[0]; index: number; side: "left
         animate={{ rotateX: tilt.x, rotateY: tilt.y, y: tilt.x !== 0 || tilt.y !== 0 ? -5 : 0 }}
         transition={{ type: "spring", stiffness: 280, damping: 28 }}
         style={{ transformStyle: "preserve-3d", willChange: "transform" }}
-        className="relative bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-5 md:p-7 shadow-sm hover:shadow-lg transition-shadow duration-500 overflow-hidden group cursor-default">
+        className="relative bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl md:rounded-3xl p-4 md:p-7 shadow-sm hover:shadow-lg transition-shadow duration-500 overflow-hidden group cursor-default">
 
         {/* Accent top bar — draws left→right on enter */}
         <motion.div

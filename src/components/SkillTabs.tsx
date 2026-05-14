@@ -15,6 +15,15 @@ type Skill = {
   proficiency: number;
 };
 
+function isVeryDark(hex: string): boolean {
+  const c = hex.replace("#", "");
+  if (c.length !== 6) return false;
+  const r = parseInt(c.slice(0, 2), 16) / 255;
+  const g = parseInt(c.slice(2, 4), 16) / 255;
+  const b = parseInt(c.slice(4, 6), 16) / 255;
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.12;
+}
+
 type Category = {
   label: string;
   accent: string;
@@ -137,7 +146,7 @@ function SkillIcon({ skill }: { skill: Skill }) {
       <img
         src={`https://cdn.simpleicons.org/${skill.slug}/${skill.color.replace("#", "")}`}
         alt={skill.name}
-        className="w-full h-full object-contain"
+        className={`w-full h-full object-contain${isVeryDark(skill.color) ? " dark:invert dark:opacity-90" : ""}`}
         onError={(e) => {
           const img = e.target as HTMLImageElement;
           img.style.display = "none";
@@ -173,7 +182,7 @@ function SkillCircle({ skill, index }: { skill: Skill; index: number }) {
         onClick={() => setTapped((p) => !p)}
         style={{
           border: `1.5px solid ${skill.color}45`,
-          background: "rgba(255,255,255,0.7)",
+          background: "var(--card-bg)",
           boxShadow: "0 1px 6px rgba(15,23,42,0.06)",
         }}
       >

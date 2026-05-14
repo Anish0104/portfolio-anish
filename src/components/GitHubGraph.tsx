@@ -14,7 +14,7 @@ type DayData = {
 type WeekData = (DayData | null)[];
 
 const LEVEL_COLORS = [
-  "bg-[#ebedf0] border-[#d0d7de]",
+  "bg-[var(--card-border)] border-[var(--card-border)] opacity-60",
   "bg-[#9be9a8] border-[#6fcf97]",
   "bg-[#40c463] border-[#30a14e]",
   "bg-[#30a14e] border-[#216e39]",
@@ -132,7 +132,7 @@ export default function GitHubGraph() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-12 bg-white rounded-[2rem] border border-[var(--card-border)] shadow-sm p-6 md:p-8 overflow-hidden"
+          className="mt-12 bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] shadow-sm p-6 md:p-8 overflow-hidden"
         >
           {/* Header */}
           <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
@@ -150,16 +150,16 @@ export default function GitHubGraph() {
 
             {/* Stats pills */}
             <div className="flex items-center gap-3 flex-wrap">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
-                <GitCommitHorizontal size={11} className="text-emerald-600" />
-                <span className="text-[10px] font-black text-emerald-700">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                <GitCommitHorizontal size={11} className="text-emerald-500" />
+                <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400">
                   {loading ? "—" : `${total} contributions`}
                 </span>
               </div>
               {streak > 0 && (
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200">
-                  <Flame size={11} className="text-amber-600" />
-                  <span className="text-[10px] font-black text-amber-700">{streak}-day streak</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30">
+                  <Flame size={11} className="text-amber-500" />
+                  <span className="text-[10px] font-black text-amber-600 dark:text-amber-400">{streak}-day streak</span>
                 </div>
               )}
             </div>
@@ -169,13 +169,13 @@ export default function GitHubGraph() {
           {loading && (
             <div className="h-28 flex items-center justify-center">
               <div className="flex gap-1 items-end h-8">
-                {Array.from({ length: 10 }).map((_, i) => (
+                {[40,70,30,90,55,80,45,65,35,75].map((h, i) => (
                   <motion.div
                     key={i}
-                    className="w-2 rounded-sm bg-[#ebedf0]"
+                    className="w-2 rounded-sm bg-[var(--card-border)]"
                     animate={{ scaleY: [0.3, 1, 0.3] }}
                     transition={{ duration: 1.2, delay: i * 0.1, repeat: Infinity, ease: "easeInOut" }}
-                    style={{ height: `${20 + Math.random() * 60}%`, originY: 1 }}
+                    style={{ height: `${h}%`, originY: 1 }}
                   />
                 ))}
               </div>

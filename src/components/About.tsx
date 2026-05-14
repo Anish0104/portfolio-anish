@@ -47,7 +47,7 @@ export default function About() {
           className="grid grid-cols-1 lg:grid-cols-5 gap-5 mt-12"
         >
           {/* IDENTITY — spans 3 cols */}
-          <div className="lg:col-span-3 relative bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] p-8 md:p-10 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500 group">
+          <div className="lg:col-span-3 relative bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] p-6 md:p-10 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500 group">
             {/* Background gradient blob */}
             <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full pointer-events-none"
                  style={{ background: "radial-gradient(circle, rgba(37,99,235,0.06), transparent 70%)" }} />
@@ -61,7 +61,7 @@ export default function About() {
                 <h3 className="text-xl font-black tracking-tight text-[var(--foreground)]">Anish Shirodkar</h3>
                 <p className="text-sm text-[var(--muted)] font-medium">AI / ML Engineer · MS CS @ Rutgers</p>
                 {/* Open badge */}
-                <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[9px] font-black uppercase tracking-[0.2em]">
+                <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-[9px] font-black uppercase tracking-[0.2em]">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   Open to Internships · Summer 2026
                 </div>

@@ -26,32 +26,40 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+
+    const compute = () => {
       const scrollPos = window.scrollY;
       setScrolled(scrollPos > 50);
 
       const sections = NAV_ITEMS.map(item => item.href.substring(1));
       const sectionElements = sections.map(id => document.getElementById(id));
-      
+
       let currentSection = "home";
-      const scrollThreshold = scrollPos + 200; 
+      const scrollThreshold = scrollPos + 200;
 
       sectionElements.forEach((el, idx) => {
         if (el) {
           const rect = el.getBoundingClientRect();
           const top = rect.top + scrollPos;
-          if (top <= scrollThreshold) {
-            currentSection = sections[idx];
-          }
+          if (top <= scrollThreshold) currentSection = sections[idx];
         }
       });
 
       if (scrollPos < 100) currentSection = "home";
       setActiveSegment(currentSection);
+      ticking = false;
     };
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(compute);
+      }
+    };
+
+    compute();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -71,7 +79,7 @@ export default function Navbar() {
       animate={{ y: 0, x: "-50%", opacity: 1 }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
       style={{ left: "50%" }}
-      className={`fixed top-6 z-[100] flex items-center gap-1 px-1.5 py-1.5 border border-[var(--card-border)] backdrop-blur-3xl rounded-full transition-all duration-500 bg-[var(--card-bg)] shadow-[0_20px_50px_rgba(0,0,0,0.1),0_0_0_1px_rgba(255,255,255,0.05)] ${
+      className={`fixed top-6 z-[100] flex items-center gap-1 px-1.5 py-1.5 border border-[var(--card-border)] backdrop-blur-3xl rounded-full transition-all duration-500 bg-[var(--card-bg)] shadow-[0_20px_50px_rgba(0,0,0,0.1),0_0_0_1px_rgba(255,255,255,0.05)] max-w-[95vw] ${
         scrolled ? "scale-90 opacity-90 -translate-y-2" : "scale-100 opacity-100"
       }`}
     >
@@ -91,7 +99,7 @@ export default function Navbar() {
               <Magnetic strength={0.3}>
                 <button
                   onClick={() => scrollTo(item.href)}
-                  className={`relative group flex items-center gap-1 md:gap-1.5 lg:gap-2 px-2 md:px-2.5 lg:px-3 py-2 rounded-full transition-all duration-500 active:scale-95 ${
+                  className={`relative group flex items-center gap-0.5 md:gap-1.5 lg:gap-2 px-1.5 md:px-2.5 lg:px-3 py-2 rounded-full transition-all duration-500 active:scale-95 ${
                     isActive ? "text-[var(--foreground)]" : "text-[var(--muted)] hover:text-[var(--foreground)]/60"
                   }`}
                 >

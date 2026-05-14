@@ -34,23 +34,19 @@ export default function CustomCursor() {
     const onDown   = () => setClicking(true);
     const onUp     = () => setClicking(false);
 
-    const onHoverStart = () => setHovering(true);
-    const onHoverEnd   = () => setHovering(false);
-
     const interactables = "a, button, [role='button'], input, textarea, select, label, [data-cursor='pointer']";
 
-    const attachHover = () => {
-      document.querySelectorAll<HTMLElement>(interactables).forEach((el) => {
-        el.addEventListener("mouseenter", onHoverStart);
-        el.addEventListener("mouseleave", onHoverEnd);
-      });
+    /* Event delegation — single listener pair replaces per-element attachment + MutationObserver */
+    const onDelegatedOver = (e: MouseEvent) => {
+      if ((e.target as Element)?.closest(interactables)) setHovering(true);
+    };
+    const onDelegatedOut = (e: MouseEvent) => {
+      const related = e.relatedTarget as Element | null;
+      if (!related?.closest(interactables)) setHovering(false);
     };
 
-    /* Observe DOM changes to re-attach on new elements */
-    const observer = new MutationObserver(attachHover);
-    observer.observe(document.body, { childList: true, subtree: true });
-    attachHover();
-
+    document.addEventListener("mouseover", onDelegatedOver);
+    document.addEventListener("mouseout", onDelegatedOut);
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseleave", onLeave);
     document.addEventListener("mouseenter", onEnter);
@@ -64,12 +60,13 @@ export default function CustomCursor() {
     document.head.appendChild(style);
 
     return () => {
+      document.removeEventListener("mouseover", onDelegatedOver);
+      document.removeEventListener("mouseout", onDelegatedOut);
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
       document.removeEventListener("mouseenter", onEnter);
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("mouseup", onUp);
-      observer.disconnect();
       document.getElementById("custom-cursor-hide")?.remove();
     };
   }, [rawX, rawY, visible]);

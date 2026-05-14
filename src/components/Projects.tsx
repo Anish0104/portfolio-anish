@@ -79,6 +79,18 @@ const projects = [
     github: "https://github.com/Anish0104/VeritasAi-News-Aggregator-Agent",
     link: "",
   },
+  {
+    number: "07",
+    tag: "NLP / IR",
+    title: "SemanticSearch",
+    description: "Two-stage retrieval pipeline: MiniLM-L6 bi-encoder + cross-encoder reranker on MS MARCO. NDCG@10: 0.692 — 143% improvement over BM25 baseline.",
+    image: "/project-semantic.svg",
+    gradient: "from-indigo-500/20 to-violet-600/40",
+    accent: "bg-indigo-500",
+    tech: ["SENTENCE-TRANSFORMERS", "QDRANT", "CROSS-ENCODER", "FASTAPI", "DOCKER"],
+    github: "https://github.com/Anish0104/semantic-search",
+    link: "",
+  },
 ];
 
 export default function Projects() {
@@ -103,15 +115,15 @@ export default function Projects() {
               className="group relative"
             >
               {/* Project Card */}
-              <div className="relative aspect-[16/11] rounded-[3rem] bg-[var(--card-bg)] border border-[var(--card-border)] overflow-hidden p-1 bg-gradient-to-br from-[var(--foreground)]/5 to-transparent">
-                 <div className="absolute inset-0 bg-[var(--background)] rounded-[2.9rem] m-[1px] opacity-100 dark:opacity-40" />
-                 
+              <div className="relative min-h-[240px] md:aspect-[16/11] md:min-h-0 rounded-[2rem] md:rounded-[3rem] bg-[var(--card-bg)] border border-[var(--card-border)] overflow-hidden p-1 bg-gradient-to-br from-[var(--foreground)]/5 to-transparent">
+                 <div className="absolute inset-0 bg-[var(--background)] rounded-[1.9rem] md:rounded-[2.9rem] m-[1px] opacity-100 dark:opacity-40" />
+
                  {/* Visual Background Gradient */}
                  <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-10 group-hover:opacity-30 transition-opacity duration-700`} />
-                 
+
                  {/* Content Wrapper */}
-                 <div className="relative h-full flex flex-col px-5 pt-5 pb-4 md:px-8 md:pt-8 z-10">
-                    <div className="flex justify-between items-start mb-6">
+                 <div className="relative md:h-full flex flex-col px-5 pt-5 pb-5 md:px-8 md:pt-8 md:pb-4 z-10">
+                    <div className="flex justify-between items-start mb-3 md:mb-6">
                         <div className="flex items-center gap-4">
                             <span className="text-[12px] font-black text-[var(--foreground)]/10">{project.number}</span>
                             <div className={`w-2 h-2 rounded-full ${project.accent} shadow-[0_0_15px_rgba(0,0,0,0.1)]`} />
@@ -131,13 +143,13 @@ export default function Projects() {
                         </div>
                     </div>
 
-                    <h3 className="text-xl md:text-2xl font-black text-[var(--foreground)] mb-2 tracking-tighter group-hover:translate-x-2 transition-transform duration-500 uppercase">{project.title}</h3>
-                    <p className="text-[var(--muted)] text-[12px] md:text-[13px] font-medium leading-relaxed max-w-full md:max-w-[90%] mb-6">
+                    <h3 className="text-lg md:text-2xl font-black text-[var(--foreground)] mb-2 tracking-tighter group-hover:translate-x-2 transition-transform duration-500 uppercase">{project.title}</h3>
+                    <p className="text-[var(--muted)] text-[12px] md:text-[13px] font-medium leading-relaxed max-w-full md:max-w-[90%] mb-3 md:mb-6">
                         {project.description}
                     </p>
 
                     {/* Tech Stack Chips */}
-                    <div className="flex flex-wrap gap-2 mt-4 relative z-20 max-w-full md:max-w-[55%]">
+                    <div className="flex flex-wrap gap-2 mt-auto relative z-20 max-w-full md:max-w-[55%]">
                         {project.tech.map(t => (
                         <span key={t} className="px-3 py-1 rounded-full bg-[var(--foreground)]/[0.03] border border-[var(--card-border)] text-[9px] font-black text-[var(--muted)] tracking-widest uppercase">
                             {t}
@@ -164,7 +176,7 @@ export default function Projects() {
               </div>
 
               {/* View Project Floating Label */}
-              <div className="mt-8 flex items-center gap-6 px-4">
+              <div className="mt-5 md:mt-8 flex items-center gap-6 px-4">
                  {(project.link || project.github) && (
                    <a
                      href={project.link || project.github}

@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5f3ff"/>
+      <stop offset="50%" stop-color="#ede9fe"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="mainGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="bar1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a5b4fc" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#a5b4fc" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="drop"><feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="#6366f1" flood-opacity="0.12"/></filter>
+    <filter id="card"><feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#000" flood-opacity="0.06"/></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <circle cx="680" cy="70" r="170" fill="url(#glow)"/>
+  <circle cx="80" cy="430" r="120" fill="#c7d2fe" opacity="0.2"/>
+
+  <!-- ── Left: Main pipeline panel ── -->
+  <rect x="18" y="18" width="484" height="464" rx="26" fill="white" opacity="0.78" filter="url(#card)"/>
+
+  <!-- Panel header -->
+  <text x="42" y="52" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#1e1b4b" opacity="0.9">Two-Stage Semantic Retrieval</text>
+  <text x="42" y="67" font-family="system-ui,sans-serif" font-size="8" fill="#6366f1" letter-spacing="2.5">MS MARCO PASSAGE RETRIEVAL · PYTHON</text>
+
+  <!-- Query box -->
+  <rect x="30" y="80" width="460" height="40" rx="10" fill="white" stroke="#c7d2fe" stroke-width="1.5" filter="url(#drop)"/>
+  <circle cx="52" cy="100" r="7" fill="none" stroke="#6366f1" stroke-width="1.8" opacity="0.7"/>
+  <line x1="57" y1="105" x2="63" y2="111" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+  <text x="72" y="105" font-family="system-ui,sans-serif" font-size="11" fill="#1e1b4b" opacity="0.75">"machine learning transformer architectures"</text>
+  <rect x="454" y="86" width="30" height="26" rx="7" fill="url(#mainGrad)"/>
+  <text x="469" y="104" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="white">→</text>
+
+  <!-- ── Stage 1: Bi-Encoder ── -->
+  <rect x="30" y="136" width="460" height="20" rx="7" fill="#6366f1" opacity="0.08"/>
+  <text x="40" y="150" font-family="system-ui,sans-serif" font-size="7.5" font-weight="800" fill="#4338ca" letter-spacing="2">STAGE 1 · BI-ENCODER (MiniLM-L6) → TOP-100 CANDIDATES VIA QDRANT</text>
+
+  <!-- Embedding visualization -->
+  <text x="40" y="175" font-family="system-ui,sans-serif" font-size="9" fill="#6366f1" opacity="0.7">Query Embedding (384-dim dense vector)</text>
+  <rect x="40" y="180" width="208" height="9" rx="4" fill="#e0e7ff"/>
+  <rect x="40" y="180" width="80" height="9" rx="4" fill="url(#bar1)"/>
+  <rect x="124" y="180" width="48" height="9" rx="4" fill="#818cf8" opacity="0.7"/>
+  <rect x="176" y="180" width="30" height="9" rx="4" fill="#a5b4fc" opacity="0.5"/>
+  <!-- Qdrant badge beside embedding -->
+  <rect x="260" y="174" width="90" height="38" rx="8" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="305" y="190" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="800" fill="#6d28d9" letter-spacing="1">QDRANT</text>
+  <text x="305" y="205" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#7c3aed" opacity="0.8">Vector DB · ANN Search</text>
+
+  <!-- Candidate bars (cosine similarity) -->
+  <text x="40" y="228" font-family="system-ui,sans-serif" font-size="9" fill="#6366f1" opacity="0.7">Top Candidates (cosine similarity score)</text>
+  <rect x="40" y="234" width="176" height="7" rx="3" fill="url(#bar1)"/>
+  <text x="224" y="241" font-family="system-ui,sans-serif" font-size="8" fill="#4338ca" font-weight="600">0.89</text>
+  <rect x="40" y="247" width="148" height="7" rx="3" fill="#818cf8" opacity="0.8"/>
+  <text x="224" y="254" font-family="system-ui,sans-serif" font-size="8" fill="#4338ca" font-weight="600">0.76</text>
+  <rect x="40" y="260" width="116" height="7" rx="3" fill="#a5b4fc" opacity="0.7"/>
+  <text x="224" y="267" font-family="system-ui,sans-serif" font-size="8" fill="#4338ca" font-weight="600">0.71</text>
+  <rect x="40" y="273" width="88" height="7" rx="3" fill="#c7d2fe"/>
+  <text x="224" y="280" font-family="system-ui,sans-serif" font-size="8" fill="#818cf8">0.64</text>
+  <rect x="40" y="286" width="64" height="7" rx="3" fill="#e0e7ff"/>
+  <text x="224" y="293" font-family="system-ui,sans-serif" font-size="8" fill="#818cf8">0.58</text>
+  <text x="40" y="310" font-family="system-ui,sans-serif" font-size="7.5" fill="#818cf8" opacity="0.6">+ 95 more candidates →</text>
+
+  <!-- ── Stage 2: Cross-Encoder ── -->
+  <rect x="30" y="322" width="460" height="20" rx="7" fill="#8b5cf6" opacity="0.08"/>
+  <text x="40" y="336" font-family="system-ui,sans-serif" font-size="7.5" font-weight="800" fill="#6d28d9" letter-spacing="2">STAGE 2 · CROSS-ENCODER RERANKER → FINAL TOP-10 RESULTS</text>
+
+  <!-- Reranked results header -->
+  <text x="40" y="360" font-family="system-ui,sans-serif" font-size="9" fill="#8b5cf6" opacity="0.7">Reranked (joint query–passage scoring)</text>
+
+  <!-- Result 1 -->
+  <rect x="30" y="368" width="460" height="30" rx="8" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+  <rect x="30" y="368" width="4" height="30" rx="2" fill="url(#mainGrad)"/>
+  <text x="44" y="381" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#1e1b4b" opacity="0.85">Attention Is All You Need — Vaswani et al., 2017</text>
+  <text x="44" y="393" font-family="system-ui,sans-serif" font-size="7.5" fill="#818cf8">cross-encoder score: 9.82</text>
+  <rect x="416" y="373" width="68" height="16" rx="8" fill="url(#mainGrad)" opacity="0.15" stroke="#a78bfa" stroke-width="1"/>
+  <text x="450" y="384" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="#6d28d9">#1 · 0.982</text>
+
+  <!-- Result 2 -->
+  <rect x="30" y="404" width="460" height="28" rx="8" fill="white" stroke="#e0e7ff" stroke-width="1"/>
+  <rect x="30" y="404" width="4" height="28" rx="2" fill="#818cf8"/>
+  <text x="44" y="417" font-family="system-ui,sans-serif" font-size="9.5" font-weight="600" fill="#1e1b4b" opacity="0.8">BERT: Pre-training of Deep Bidirectional Transformers</text>
+  <rect x="416" y="409" width="68" height="16" rx="8" fill="#e0e7ff" stroke="#c7d2fe" stroke-width="1"/>
+  <text x="450" y="420" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="600" fill="#4338ca">#2 · 0.941</text>
+
+  <!-- Result 3 -->
+  <rect x="30" y="438" width="460" height="28" rx="8" fill="white" stroke="#f3f4f6" stroke-width="1"/>
+  <rect x="30" y="438" width="4" height="28" rx="2" fill="#a5b4fc"/>
+  <text x="44" y="451" font-family="system-ui,sans-serif" font-size="9.5" font-weight="600" fill="#1e1b4b" opacity="0.75">GPT-3: Language Models are Few-Shot Learners</text>
+  <rect x="416" y="443" width="68" height="16" rx="8" fill="#f5f3ff" stroke="#e0e7ff" stroke-width="1"/>
+  <text x="450" y="454" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="600" fill="#6366f1">#3 · 0.897</text>
+
+  <text x="44" y="478" font-family="system-ui,sans-serif" font-size="7.5" fill="#818cf8" opacity="0.6">+ 7 more reranked results</text>
+
+  <!-- ── Right top: Metrics ── -->
+  <rect x="518" y="18" width="264" height="204" rx="26" fill="white" opacity="0.82" filter="url(#card)"/>
+  <text x="540" y="52" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#1e1b4b" opacity="0.85">Performance Metrics</text>
+  <text x="540" y="66" font-family="system-ui,sans-serif" font-size="7.5" fill="#6366f1" letter-spacing="2">MS MARCO DEV · @10</text>
+
+  <!-- NDCG@10 -->
+  <text x="540" y="92" font-family="system-ui,sans-serif" font-size="9" fill="#1e1b4b" opacity="0.6">NDCG@10</text>
+  <rect x="540" y="97" width="192" height="8" rx="4" fill="#e0e7ff"/>
+  <rect x="540" y="97" width="133" height="8" rx="4" fill="url(#bar1)"/>
+  <text x="738" y="106" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#6366f1">0.692</text>
+
+  <!-- MRR@10 -->
+  <text x="540" y="126" font-family="system-ui,sans-serif" font-size="9" fill="#1e1b4b" opacity="0.6">MRR@10</text>
+  <rect x="540" y="131" width="192" height="8" rx="4" fill="#e0e7ff"/>
+  <rect x="540" y="131" width="112" height="8" rx="4" fill="#818cf8" opacity="0.9"/>
+  <text x="738" y="140" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#6366f1">0.623</text>
+
+  <!-- BM25 baseline -->
+  <text x="540" y="160" font-family="system-ui,sans-serif" font-size="9" fill="#1e1b4b" opacity="0.6">BM25 Baseline</text>
+  <rect x="540" y="165" width="192" height="8" rx="4" fill="#f1f5f9"/>
+  <rect x="540" y="165" width="55" height="8" rx="4" fill="#94a3b8"/>
+  <text x="738" y="174" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#94a3b8">0.285</text>
+
+  <!-- Improvement chip -->
+  <rect x="540" y="184" width="226" height="26" rx="10" fill="url(#mainGrad)" opacity="0.1" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="653" y="200" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="800" fill="#6366f1">+143% over BM25 Baseline</text>
+
+  <!-- ── Right mid: Architecture ── -->
+  <rect x="518" y="230" width="264" height="168" rx="26" fill="white" opacity="0.82" filter="url(#card)"/>
+  <text x="540" y="263" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#1e1b4b" opacity="0.85">Architecture</text>
+  <text x="540" y="277" font-family="system-ui,sans-serif" font-size="7.5" fill="#6366f1" letter-spacing="2">TWO-STAGE PIPELINE</text>
+
+  <!-- Stage 1 block -->
+  <rect x="540" y="286" width="228" height="32" rx="8" fill="#f5f3ff" stroke="#e0e7ff" stroke-width="1"/>
+  <circle cx="556" cy="302" r="5" fill="url(#mainGrad)"/>
+  <text x="568" y="299" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#4338ca">Bi-Encoder</text>
+  <text x="568" y="311" font-family="system-ui,sans-serif" font-size="7.5" fill="#818cf8">MiniLM-L6 → Qdrant ANN → Top-100</text>
+
+  <text x="654" y="334" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#c4b5fd">↓</text>
+
+  <!-- Stage 2 block -->
+  <rect x="540" y="342" width="228" height="32" rx="8" fill="#f5f3ff" stroke="#e0e7ff" stroke-width="1"/>
+  <circle cx="556" cy="358" r="5" fill="url(#mainGrad)"/>
+  <text x="568" y="355" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#4338ca">Cross-Encoder Reranker</text>
+  <text x="568" y="367" font-family="system-ui,sans-serif" font-size="7.5" fill="#818cf8">ms-marco-MiniLM-L-6-v2 → Top-10</text>
+
+  <text x="654" y="388" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#c4b5fd">↓</text>
+
+  <!-- Result chip -->
+  <rect x="540" y="394" width="228" height="24" rx="8" fill="url(#mainGrad)" opacity="0.1" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="654" y="409" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="800" fill="#6d28d9">NDCG@10: 0.692 · Recall@100: 0.847</text>
+
+  <!-- ── Right bottom: Tech tags ── -->
+  <rect x="518" y="408" width="264" height="74" rx="26" fill="white" opacity="0.82" filter="url(#card)"/>
+  <text x="540" y="432" font-family="system-ui,sans-serif" font-size="7.5" fill="#6366f1" letter-spacing="2">TECH STACK</text>
+  <rect x="536" y="440" width="64" height="18" rx="9" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="568" y="452" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#6d28d9">QDRANT</text>
+  <rect x="608" y="440" width="60" height="18" rx="9" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="638" y="452" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#6d28d9">FASTAPI</text>
+  <rect x="676" y="440" width="54" height="18" rx="9" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="703" y="452" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#6d28d9">DOCKER</text>
+  <rect x="536" y="462" width="102" height="18" rx="9" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="587" y="474" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#6d28d9">SENT-TRANSFORMERS</text>
+  <rect x="646" y="462" width="88" height="18" rx="9" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="690" y="474" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#6d28d9">CROSS-ENCODER</text>
+</svg>

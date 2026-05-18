@@ -274,7 +274,7 @@ export default function FloatingChat() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1.5, type: "spring", stiffness: 260, damping: 22 }}
         onClick={() => setOpen((p) => !p)}
-        className="fixed bottom-6 right-6 z-[200] flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.04] active:scale-[0.97]"
+        className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[200] flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.04] active:scale-[0.97]"
         style={{
           background: "linear-gradient(135deg, #0891b2, #06b6d4)",
           color: "#fff",
@@ -316,7 +316,7 @@ export default function FloatingChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.94 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-[5.5rem] right-6 z-[199] w-[min(380px,calc(100vw-2rem))] flex flex-col rounded-3xl overflow-hidden shadow-2xl border border-[var(--card-border)]"
+            className="fixed bottom-[4.5rem] sm:bottom-[5.5rem] right-4 sm:right-6 z-[199] w-[min(380px,calc(100vw-2rem))] flex flex-col rounded-3xl overflow-hidden shadow-2xl border border-[var(--card-border)]"
             style={{ background: "var(--terminal-body)" }}
           >
             {/* Header */}

@@ -23,11 +23,19 @@ const scrollTo = (id: string) => {
 };
 
 export default function CommandPalette() {
-  const [open,   setOpen]   = useState(false);
-  const [query,  setQuery]  = useState("");
-  const [cursor, setCursor] = useState(0);
-  const [copied, setCopied] = useState(false);
-  const inputRef            = useRef<HTMLInputElement>(null);
+  const [open,      setOpen]      = useState(false);
+  const [query,     setQuery]     = useState("");
+  const [cursor,    setCursor]    = useState(0);
+  const [copied,    setCopied]    = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
+  const inputRef                  = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.matchMedia("(min-width: 1024px)").matches);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText("avs181@scarletmail.rutgers.edu");
@@ -41,7 +49,7 @@ export default function CommandPalette() {
     { id: "experience",   label: "Journey",          category: "Navigate", icon: Briefcase,             action: () => { scrollTo("experience");   setOpen(false); }, kbd: "J" },
     { id: "skills",       label: "Tech Stack",       category: "Navigate", icon: Cpu,                   action: () => { scrollTo("skills");       setOpen(false); }, kbd: "T" },
     { id: "projects",     label: "Works",            category: "Navigate", icon: Code,                  action: () => { scrollTo("projects");     setOpen(false); }, kbd: "W" },
-    { id: "game",         label: "Lab",              category: "Navigate", icon: Joystick,              action: () => { scrollTo("game");         setOpen(false); }, kbd: "L" },
+    ...(isDesktop ? [{ id: "game", label: "Lab", category: "Navigate" as const, icon: Joystick, action: () => { scrollTo("game"); setOpen(false); }, kbd: "L" }] : []),
     { id: "achievements", label: "Achievements",     category: "Navigate", icon: Award,                 action: () => { scrollTo("achievements"); setOpen(false); }, kbd: "M" },
     { id: "contact",      label: "Contact",          category: "Navigate", icon: Mail,                  action: () => { scrollTo("contact");      setOpen(false); }, kbd: "C" },
     { id: "resume",       label: "Open Resume",      category: "Actions",  icon: FileText,              action: () => { window.open("https://bit.ly/resume_anish", "_blank"); setOpen(false); } },

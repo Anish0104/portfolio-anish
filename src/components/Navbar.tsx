@@ -93,9 +93,10 @@ export default function Navbar() {
             <React.Fragment key={item.href}>
               {/* Group Dividers (Visual grouping) */}
               {(idx === 1 || idx === 3 || idx === 5 || idx === 7) && (
-                <div className="w-[1px] h-3 bg-[var(--card-border)] mx-1" />
+                <div className={`w-[1px] h-3 bg-[var(--card-border)] mx-1${idx === 5 ? " hidden lg:block" : ""}`} />
               )}
 
+              <div className={item.href === "#game" ? "hidden lg:block" : ""}>
               <Magnetic strength={0.3}>
                 <button
                   onClick={() => scrollTo(item.href)}
@@ -132,6 +133,7 @@ export default function Navbar() {
                   <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[var(--foreground)]/5 -z-10" />
                 </button>
               </Magnetic>
+              </div>
             </React.Fragment>
           );
         })}

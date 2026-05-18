@@ -115,7 +115,7 @@ export default function Projects() {
               className="group relative"
             >
               {/* Project Card */}
-              <div className="relative min-h-[240px] md:aspect-[16/11] md:min-h-0 rounded-[2rem] md:rounded-[3rem] bg-[var(--card-bg)] border border-[var(--card-border)] overflow-hidden p-1 bg-gradient-to-br from-[var(--foreground)]/5 to-transparent">
+              <div className="relative min-h-[260px] md:aspect-[16/11] md:min-h-0 rounded-[2rem] md:rounded-[3rem] bg-[var(--card-bg)] border border-[var(--card-border)] overflow-hidden p-1 bg-gradient-to-br from-[var(--foreground)]/5 to-transparent">
                  <div className="absolute inset-0 bg-[var(--background)] rounded-[1.9rem] md:rounded-[2.9rem] m-[1px] opacity-100 dark:opacity-40" />
 
                  {/* Visual Background Gradient */}

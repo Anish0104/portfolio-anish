@@ -12,25 +12,28 @@
 
 ---
 
-## Projects
+## Featured Projects
 
-### [QuantVision](https://quant-vision.vercel.app).
-Financial analysis platform powered by **Llama 3.1** and **ChromaDB** for real-time market insights. Features a backtesting pipeline evaluating cumulative returns vs buy-and-hold strategies.
-
-### [Vtrack: Traffic Analysis System](https://github.com/Anish0104/Vtrack-Traffic_Analysis_System)
-Multi-class object detection pipeline with **YOLOv8** and **ByteTrack** — 25–30 FPS with real-time speed estimation and a 3D dashboard.
+### [Vtrack: Traffic Analysis System](https://vtrack-traffic-analysis-system.vercel.app/)
+Multi-class object detection pipeline with **YOLOv8** and **ByteTrack** — 25–30 FPS with real-time speed estimation and a 3D dashboard built with React Three Fiber and Supabase.
 
 ### [SkillGap AI](https://skillgapai.vercel.app/)
 AI career simulator using **Gemini 2.5 Flash** for multi-turn technical interviews and structured performance evaluation based on resume-job gap analysis.
 
 ### [DocPilot](https://docpilot-ai.streamlit.app/)
-RAG pipeline for millisecond-latency Q&A over 500+ documentation pages, minimizing hallucinations via advanced vector search.
+RAG pipeline for millisecond-latency Q&A over 500+ documentation pages using **LLaMA 3.1** and **ChromaDB**, minimizing hallucinations via advanced vector search.
 
-### [Project Veritas](https://github.com/Anish0104)
-Misinformation detection system combining NLP classifiers with source credibility scoring.
+### [QuantVision](https://quant-vision.vercel.app)
+Backtesting pipeline that generates trading signals, evaluates cumulative returns vs buy-and-hold, and tunes strategy parameters across historical price data using Python, Pandas, and NumPy.
 
-### [Vouch](https://github.com/Anish0104)
-Peer-to-peer referral platform with trust graph modeling and structured recommendation workflows.
+### [Vouch](https://vouch-q017.onrender.com)
+Security control plane for AI agent authorization — policy-based access via `.vouch.yml`, M2M authentication through **Auth0**, and human-in-the-loop approval workflows for GitHub and Linear actions.
+
+### [VeritasAI](https://github.com/Anish0104/VeritasAi-News-Aggregator-Agent)
+News aggregator AI agent that transforms noisy headline streams into an editorial front-page experience — lead stories, sentiment analysis, topic ranking, and interactive insight visualizations.
+
+### [SemanticSearch](https://github.com/Anish0104/semantic-search)
+Two-stage retrieval pipeline: **MiniLM-L6** bi-encoder + cross-encoder reranker on MS MARCO. NDCG@10: 0.692 — 143% improvement over BM25 baseline.
 
 ---
 
@@ -40,24 +43,23 @@ Peer-to-peer referral platform with trust graph modeling and structured recommen
 |---|---|
 | **Frontend** | Next.js 16, React 19, TypeScript, Framer Motion v12 |
 | **Styling** | Tailwind CSS v4, CSS Variables, Lucide Icons |
-| **3D / Visual** | Spline (React-Spline), custom cursor, animated marquee |
-| **AI/ML** | YOLOv8, Gemini 2.5, Llama 3.1, ChromaDB, Attention-LSTM |
-| **Backend / Tools** | FastAPI, Supabase, PDF.js |
-| **Infrastructure** | Vercel, GitHub Actions, AWS |
+| **AI/ML** | YOLOv8, Gemini 2.5, LLaMA 3.1, ChromaDB, Attention-LSTM, PPO/RL |
+| **Backend / Tools** | FastAPI, Supabase, PDF.js, Auth0 |
+| **Infrastructure** | Vercel, Docker, AWS, GCP |
 
 ---
 
 ## Features
 
-- **Command Palette** — `Cmd+K` / `Ctrl+K` fuzzy-search navigation across all sections
-- **Custom Cursor** — smooth trailing cursor with interactive hover states
-- **GitHub Activity Graph** — live contribution graph pulled from the GitHub API
-- **Floating Chat** — context-aware assistant overlay
-- **Skill Tabs** — categorized interactive skill cards with animated transitions
+- **Responsive Design** — fully optimised for all screen sizes; every section adapts from 320 px mobile to 4K desktop
+- **RL Game (Desktop only)** — "Can You Beat My Agent?" — a real-time reinforcement-learning survival game with a predictive-pursuit AI agent and shrinking arena; visible only on laptop/desktop (≥ 1024 px)
+- **Command Palette** — `Cmd+K` / `Ctrl+K` fuzzy-search navigation across all sections (Lab command excluded on mobile)
+- **Custom Cursor** — smooth trailing cursor with interactive hover states (pointer devices only)
+- **Floating Chat (APEX)** — context-aware terminal-style assistant overlay
+- **Skill Tabs** — categorized interactive skill circles with hover/tap proficiency reveal
 - **Marquee Strip** — scrolling technology badge strip
 - **Preloader** — animated intro sequence with progress tracking
-- **Dark / Light mode** — system-aware theme with manual toggle
-- **Avocado favicon** — hand-crafted SVG favicon
+- **Dark / Light mode** — system-aware theme with manual toggle, flash-free on load
 
 ---
 

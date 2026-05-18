@@ -172,7 +172,7 @@ export default function Contact() {
             {/* Subtle accent glow */}
             <div className="absolute -inset-px rounded-[2rem] bg-gradient-to-br from-[var(--accent-blue)]/10 via-transparent to-[var(--accent-purple)]/10 pointer-events-none" />
 
-            <div className="relative p-8 md:p-10 rounded-[2rem] bg-[var(--card-bg)] border border-[var(--card-border)]">
+            <div className="relative p-5 sm:p-8 md:p-10 rounded-[2rem] bg-[var(--card-bg)] border border-[var(--card-border)]">
               {/* Form header */}
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-9 h-9 rounded-xl bg-[var(--accent-blue)]/10 border border-[var(--accent-blue)]/20 flex items-center justify-center">

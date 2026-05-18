@@ -47,7 +47,7 @@ export default function About() {
           className="grid grid-cols-1 lg:grid-cols-5 gap-5 mt-12"
         >
           {/* IDENTITY — spans 3 cols */}
-          <div className="lg:col-span-3 relative bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] p-6 md:p-10 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500 group">
+          <div className="lg:col-span-3 relative bg-[var(--card-bg)] rounded-[2rem] border border-[var(--card-border)] p-5 md:p-10 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500 group">
             {/* Background gradient blob */}
             <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full pointer-events-none"
                  style={{ background: "radial-gradient(circle, rgba(37,99,235,0.06), transparent 70%)" }} />
